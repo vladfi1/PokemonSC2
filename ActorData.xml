@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CActorUnit default="1" id="Pokemon" parent="GenericUnitStandard">
+        <WalkAnimMoveSpeed value="6"/>
+        <On Terms="ActorCreation" Send="Create HitTestSphere"/>
+    </CActorUnit>
+    <CActorModel id="HitTestSphere" parent="ModelAdditionNoAnims">
+        <Inherits index="BaseModelScale" value="0"/>
+        <Inherits index="Scale" value="0"/>
+        <Scale value="2.000000"/>
+        <HostSiteOps Ops="SOpAttachCenter"/>
+    </CActorModel>
+    <CActorUnit id="Blastoise" parent="Pokemon" unitName="Blastoise">
+        <On Terms="ActorCreation" Send="Create BlastoiseCannonLeft"/>
+        <On Terms="ActorCreation" Send="Create BlastoiseCannonRight"/>
+    </CActorUnit>
+    <CActorModel id="BlastoiseCannonLeft" parent="ModelAdditionNoAnims">
+        <Model value="Invisible"/>
+        <HostSiteOps Ops="SOpAttachWeaponLeft SOpBlastoiseAdjustCannonLeft"/>
+        <Host Subject="Blastoise"/>
+        <On Terms="ActorCreation" Send="Create BlastoiseSiteCannonLeft"/>
+    </CActorModel>
+    <CActorModel id="BlastoiseCannonRight" parent="ModelAdditionNoAnims">
+        <Model value="Invisible"/>
+        <HostSiteOps Ops="SOpAttachWeaponRight SOpBlastoiseAdjustCannonRight"/>
+        <Host Subject="Blastoise"/>
+        <On Terms="ActorCreation" Send="Create BlastoiseSiteCannonRight"/>
+    </CActorModel>
+    <CActorSite id="BlastoiseSiteCannonLeft">
+        <Host Subject="BlastoiseCannonLeft"/>
+    </CActorSite>
+    <CActorSite id="BlastoiseSiteCannonRight">
+        <Host Subject="BlastoiseCannonRight"/>
+    </CActorSite>
+    <CActorAction id="HydroPumpLaunchLeft" parent="GenericAttack" effectLaunch="HydroPumpLaunchLeft">
+        <LaunchSite value="BlastoiseSiteCannonLeft"/>
+        <Missile value="HydroPumpMissile"/>
+        <ActionFlags index="LaunchForceSite" value="1"/>
+    </CActorAction>
+    <CActorAction id="HydroPumpLaunchRight" parent="GenericAttack" effectLaunch="HydroPumpLaunchRight">
+        <LaunchSite value="BlastoiseSiteCannonRight"/>
+        <Missile value="HydroPumpMissile"/>
+        <ActionFlags index="LaunchForceSite" value="1"/>
+    </CActorAction>
+    <CActorSound id="HydroPumpSound" parent="SoundContinuous">
+        <On Terms="Effect.HydroPumpInitial.Start; At Effect" Send="Create"/>
+        <On Terms="Effect.HydroPumpInitial.Stop; At Effect; FromEffectTreeDescendant" Send="Destroy"/>
+        <On Terms="ActorCreation" Send="SoundSetVolume Linear 1.000000@0.000000"/>
+        <Host Subject="_Selectable"/>
+        <Sound value="WaterSound"/>
+    </CActorSound>
+    <CActorSiteOpLocalOffset id="SOpBlastoiseAdjustCannonLeft">
+        <LocalOffset value="0.550000,0.050000,0.120000"/>
+    </CActorSiteOpLocalOffset>
+    <CActorSiteOpLocalOffset id="SOpBlastoiseAdjustCannonRight">
+        <LocalOffset value="0.550000,-0.050000,0.120000"/>
+    </CActorSiteOpLocalOffset>
+    <CActorMissile id="HydroPumpMissile" parent="GenericAttackMissile" unitName="WeaponHydroPump">
+        <On index="1" Terms="ActorCreation" Send="TimerSet 0.020000"/>
+        <On Terms="TimerExpired" Send="TimerSet 0.020000"/>
+        <On Terms="TimerSet" Send="Create HydroPumpSplash"/>
+        <Model value="Invisible"/>
+    </CActorMissile>
+    <CActorModel id="HydroPumpSplash" parent="ModelAnimationStyleOneShot">
+        <On index="0" Terms="ActorCreation" Send="AnimPlay Lifetime Stand"/>
+        <On index="1" Terms="AnimDone" Send="Destroy"/>
+        <On index="2" Terms="ActorCreation" Send="SetTintColor {0,128,255 5.000000}"/>
+        <On Terms="ActorCreation" Send="AnimSetTimeScaleGlobal 8.000000 Lifetime"/>
+        <Model value="HydroPump"/>
+        <Scale value="0.150000"/>
+        <Host Subject="_Missile"/>
+    </CActorModel>
+    <CActorAction id="WaterGun" parent="GenericAttack" effectLaunch="WaterGun">
+        <Missile value="HydroPumpMissile"/>
+        <LaunchAttachQuery Methods="AMFilterWeapon"/>
+    </CActorAction>
+    <CActorAction id="ShadowBallLaunch" parent="GenericAttack" effectLaunch="ShadowBall">
+        <Missile value="ShadowBallMissile"/>
+    </CActorAction>
+    <CActorMissile id="ShadowBallMissile" parent="GenericAttackMissile" unitName="WeaponShadowBall">
+        <Model value="PhotonCannonWeapon"/>
+        <On Terms="ActorCreation" Send="SetTintColor {64,0,128 5.000000}"/>
+    </CActorMissile>
+    <CActorUnit id="Suicune" parent="Pokemon" unitName="Suicune">
+        <WalkAnimMoveSpeed value="25"/>
+    </CActorUnit>
+    <CActorUnit id="Pikachu" parent="Pokemon" unitName="Pikachu">
+        <On index="49" Terms="WeaponStart.*.AttackStart" Send="AnimBracketStart Attack Attack,00"/>
+    </CActorUnit>
+    <CActorUnit id="Eevee" parent="Pokemon" unitName="Eevee"/>
+    <CActorUnit id="Squirtle" parent="Pokemon" unitName="Squirtle"/>
+    <CActorUnit id="Chikorita" parent="Pokemon" unitName="Chikorita"/>
+    <CActorUnit id="Jolteon" parent="Pokemon" unitName="Jolteon"/>
+    <CActorUnit id="Flareon" parent="Pokemon" unitName="Flareon"/>
+    <CActorUnit id="Vaporeon" parent="Pokemon" unitName="Vaporeon"/>
+    <CActorUnit id="Espeon" parent="Pokemon" unitName="Espeon"/>
+    <CActorUnit id="Umbreon" parent="Pokemon" unitName="Umbreon"/>
+    <CActorUnit id="Ninetales" parent="Pokemon" unitName="Ninetales"/>
+    <CActorUnit id="Arcanine" parent="Pokemon" unitName="Arcanine"/>
+    <CActorUnit id="Meowth" parent="Pokemon" unitName="Meowth"/>
+    <CActorUnit id="Gyarados" parent="Pokemon" unitName="Gyarados"/>
+    <CActorUnit id="Hitmonchan" parent="Pokemon" unitName="Hitmonchan"/>
+    <CActorUnit id="Hitmonlee" parent="Pokemon" unitName="Hitmonlee"/>
+    <CActorUnit id="Machamp" parent="Pokemon" unitName="Machamp"/>
+    <CActorUnit id="Tyranitar" parent="Pokemon" unitName="Tyranitar"/>
+    <CActorUnit id="Magikarp" parent="Pokemon" unitName="Magikarp"/>
+    <CActorUnit id="Abra" parent="Pokemon" unitName="Abra"/>
+    <CActorUnit id="Haunter" parent="Pokemon" unitName="Haunter"/>
+    <CActorUnit id="Mew" parent="Pokemon" unitName="Mew"/>
+    <CActorUnit id="Dragonite" parent="Pokemon" unitName="Dragonite"/>
+    <CActorUnit id="Garchomp" parent="Pokemon" unitName="Garchomp">
+        <On index="49" Terms="WeaponStart.*.AttackStart" Send="AnimBracketStart Attack Attack,02"/>
+        <On Terms="AnimBracketStart; AnimName Attack" Send="AnimSetTimeScale Attack 1.600000"/>
+    </CActorUnit>
+    <CActorUnit id="Charizard" parent="Pokemon" unitName="Charizard"/>
+    <CActorUnit id="Gengar" parent="Pokemon" unitName="Gengar">
+        <Baselines index="Walk" AnimProps="Walk,Slow"/>
+        <WalkAnimMoveSpeed value="8"/>
+    </CActorUnit>
+    <CActorAction id="ThunderWaveAction" parent="GenericAttack" effectAttack="ThunderWave">
+        <BeamScope value="Caster"/>
+        <LaunchAssets Sound="Archon_AttackLaunch"/>
+        <ImpactMap index="None" Sound="Archon_AttackImpact"/>
+        <Beam value="ArchonAttackBeam"/>
+    </CActorAction>
+    <CActorAction id="FlamethrowerAttack" parent="GenericAttack" effectAttack="Flamethrower">
+        <LaunchAttachQuery Methods="Weapon"/>
+        <ImpactMap index="None" Sound="PerditionTurret_AttackImpact"/>
+    </CActorAction>
+</Catalog>
+

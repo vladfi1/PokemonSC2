@@ -1,0 +1,78 @@
+import a.wrapper.Unit;
+
+include "data.a"
+include "species_data.a"
+
+public class Pokemon {
+    public int level, basePower, atk, def, satk, sdef, moveType, type1, type2;
+    public int hp, maxhp;
+    public string nam;
+
+    private unit _unit;
+    
+    public Pokemon(PokemonSpecies s, int level, int player, point p) {
+        this.level = level;
+
+        this.nam = s.nam;
+        this.hp = s.hp + 2 * level;
+        this.maxhp = s.hp + 2 * level;
+        this.basePower = s.basePower;
+        this.atk = s.atk;
+        this.def = s.def;
+        this.satk = s.satk;
+        this.sdef = s.sdef;
+        this.moveType = s.moveType;
+        this.type1 = s.type1;
+        this.type2 = s.type2;
+
+        this._unit = unit.create(s.nam, 0, player, p, 0);
+    }
+    public int damage(Pokemon other) {
+        int mod1 = 1;
+        int mod2 = 1;
+        int mod3 = 1;
+        int ch = 1;
+        fixed r = 100;
+        fixed stab = 1.5;
+        fixed se1 = getTypeAdvantage(other, 0);
+        fixed se2 = getTypeAdvantage(other, 1);
+
+        int use_atk = atk;
+        int use_def = other.def;
+        if (moveType == SPECIAL) {
+            use_atk = satk;
+            use_def = other.sdef;
+        }
+        int toReturn = (int)(((((((2 * level / 5) + 2) * basePower * use_atk / 50) / use_def) * mod1) + 2) * ch * mod2 * r / 100 * stab * se1 * se2 * mod3);
+
+        if (toReturn <= 0) {
+            return 0;
+        }
+        return toReturn;
+    }
+    public fixed getTypeAdvantage(Pokemon other, int typeIndex) {
+        int otherType = other.type1;
+        if (typeIndex == 1) {
+            otherType = other.type2;
+        }
+        return getTypeStats(this.type1, otherType) * getTypeStats(this.type2, otherType);
+    }
+    public fixed getTypeStats(int t1, int t2) {
+        if (t1 == -1 || t2 == -1) {
+            return 1;
+        }
+        return typeChart[t1][t2];
+    }
+    public unit getUnit() {
+        return _unit;
+    }
+    public void setUnit(unit u) {
+        _unit = u;
+    }
+    //public Pokemon clone() {
+    //    Pokemon p = new Pokemon(level, basePower, atk, def, typeCodeToName(type1), typeCodeToName(type2));
+    //    p.setUnit(new Unit(_unit).clone().getValue());
+    //    return p;
+    //}
+}
+

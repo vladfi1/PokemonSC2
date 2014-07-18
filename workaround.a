@@ -1,0 +1,5 @@
+import a.util.Map;
+
+static {
+    new MapEntry<int, int>(0, 0);
+}

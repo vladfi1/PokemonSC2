@@ -1,0 +1,1358 @@
+//Andromeda generated code @ Wed Jun 05 23:56:24 EDT 2013
+
+struct Class{
+	int Class____id;
+	int Class____type;
+	int Class__id;
+	string Class__name;
+	int[1] Class__vct;
+};
+
+struct Object{
+	int Object____id;
+	int Object____type;
+};
+
+struct Comparator{
+	int Comparator____id;
+	int Comparator____type;
+};
+
+struct Hasher{
+	int Hasher____id;
+	int Hasher____type;
+};
+
+struct Pokemon{
+	int Pokemon____id;
+	int Pokemon____type;
+	int Pokemon__level;
+	int Pokemon__basePower;
+	int Pokemon__atk;
+	int Pokemon__def;
+	int Pokemon__type1;
+	int Pokemon__type2;
+};
+
+struct Iterator{
+	int Iterator____id;
+	int Iterator____type;
+	int TreeMapKeySetIterator__s;
+	int TreeMapKeySetIterator__node;
+	bool TreeMapKeySetIterator__removed;
+};
+
+struct Iterable{
+	int Iterable____id;
+	int Iterable____type;
+	int TreeMapKeySet__map;
+};
+
+struct Map{
+	int Map____id;
+	int Map____type;
+	int TreeMap__LEFT_LEAF;
+	int TreeMap__RIGHT_LEAF;
+	int TreeMap__FORE;
+	int TreeMap__AFT;
+	int TreeMap__root;
+	int TreeMap__comp;
+	int TreeMap__size;
+};
+
+struct MapEntry{
+	int MapEntry____id;
+	int MapEntry____type;
+	int MapEntry__key;
+	int MapEntry__value;
+};
+
+struct RBNode{
+	int RBNode____id;
+	int RBNode____type;
+	int RBNode__tree;
+	int RBNode__entry;
+	bool RBNode__c;
+	int RBNode__parent;
+	int RBNode__left;
+	int RBNode__right;
+};
+
+
+//Allocator for class Class
+int alloc___Class(int A__class);
+//Deallocator for class Class
+void dealloc___Class(int this);
+//Allocator for class Object
+int alloc___Object(int A__class);
+//Deallocator for class Object
+void dealloc___Object(int this);
+//Allocator for class Comparator
+int alloc___Comparator(int A__class);
+//Deallocator for class Comparator
+void dealloc___Comparator(int this);
+//Virtual caller for IntComparator.compare
+int vcall___Comparator__compare(int this,int i1,int i2);
+//Allocator for class Hasher
+int alloc___Hasher(int A__class);
+//Deallocator for class Hasher
+void dealloc___Hasher(int this);
+//Allocator for class Pokemon
+int alloc___Pokemon(int A__class);
+//Deallocator for class Pokemon
+void dealloc___Pokemon(int this);
+//Allocator for class Iterator
+int alloc___Iterator(int A__class);
+//Deallocator for class Iterator
+void dealloc___Iterator(int this);
+//Allocator for class Iterable
+int alloc___Iterable(int A__class);
+//Deallocator for class Iterable
+void dealloc___Iterable(int this);
+//Allocator for class Map
+int alloc___Map(int A__class);
+//Deallocator for class Map
+void dealloc___Map(int this);
+//Virtual caller for TreeMap.getValue
+int vcall___Map__getValue(int this,int key);
+//Allocator for class MapEntry
+int alloc___MapEntry(int A__class);
+//Deallocator for class MapEntry
+void dealloc___MapEntry(int this);
+//Allocator for class RBNode
+int alloc___RBNode(int A__class);
+//Deallocator for class RBNode
+void dealloc___RBNode(int this);
+//Constructor for class Class
+int new__Class(int A__class,int id,string name);
+string Class__getName(int this);
+int Class__getId(int this);
+void s_System__error(string message);
+void s_System__debug(string message);
+void s_System__debug__1(string message,bool showIngame);
+void s_System__print(string message);
+color s_color__create(fixed red,fixed green,fixed blue,fixed alpha);
+int s_LeaderBoard__create(int columns,int rows,text name,color c);
+void LeaderBoard__setItemText(int this,int column,int row,text value);
+unit s_unit__create(string name,int options,int player,point position,fixed angle);
+string unit__getType(unit this);
+void unit__setPropertyInt(unit this,int p2,int p3);
+int unit__getPropertyInt(unit this,int p2,bool p3);
+void unit__setCustomValue(unit this,int p2,fixed p3);
+fixed unit__getCustomValue(unit this,int p2);
+unitref unit__getUnitRef(unit this);
+//Static init
+bool init___global1(bool A__1,bool A__2);
+int s_int__getComparator();
+int IntComparator__compare(int this,int i1,int i2);
+//Static init
+bool init___global2(bool A__1,bool A__2);
+//Constructor for class Pokemon
+int new__Pokemon(int A__class,int level,int basePower,int atk,int def,string type1,string type2);
+int Pokemon__damage(int this,int other);
+string typeCodeToName(int code);
+int typeNameToCode(string name);
+//Static init
+bool init___global3(bool A__1,bool A__2);
+trigger s_trigger__create(string func);
+void trigger__addEventChatMessage(trigger this,int p2,string p3,bool p4);
+void trigger__addEventUnitAbility(trigger this,unitref p2,abilcmd p3,int p4,bool p5);
+//Constructor for class MapEntry
+int new__MapEntry(int A__class,int key,int value);
+//Constructor for class TreeMap
+int new__TreeMap(int A__class,int comp);
+int TreeMap__find(int this,int key);
+int TreeMap__getValue(int this,int key);
+//Constructor for class RBNode
+int new__RBNode(int A__class,int tree,int entry,bool c);
+bool RBNode__isLeaf(int this);
+int RBNode__getLeft(int this);
+int RBNode__getRight(int this);
+int RBNode__setLeft(int this,int node);
+int RBNode__setRight(int this,int node);
+unit createUnit(string s,point p);
+bool damageUnit(bool conditions,bool actions);
+//Static init
+bool init___global4(bool A__1,bool A__2);
+//Static init
+bool init___global5(bool A__1,bool A__2);
+bool print5(bool a,bool b);
+void initPlayers(int players);
+int createBoard(int players);
+bool n_createUnit(bool b1,bool b2);
+
+int Class___allocPtr=1;
+int Class___freePtr;
+Class[19] Class___memory;
+int[19] Class___freeStack;
+int MC___Class;
+int Object___allocPtr=1;
+int Object___freePtr;
+Object[2] Object___memory;
+int[2] Object___freeStack;
+int MC___Object;
+int MC___System;
+int MC___Math;
+int Comparator___allocPtr=1;
+int Comparator___freePtr;
+Comparator[129] Comparator___memory;
+int[129] Comparator___freeStack;
+int MC___Comparator;
+int Hasher___allocPtr=1;
+int Hasher___freePtr;
+Hasher[129] Hasher___memory;
+int[129] Hasher___freeStack;
+int MC___Hasher;
+int MC___IntComparator;
+int MC___IntHasher;
+int Pokemon___allocPtr=1;
+int Pokemon___freePtr;
+Pokemon[129] Pokemon___memory;
+int[129] Pokemon___freeStack;
+int MC___Pokemon;
+int Iterator___allocPtr=1;
+int Iterator___freePtr;
+Iterator[129] Iterator___memory;
+int[129] Iterator___freeStack;
+int MC___Iterator;
+int Iterable___allocPtr=1;
+int Iterable___freePtr;
+Iterable[129] Iterable___memory;
+int[129] Iterable___freeStack;
+int MC___Iterable;
+int MC___Set;
+int Map___allocPtr=1;
+int Map___freePtr;
+Map[129] Map___memory;
+int[129] Map___freeStack;
+int MC___Map;
+int MapEntry___allocPtr=1;
+int MapEntry___freePtr;
+MapEntry[129] MapEntry___memory;
+int[129] MapEntry___freeStack;
+int MC___MapEntry;
+int MC___TreeMap;
+int RBNode___allocPtr=1;
+int RBNode___freePtr;
+RBNode[513] RBNode___memory;
+int[513] RBNode___freeStack;
+int MC___RBNode;
+int MC___TreeMapKeySet;
+int MC___TreeMapKeySetIterator;
+
+playergroup s_System__ALL_PLAYERS = PlayerGroupAll();
+int s_int__intComparator;
+int s_int__intHasher;
+const int NUM_TYPES = 17;
+string[17] types;
+fixed[17][17] typeChart;
+string[99] s_Key__displayText;
+int inc = 1;
+int map = new__TreeMap(MC___TreeMap,s_int__getComparator());
+int lb;
+int[12] lives;
+
+void A__classInit(){
+	int A__class;
+	A__class=new__Class(1,1,"Class");
+	MC___Class=A__class;
+	A__class=new__Class(2,2,"Object");
+	MC___Object=A__class;
+	A__class=new__Class(3,3,"System");
+	MC___System=A__class;
+	A__class=new__Class(4,4,"Math");
+	MC___Math=A__class;
+	A__class=new__Class(6,6,"Comparator");
+	MC___Comparator=A__class;
+	Class___memory[A__class].Class__vct[0]=-1;
+	A__class=new__Class(8,8,"Hasher");
+	MC___Hasher=A__class;
+	A__class=new__Class(5,5,"IntComparator");
+	MC___IntComparator=A__class;
+	Class___memory[A__class].Class__vct[0]=0;
+	A__class=new__Class(7,7,"IntHasher");
+	MC___IntHasher=A__class;
+	A__class=new__Class(9,9,"Pokemon");
+	MC___Pokemon=A__class;
+	A__class=new__Class(11,11,"Iterator");
+	MC___Iterator=A__class;
+	A__class=new__Class(14,14,"Iterable");
+	MC___Iterable=A__class;
+	A__class=new__Class(13,13,"Set");
+	MC___Set=A__class;
+	A__class=new__Class(16,16,"Map");
+	MC___Map=A__class;
+	Class___memory[A__class].Class__vct[0]=-1;
+	A__class=new__Class(17,17,"MapEntry");
+	MC___MapEntry=A__class;
+	A__class=new__Class(15,15,"TreeMap");
+	MC___TreeMap=A__class;
+	Class___memory[A__class].Class__vct[0]=0;
+	A__class=new__Class(18,18,"RBNode");
+	MC___RBNode=A__class;
+	A__class=new__Class(12,12,"TreeMapKeySet");
+	MC___TreeMapKeySet=A__class;
+	A__class=new__Class(10,10,"TreeMapKeySetIterator");
+	MC___TreeMapKeySetIterator=A__class;
+}
+
+
+//Allocator for class Class
+int alloc___Class(int A__class){
+	int this;
+	if(Class___freePtr>0){
+		Class___freePtr-=1;
+		this=Class___freeStack[Class___freePtr];
+	}else if(Class___allocPtr<19){
+		this=Class___allocPtr;
+		Class___allocPtr+=1;
+	}else{
+		s_System__error("Instance limit reached for class Class. Allocation failed!");
+		return 0;
+	}
+	Class___memory[this].Class____type=A__class;
+	Class___memory[this].Class____id=(A__class<<24)|this;
+	return this;
+}
+
+//Deallocator for class Class
+void dealloc___Class(int this){
+	if(Class___memory[this].Class____id==0){
+		s_System__error("Double free of class Class");
+		return;
+	}
+	Class___memory[this].Class____id=0;
+	Class___memory[this].Class____type=0;
+	Class___freeStack[Class___freePtr]=this;
+	Class___freePtr+=1;
+}
+
+//Allocator for class Object
+int alloc___Object(int A__class){
+	int this;
+	if(Object___freePtr>0){
+		Object___freePtr-=1;
+		this=Object___freeStack[Object___freePtr];
+	}else if(Object___allocPtr<2){
+		this=Object___allocPtr;
+		Object___allocPtr+=1;
+	}else{
+		s_System__error("Instance limit reached for class Object. Allocation failed!");
+		return 0;
+	}
+	Object___memory[this].Object____type=A__class;
+	Object___memory[this].Object____id=(A__class<<24)|this;
+	return this;
+}
+
+//Deallocator for class Object
+void dealloc___Object(int this){
+	if(Object___memory[this].Object____id==0){
+		s_System__error("Double free of class Object");
+		return;
+	}
+	Object___memory[this].Object____id=0;
+	Object___memory[this].Object____type=0;
+	Object___freeStack[Object___freePtr]=this;
+	Object___freePtr+=1;
+}
+
+//Allocator for class Comparator
+int alloc___Comparator(int A__class){
+	int this;
+	if(Comparator___freePtr>0){
+		Comparator___freePtr-=1;
+		this=Comparator___freeStack[Comparator___freePtr];
+	}else if(Comparator___allocPtr<129){
+		this=Comparator___allocPtr;
+		Comparator___allocPtr+=1;
+	}else{
+		s_System__error("Instance limit reached for class Comparator. Allocation failed!");
+		return 0;
+	}
+	Comparator___memory[this].Comparator____type=A__class;
+	Comparator___memory[this].Comparator____id=(A__class<<24)|this;
+	return this;
+}
+
+//Deallocator for class Comparator
+void dealloc___Comparator(int this){
+	if(Comparator___memory[this].Comparator____id==0){
+		s_System__error("Double free of class Comparator");
+		return;
+	}
+	Comparator___memory[this].Comparator____id=0;
+	Comparator___memory[this].Comparator____type=0;
+	Comparator___freeStack[Comparator___freePtr]=this;
+	Comparator___freePtr+=1;
+}
+
+//Virtual caller for IntComparator.compare
+int vcall___Comparator__compare(int this,int i1,int i2){
+	int cl=Class___memory[Comparator___memory[this].Comparator____type].Class__vct[0];
+	return IntComparator__compare(this,i1,i2);
+}
+
+//Allocator for class Hasher
+int alloc___Hasher(int A__class){
+	int this;
+	if(Hasher___freePtr>0){
+		Hasher___freePtr-=1;
+		this=Hasher___freeStack[Hasher___freePtr];
+	}else if(Hasher___allocPtr<129){
+		this=Hasher___allocPtr;
+		Hasher___allocPtr+=1;
+	}else{
+		s_System__error("Instance limit reached for class Hasher. Allocation failed!");
+		return 0;
+	}
+	Hasher___memory[this].Hasher____type=A__class;
+	Hasher___memory[this].Hasher____id=(A__class<<24)|this;
+	return this;
+}
+
+//Deallocator for class Hasher
+void dealloc___Hasher(int this){
+	if(Hasher___memory[this].Hasher____id==0){
+		s_System__error("Double free of class Hasher");
+		return;
+	}
+	Hasher___memory[this].Hasher____id=0;
+	Hasher___memory[this].Hasher____type=0;
+	Hasher___freeStack[Hasher___freePtr]=this;
+	Hasher___freePtr+=1;
+}
+
+//Allocator for class Pokemon
+int alloc___Pokemon(int A__class){
+	int this;
+	if(Pokemon___freePtr>0){
+		Pokemon___freePtr-=1;
+		this=Pokemon___freeStack[Pokemon___freePtr];
+	}else if(Pokemon___allocPtr<129){
+		this=Pokemon___allocPtr;
+		Pokemon___allocPtr+=1;
+	}else{
+		s_System__error("Instance limit reached for class Pokemon. Allocation failed!");
+		return 0;
+	}
+	Pokemon___memory[this].Pokemon____type=A__class;
+	Pokemon___memory[this].Pokemon____id=(A__class<<24)|this;
+	return this;
+}
+
+//Deallocator for class Pokemon
+void dealloc___Pokemon(int this){
+	if(Pokemon___memory[this].Pokemon____id==0){
+		s_System__error("Double free of class Pokemon");
+		return;
+	}
+	Pokemon___memory[this].Pokemon____id=0;
+	Pokemon___memory[this].Pokemon____type=0;
+	Pokemon___freeStack[Pokemon___freePtr]=this;
+	Pokemon___freePtr+=1;
+}
+
+//Allocator for class Iterator
+int alloc___Iterator(int A__class){
+	int this;
+	if(Iterator___freePtr>0){
+		Iterator___freePtr-=1;
+		this=Iterator___freeStack[Iterator___freePtr];
+	}else if(Iterator___allocPtr<129){
+		this=Iterator___allocPtr;
+		Iterator___allocPtr+=1;
+	}else{
+		s_System__error("Instance limit reached for class Iterator. Allocation failed!");
+		return 0;
+	}
+	Iterator___memory[this].Iterator____type=A__class;
+	Iterator___memory[this].Iterator____id=(A__class<<24)|this;
+	return this;
+}
+
+//Deallocator for class Iterator
+void dealloc___Iterator(int this){
+	if(Iterator___memory[this].Iterator____id==0){
+		s_System__error("Double free of class Iterator");
+		return;
+	}
+	Iterator___memory[this].Iterator____id=0;
+	Iterator___memory[this].Iterator____type=0;
+	Iterator___freeStack[Iterator___freePtr]=this;
+	Iterator___freePtr+=1;
+}
+
+//Allocator for class Iterable
+int alloc___Iterable(int A__class){
+	int this;
+	if(Iterable___freePtr>0){
+		Iterable___freePtr-=1;
+		this=Iterable___freeStack[Iterable___freePtr];
+	}else if(Iterable___allocPtr<129){
+		this=Iterable___allocPtr;
+		Iterable___allocPtr+=1;
+	}else{
+		s_System__error("Instance limit reached for class Iterable. Allocation failed!");
+		return 0;
+	}
+	Iterable___memory[this].Iterable____type=A__class;
+	Iterable___memory[this].Iterable____id=(A__class<<24)|this;
+	return this;
+}
+
+//Deallocator for class Iterable
+void dealloc___Iterable(int this){
+	if(Iterable___memory[this].Iterable____id==0){
+		s_System__error("Double free of class Iterable");
+		return;
+	}
+	Iterable___memory[this].Iterable____id=0;
+	Iterable___memory[this].Iterable____type=0;
+	Iterable___freeStack[Iterable___freePtr]=this;
+	Iterable___freePtr+=1;
+}
+
+//Allocator for class Map
+int alloc___Map(int A__class){
+	int this;
+	if(Map___freePtr>0){
+		Map___freePtr-=1;
+		this=Map___freeStack[Map___freePtr];
+	}else if(Map___allocPtr<129){
+		this=Map___allocPtr;
+		Map___allocPtr+=1;
+	}else{
+		s_System__error("Instance limit reached for class Map. Allocation failed!");
+		return 0;
+	}
+	Map___memory[this].Map____type=A__class;
+	Map___memory[this].Map____id=(A__class<<24)|this;
+	return this;
+}
+
+//Deallocator for class Map
+void dealloc___Map(int this){
+	if(Map___memory[this].Map____id==0){
+		s_System__error("Double free of class Map");
+		return;
+	}
+	Map___memory[this].Map____id=0;
+	Map___memory[this].Map____type=0;
+	Map___freeStack[Map___freePtr]=this;
+	Map___freePtr+=1;
+}
+
+//Virtual caller for TreeMap.getValue
+int vcall___Map__getValue(int this,int key){
+	int cl=Class___memory[Map___memory[this].Map____type].Class__vct[0];
+	return TreeMap__getValue(this,key);
+}
+
+//Allocator for class MapEntry
+int alloc___MapEntry(int A__class){
+	int this;
+	if(MapEntry___freePtr>0){
+		MapEntry___freePtr-=1;
+		this=MapEntry___freeStack[MapEntry___freePtr];
+	}else if(MapEntry___allocPtr<129){
+		this=MapEntry___allocPtr;
+		MapEntry___allocPtr+=1;
+	}else{
+		s_System__error("Instance limit reached for class MapEntry. Allocation failed!");
+		return 0;
+	}
+	MapEntry___memory[this].MapEntry____type=A__class;
+	MapEntry___memory[this].MapEntry____id=(A__class<<24)|this;
+	return this;
+}
+
+//Deallocator for class MapEntry
+void dealloc___MapEntry(int this){
+	if(MapEntry___memory[this].MapEntry____id==0){
+		s_System__error("Double free of class MapEntry");
+		return;
+	}
+	MapEntry___memory[this].MapEntry____id=0;
+	MapEntry___memory[this].MapEntry____type=0;
+	MapEntry___freeStack[MapEntry___freePtr]=this;
+	MapEntry___freePtr+=1;
+}
+
+//Allocator for class RBNode
+int alloc___RBNode(int A__class){
+	int this;
+	if(RBNode___freePtr>0){
+		RBNode___freePtr-=1;
+		this=RBNode___freeStack[RBNode___freePtr];
+	}else if(RBNode___allocPtr<513){
+		this=RBNode___allocPtr;
+		RBNode___allocPtr+=1;
+	}else{
+		s_System__error("Instance limit reached for class RBNode. Allocation failed!");
+		return 0;
+	}
+	RBNode___memory[this].RBNode____type=A__class;
+	RBNode___memory[this].RBNode____id=(A__class<<24)|this;
+	return this;
+}
+
+//Deallocator for class RBNode
+void dealloc___RBNode(int this){
+	if(RBNode___memory[this].RBNode____id==0){
+		s_System__error("Double free of class RBNode");
+		return;
+	}
+	RBNode___memory[this].RBNode____id=0;
+	RBNode___memory[this].RBNode____type=0;
+	RBNode___freeStack[RBNode___freePtr]=this;
+	RBNode___freePtr+=1;
+}
+
+//Constructor for class Class
+int new__Class(int A__class,int id,string name){
+	int this=alloc___Class(A__class);
+	Class___memory[this].Class__id = id;
+	Class___memory[this].Class__name = name;
+	return this;
+}
+
+string Class__getName(int this){
+	return Class___memory[this].Class__name;
+}
+
+int Class__getId(int this){
+	return Class___memory[this].Class__id;
+}
+
+void s_System__error(string message){
+	TriggerDebugOutput(1, StringToText("ERROR: " + message), false);
+	UIDisplayMessage(s_System__ALL_PLAYERS, 4, StringToText("ERROR: " + message));
+}
+
+void s_System__debug(string message){
+	TriggerDebugOutput(1, StringToText(message), true);
+}
+
+void s_System__debug__1(string message,bool showIngame){
+	TriggerDebugOutput(1, StringToText(message), showIngame);
+}
+
+void s_System__print(string message){
+	UIDisplayMessage(s_System__ALL_PLAYERS, 7, StringToText(message));
+}
+
+color s_color__create(fixed red,fixed green,fixed blue,fixed alpha){
+	return ColorWithAlpha(red, green, blue, alpha);
+}
+
+int s_LeaderBoard__create(int columns,int rows,text name,color c){
+	return BoardCreate(columns, rows, name, c);
+}
+
+void LeaderBoard__setItemText(int this,int column,int row,text value){
+	BoardItemSetText(this, column, row, value);
+}
+
+unit s_unit__create(string name,int options,int player,point position,fixed angle){
+	return UnitGroupUnit(UnitCreate(1, name, options, player, position, angle), 1);
+}
+
+string unit__getType(unit this){
+	return UnitGetType(this);
+}
+
+void unit__setPropertyInt(unit this,int p2,int p3){
+	UnitSetPropertyInt(this, p2, p3);
+}
+
+int unit__getPropertyInt(unit this,int p2,bool p3){
+	return UnitGetPropertyInt(this, p2, p3);
+}
+
+void unit__setCustomValue(unit this,int p2,fixed p3){
+	UnitSetCustomValue(this, p2, p3);
+}
+
+fixed unit__getCustomValue(unit this,int p2){
+	return UnitGetCustomValue(this, p2);
+}
+
+unitref unit__getUnitRef(unit this){
+	return UnitRefFromUnit(this);
+}
+
+//Static init
+bool init___global1(bool A__1,bool A__2){
+	s_int__intComparator = alloc___Comparator(MC___IntComparator);
+	s_int__intHasher = alloc___Hasher(MC___IntHasher);
+	return true;
+}
+
+int s_int__getComparator(){
+	return s_int__intComparator;
+}
+
+int IntComparator__compare(int this,int i1,int i2){
+	return i1 - i2;
+}
+
+//Static init
+bool init___global2(bool A__1,bool A__2){
+	types[0] = "normal";
+	types[1] = "fire";
+	types[2] = "water";
+	types[3] = "electric";
+	types[4] = "grass";
+	types[5] = "ice";
+	types[6] = "fighting";
+	types[7] = "poison";
+	types[8] = "ground";
+	types[9] = "flying";
+	types[10] = "psychic";
+	types[11] = "bug";
+	types[12] = "rock";
+	types[13] = "ghost";
+	types[14] = "dragon";
+	types[15] = "dark";
+	types[16] = "steel";
+	typeChart[0][0] = 1.0;
+	typeChart[0][1] = 1.0;
+	typeChart[0][2] = 1.0;
+	typeChart[0][3] = 1.0;
+	typeChart[0][4] = 1.0;
+	typeChart[0][5] = 1.0;
+	typeChart[0][6] = 1.0;
+	typeChart[0][7] = 1.0;
+	typeChart[0][8] = 1.0;
+	typeChart[0][9] = 1.0;
+	typeChart[0][10] = 1.0;
+	typeChart[0][11] = 1.0;
+	typeChart[0][12] = 0.5;
+	typeChart[0][13] = 0.0;
+	typeChart[0][14] = 1.0;
+	typeChart[0][15] = 1.0;
+	typeChart[0][16] = 0.5;
+	typeChart[1][0] = 1.0;
+	typeChart[1][1] = 0.5;
+	typeChart[1][2] = 0.5;
+	typeChart[1][3] = 1.0;
+	typeChart[1][4] = 2.0;
+	typeChart[1][5] = 2.0;
+	typeChart[1][6] = 1.0;
+	typeChart[1][7] = 1.0;
+	typeChart[1][8] = 1.0;
+	typeChart[1][9] = 1.0;
+	typeChart[1][10] = 1.0;
+	typeChart[1][11] = 2.0;
+	typeChart[1][12] = 0.5;
+	typeChart[1][13] = 1.0;
+	typeChart[1][14] = 0.5;
+	typeChart[1][15] = 1.0;
+	typeChart[1][16] = 2.0;
+	typeChart[2][0] = 1.0;
+	typeChart[2][1] = 2.0;
+	typeChart[2][2] = 0.5;
+	typeChart[2][3] = 1.0;
+	typeChart[2][4] = 0.5;
+	typeChart[2][5] = 1.0;
+	typeChart[2][6] = 1.0;
+	typeChart[2][7] = 1.0;
+	typeChart[2][8] = 2.0;
+	typeChart[2][9] = 1.0;
+	typeChart[2][10] = 1.0;
+	typeChart[2][11] = 1.0;
+	typeChart[2][12] = 2.0;
+	typeChart[2][13] = 1.0;
+	typeChart[2][14] = 0.5;
+	typeChart[2][15] = 1.0;
+	typeChart[2][16] = 1.0;
+	typeChart[3][0] = 1.0;
+	typeChart[3][1] = 1.0;
+	typeChart[3][2] = 2.0;
+	typeChart[3][3] = 0.5;
+	typeChart[3][4] = 0.5;
+	typeChart[3][5] = 1.0;
+	typeChart[3][6] = 1.0;
+	typeChart[3][7] = 1.0;
+	typeChart[3][8] = 0.0;
+	typeChart[3][9] = 2.0;
+	typeChart[3][10] = 1.0;
+	typeChart[3][11] = 1.0;
+	typeChart[3][12] = 1.0;
+	typeChart[3][13] = 1.0;
+	typeChart[3][14] = 0.5;
+	typeChart[3][15] = 1.0;
+	typeChart[3][16] = 1.0;
+	typeChart[4][0] = 1.0;
+	typeChart[4][1] = 0.5;
+	typeChart[4][2] = 2.0;
+	typeChart[4][3] = 1.0;
+	typeChart[4][4] = 0.5;
+	typeChart[4][5] = 1.0;
+	typeChart[4][6] = 1.0;
+	typeChart[4][7] = 0.5;
+	typeChart[4][8] = 2.0;
+	typeChart[4][9] = 0.5;
+	typeChart[4][10] = 1.0;
+	typeChart[4][11] = 0.5;
+	typeChart[4][12] = 2.0;
+	typeChart[4][13] = 1.0;
+	typeChart[4][14] = 0.5;
+	typeChart[4][15] = 1.0;
+	typeChart[4][16] = 0.5;
+	typeChart[5][0] = 1.0;
+	typeChart[5][1] = 0.5;
+	typeChart[5][2] = 0.5;
+	typeChart[5][3] = 1.0;
+	typeChart[5][4] = 2.0;
+	typeChart[5][5] = 0.5;
+	typeChart[5][6] = 1.0;
+	typeChart[5][7] = 1.0;
+	typeChart[5][8] = 2.0;
+	typeChart[5][9] = 2.0;
+	typeChart[5][10] = 1.0;
+	typeChart[5][11] = 1.0;
+	typeChart[5][12] = 1.0;
+	typeChart[5][13] = 1.0;
+	typeChart[5][14] = 2.0;
+	typeChart[5][15] = 1.0;
+	typeChart[5][16] = 0.5;
+	typeChart[6][0] = 2.0;
+	typeChart[6][1] = 1.0;
+	typeChart[6][2] = 1.0;
+	typeChart[6][3] = 1.0;
+	typeChart[6][4] = 1.0;
+	typeChart[6][5] = 2.0;
+	typeChart[6][6] = 1.0;
+	typeChart[6][7] = 0.5;
+	typeChart[6][8] = 1.0;
+	typeChart[6][9] = 0.5;
+	typeChart[6][10] = 0.5;
+	typeChart[6][11] = 0.5;
+	typeChart[6][12] = 2.0;
+	typeChart[6][13] = 0.0;
+	typeChart[6][14] = 1.0;
+	typeChart[6][15] = 2.0;
+	typeChart[6][16] = 2.0;
+	typeChart[7][0] = 1.0;
+	typeChart[7][1] = 1.0;
+	typeChart[7][2] = 1.0;
+	typeChart[7][3] = 1.0;
+	typeChart[7][4] = 2.0;
+	typeChart[7][5] = 1.0;
+	typeChart[7][6] = 1.0;
+	typeChart[7][7] = 0.5;
+	typeChart[7][8] = 0.5;
+	typeChart[7][9] = 1.0;
+	typeChart[7][10] = 1.0;
+	typeChart[7][11] = 1.0;
+	typeChart[7][12] = 0.5;
+	typeChart[7][13] = 0.5;
+	typeChart[7][14] = 1.0;
+	typeChart[7][15] = 1.0;
+	typeChart[7][16] = 0.0;
+	typeChart[8][0] = 1.0;
+	typeChart[8][1] = 2.0;
+	typeChart[8][2] = 1.0;
+	typeChart[8][3] = 2.0;
+	typeChart[8][4] = 0.5;
+	typeChart[8][5] = 1.0;
+	typeChart[8][6] = 1.0;
+	typeChart[8][7] = 2.0;
+	typeChart[8][8] = 1.0;
+	typeChart[8][9] = 0.0;
+	typeChart[8][10] = 1.0;
+	typeChart[8][11] = 0.5;
+	typeChart[8][12] = 2.0;
+	typeChart[8][13] = 1.0;
+	typeChart[8][14] = 1.0;
+	typeChart[8][15] = 1.0;
+	typeChart[8][16] = 2.0;
+	typeChart[9][0] = 1.0;
+	typeChart[9][1] = 1.0;
+	typeChart[9][2] = 1.0;
+	typeChart[9][3] = 0.5;
+	typeChart[9][4] = 2.0;
+	typeChart[9][5] = 1.0;
+	typeChart[9][6] = 2.0;
+	typeChart[9][7] = 1.0;
+	typeChart[9][8] = 1.0;
+	typeChart[9][9] = 1.0;
+	typeChart[9][10] = 1.0;
+	typeChart[9][11] = 2.0;
+	typeChart[9][12] = 0.5;
+	typeChart[9][13] = 1.0;
+	typeChart[9][14] = 1.0;
+	typeChart[9][15] = 1.0;
+	typeChart[9][16] = 0.5;
+	typeChart[10][0] = 1.0;
+	typeChart[10][1] = 1.0;
+	typeChart[10][2] = 1.0;
+	typeChart[10][3] = 1.0;
+	typeChart[10][4] = 1.0;
+	typeChart[10][5] = 1.0;
+	typeChart[10][6] = 2.0;
+	typeChart[10][7] = 2.0;
+	typeChart[10][8] = 1.0;
+	typeChart[10][9] = 1.0;
+	typeChart[10][10] = 0.5;
+	typeChart[10][11] = 1.0;
+	typeChart[10][12] = 1.0;
+	typeChart[10][13] = 1.0;
+	typeChart[10][14] = 1.0;
+	typeChart[10][15] = 0.0;
+	typeChart[10][16] = 0.5;
+	typeChart[11][0] = 1.0;
+	typeChart[11][1] = 0.5;
+	typeChart[11][2] = 1.0;
+	typeChart[11][3] = 1.0;
+	typeChart[11][4] = 2.0;
+	typeChart[11][5] = 1.0;
+	typeChart[11][6] = 0.5;
+	typeChart[11][7] = 0.5;
+	typeChart[11][8] = 1.0;
+	typeChart[11][9] = 0.5;
+	typeChart[11][10] = 2.0;
+	typeChart[11][11] = 1.0;
+	typeChart[11][12] = 1.0;
+	typeChart[11][13] = 0.5;
+	typeChart[11][14] = 1.0;
+	typeChart[11][15] = 2.0;
+	typeChart[11][16] = 0.5;
+	typeChart[12][0] = 1.0;
+	typeChart[12][1] = 2.0;
+	typeChart[12][2] = 1.0;
+	typeChart[12][3] = 1.0;
+	typeChart[12][4] = 1.0;
+	typeChart[12][5] = 2.0;
+	typeChart[12][6] = 0.5;
+	typeChart[12][7] = 1.0;
+	typeChart[12][8] = 0.5;
+	typeChart[12][9] = 2.0;
+	typeChart[12][10] = 1.0;
+	typeChart[12][11] = 2.0;
+	typeChart[12][12] = 1.0;
+	typeChart[12][13] = 1.0;
+	typeChart[12][14] = 1.0;
+	typeChart[12][15] = 1.0;
+	typeChart[12][16] = 0.5;
+	typeChart[13][0] = 0.0;
+	typeChart[13][1] = 1.0;
+	typeChart[13][2] = 1.0;
+	typeChart[13][3] = 1.0;
+	typeChart[13][4] = 1.0;
+	typeChart[13][5] = 1.0;
+	typeChart[13][6] = 1.0;
+	typeChart[13][7] = 1.0;
+	typeChart[13][8] = 1.0;
+	typeChart[13][9] = 1.0;
+	typeChart[13][10] = 2.0;
+	typeChart[13][11] = 1.0;
+	typeChart[13][12] = 1.0;
+	typeChart[13][13] = 2.0;
+	typeChart[13][14] = 1.0;
+	typeChart[13][15] = 0.5;
+	typeChart[13][16] = 0.5;
+	typeChart[14][0] = 1.0;
+	typeChart[14][1] = 1.0;
+	typeChart[14][2] = 1.0;
+	typeChart[14][3] = 1.0;
+	typeChart[14][4] = 1.0;
+	typeChart[14][5] = 1.0;
+	typeChart[14][6] = 1.0;
+	typeChart[14][7] = 1.0;
+	typeChart[14][8] = 1.0;
+	typeChart[14][9] = 1.0;
+	typeChart[14][10] = 1.0;
+	typeChart[14][11] = 1.0;
+	typeChart[14][12] = 1.0;
+	typeChart[14][13] = 1.0;
+	typeChart[14][14] = 2.0;
+	typeChart[14][15] = 1.0;
+	typeChart[14][16] = 0.5;
+	typeChart[15][0] = 1.0;
+	typeChart[15][1] = 1.0;
+	typeChart[15][2] = 1.0;
+	typeChart[15][3] = 1.0;
+	typeChart[15][4] = 1.0;
+	typeChart[15][5] = 1.0;
+	typeChart[15][6] = 0.5;
+	typeChart[15][7] = 1.0;
+	typeChart[15][8] = 1.0;
+	typeChart[15][9] = 1.0;
+	typeChart[15][10] = 2.0;
+	typeChart[15][11] = 1.0;
+	typeChart[15][12] = 1.0;
+	typeChart[15][13] = 2.0;
+	typeChart[15][14] = 1.0;
+	typeChart[15][15] = 0.5;
+	typeChart[15][16] = 0.5;
+	typeChart[16][0] = 1.0;
+	typeChart[16][1] = 0.5;
+	typeChart[16][2] = 0.5;
+	typeChart[16][3] = 0.5;
+	typeChart[16][4] = 1.0;
+	typeChart[16][5] = 2.0;
+	typeChart[16][6] = 1.0;
+	typeChart[16][7] = 1.0;
+	typeChart[16][8] = 1.0;
+	typeChart[16][9] = 1.0;
+	typeChart[16][10] = 1.0;
+	typeChart[16][11] = 1.0;
+	typeChart[16][12] = 2.0;
+	typeChart[16][13] = 1.0;
+	typeChart[16][14] = 1.0;
+	typeChart[16][15] = 1.0;
+	typeChart[16][16] = 0.5;
+	return true;
+}
+
+//Constructor for class Pokemon
+int new__Pokemon(int A__class,int level,int basePower,int atk,int def,string type1,string type2){
+	int this=alloc___Pokemon(A__class);
+	Pokemon___memory[this].Pokemon__level = level;
+	Pokemon___memory[this].Pokemon__basePower = basePower;
+	Pokemon___memory[this].Pokemon__atk = atk;
+	Pokemon___memory[this].Pokemon__def = def;
+	Pokemon___memory[this].Pokemon__type1 = typeNameToCode(type1);
+	Pokemon___memory[this].Pokemon__type2 = typeNameToCode(type2);
+	return this;
+}
+
+int Pokemon__damage(int this,int other){
+	int mod1 = 1;
+	int mod2 = 1;
+	int mod3 = 1;
+	int ch = 1;
+	fixed r = 1.0;
+	fixed stab = 1.5;
+	int se1 = 1;
+	int se2 = 1;
+	return FixedToInt(IntToFixed(((((((2 * Pokemon___memory[this].Pokemon__level / 5) + 2) * Pokemon___memory[this].Pokemon__basePower * Pokemon___memory[this].Pokemon__atk / 50) / Pokemon___memory[other].Pokemon__def) * mod1) + 2) * ch * mod2) * r / 100.0 * stab * IntToFixed(se1) * IntToFixed(se2) * IntToFixed(mod3));
+}
+
+string typeCodeToName(int code){
+	return types[code];
+}
+
+int typeNameToCode(string name){
+	int i;
+	//generated for-loop
+	i = 0;
+	while(i < 17){
+		if(types[i] == name){
+			return i;
+		}
+		
+		i += 1;
+	}
+	return -1;
+}
+
+//Static init
+bool init___global3(bool A__1,bool A__2){
+	s_Key__displayText[0] = "SHIFT";
+	s_Key__displayText[1] = "CTRL";
+	s_Key__displayText[2] = "ALT";
+	s_Key__displayText[3] = "0";
+	s_Key__displayText[4] = "1";
+	s_Key__displayText[5] = "2";
+	s_Key__displayText[6] = "3";
+	s_Key__displayText[7] = "4";
+	s_Key__displayText[8] = "5";
+	s_Key__displayText[9] = "6";
+	s_Key__displayText[10] = "7";
+	s_Key__displayText[11] = "8";
+	s_Key__displayText[12] = "9";
+	s_Key__displayText[13] = "A";
+	s_Key__displayText[14] = "B";
+	s_Key__displayText[15] = "C";
+	s_Key__displayText[16] = "D";
+	s_Key__displayText[17] = "E";
+	s_Key__displayText[18] = "F";
+	s_Key__displayText[19] = "G";
+	s_Key__displayText[20] = "H";
+	s_Key__displayText[21] = "I";
+	s_Key__displayText[22] = "J";
+	s_Key__displayText[23] = "K";
+	s_Key__displayText[24] = "L";
+	s_Key__displayText[25] = "M";
+	s_Key__displayText[26] = "N";
+	s_Key__displayText[27] = "O";
+	s_Key__displayText[28] = "P";
+	s_Key__displayText[29] = "Q";
+	s_Key__displayText[30] = "R";
+	s_Key__displayText[31] = "S";
+	s_Key__displayText[32] = "T";
+	s_Key__displayText[33] = "U";
+	s_Key__displayText[34] = "V";
+	s_Key__displayText[35] = "W";
+	s_Key__displayText[36] = "X";
+	s_Key__displayText[37] = "Y";
+	s_Key__displayText[38] = "Z";
+	s_Key__displayText[39] = " ";
+	s_Key__displayText[40] = "`";
+	s_Key__displayText[41] = "NUM0";
+	s_Key__displayText[42] = "NUM1";
+	s_Key__displayText[43] = "NUM2";
+	s_Key__displayText[44] = "NUM3";
+	s_Key__displayText[45] = "NUM4";
+	s_Key__displayText[46] = "NUM5";
+	s_Key__displayText[47] = "NUM6";
+	s_Key__displayText[48] = "NUM7";
+	s_Key__displayText[49] = "NUM8";
+	s_Key__displayText[50] = "NUM9";
+	s_Key__displayText[51] = "NUM+";
+	s_Key__displayText[52] = "NUM-";
+	s_Key__displayText[53] = "NUM*";
+	s_Key__displayText[54] = "NUM/";
+	s_Key__displayText[55] = "NUM.";
+	s_Key__displayText[56] = "=";
+	s_Key__displayText[57] = "-";
+	s_Key__displayText[58] = "(";
+	s_Key__displayText[59] = ")";
+	s_Key__displayText[60] = "\\";
+	s_Key__displayText[61] = ";";
+	s_Key__displayText[62] = "'";
+	s_Key__displayText[63] = ",";
+	s_Key__displayText[64] = ".";
+	s_Key__displayText[65] = "/";
+	s_Key__displayText[66] = "ESC";
+	s_Key__displayText[67] = "\n";
+	s_Key__displayText[68] = "BACKSPACE";
+	s_Key__displayText[69] = "\t";
+	s_Key__displayText[70] = "LEFT";
+	s_Key__displayText[71] = "UP";
+	s_Key__displayText[72] = "RIGHT";
+	s_Key__displayText[73] = "DOWN";
+	s_Key__displayText[74] = "INSERT";
+	s_Key__displayText[75] = "DELETE";
+	s_Key__displayText[76] = "HOME";
+	s_Key__displayText[77] = "END";
+	s_Key__displayText[78] = "PAGEUP";
+	s_Key__displayText[79] = "PAGEDOWN";
+	s_Key__displayText[80] = "CAPSLOCK";
+	s_Key__displayText[81] = "NUMLOCK";
+	s_Key__displayText[82] = "SCROLLLOCK";
+	s_Key__displayText[83] = "PAUSE";
+	s_Key__displayText[84] = "PRINT";
+	s_Key__displayText[85] = ">>";
+	s_Key__displayText[86] = "<<";
+	s_Key__displayText[87] = "F1";
+	s_Key__displayText[88] = "F2";
+	s_Key__displayText[89] = "F3";
+	s_Key__displayText[90] = "F4";
+	s_Key__displayText[91] = "F5";
+	s_Key__displayText[92] = "F6";
+	s_Key__displayText[93] = "F7";
+	s_Key__displayText[94] = "F8";
+	s_Key__displayText[95] = "F9";
+	s_Key__displayText[96] = "F10";
+	s_Key__displayText[97] = "F11";
+	s_Key__displayText[98] = "F12";
+	return true;
+}
+
+trigger s_trigger__create(string func){
+	return TriggerCreate(func);
+}
+
+void trigger__addEventChatMessage(trigger this,int p2,string p3,bool p4){
+	TriggerAddEventChatMessage(this, p2, p3, p4);
+}
+
+void trigger__addEventUnitAbility(trigger this,unitref p2,abilcmd p3,int p4,bool p5){
+	TriggerAddEventUnitAbility(this, p2, p3, p4, p5);
+}
+
+//Constructor for class MapEntry
+int new__MapEntry(int A__class,int key,int value){
+	int this=alloc___MapEntry(A__class);
+	MapEntry___memory[this].MapEntry__key = key;
+	MapEntry___memory[this].MapEntry__value = value;
+	return this;
+}
+
+//Constructor for class TreeMap
+int new__TreeMap(int A__class,int comp){
+	int this=alloc___Map(A__class);
+	Map___memory[this].TreeMap__LEFT_LEAF = new__RBNode(MC___RBNode,this, 0, false);
+	Map___memory[this].TreeMap__RIGHT_LEAF = new__RBNode(MC___RBNode,this, 0, false);
+	Map___memory[this].TreeMap__FORE = new__RBNode(MC___RBNode,this, 0, true);
+	Map___memory[this].TreeMap__AFT = new__RBNode(MC___RBNode,this, 0, true);
+	Map___memory[this].TreeMap__root = Map___memory[this].TreeMap__LEFT_LEAF;
+	Map___memory[this].TreeMap__comp = comp;
+	Map___memory[this].TreeMap__size = 0;
+	return this;
+}
+
+int TreeMap__find(int this,int key){
+	int ptr = Map___memory[this].TreeMap__root;
+	int comparison;
+	while(!RBNode__isLeaf(ptr)){
+		RBNode___memory[Map___memory[this].TreeMap__RIGHT_LEAF].RBNode__parent = ptr;
+		RBNode___memory[Map___memory[this].TreeMap__LEFT_LEAF].RBNode__parent = ptr;
+		comparison = vcall___Comparator__compare(Map___memory[this].TreeMap__comp,key, MapEntry___memory[RBNode___memory[ptr].RBNode__entry].MapEntry__key);
+		if(comparison == 0){
+			return ptr;
+		} else if(comparison < 0){
+			ptr = RBNode__getLeft(ptr);
+		} else {
+			ptr = RBNode__getRight(ptr);
+		}
+	}
+	return ptr;
+}
+
+int TreeMap__getValue(int this,int key){
+	int node = TreeMap__find(this,key);
+	if(!RBNode__isLeaf(node)){
+		return MapEntry___memory[RBNode___memory[node].RBNode__entry].MapEntry__value;
+	} else {
+		return 0;
+	}
+}
+
+//Constructor for class RBNode
+int new__RBNode(int A__class,int tree,int entry,bool c){
+	int this=alloc___RBNode(A__class);
+	RBNode___memory[this].RBNode__tree = tree;
+	RBNode___memory[this].RBNode__entry = entry;
+	RBNode___memory[this].RBNode__c = c;
+	RBNode___memory[this].RBNode__parent = 0;
+	RBNode__setLeft(this,Map___memory[tree].TreeMap__LEFT_LEAF);
+	RBNode__setRight(this,Map___memory[tree].TreeMap__RIGHT_LEAF);
+	return this;
+}
+
+bool RBNode__isLeaf(int this){
+	return (this == Map___memory[RBNode___memory[this].RBNode__tree].TreeMap__LEFT_LEAF || this == Map___memory[RBNode___memory[this].RBNode__tree].TreeMap__RIGHT_LEAF);
+}
+
+int RBNode__getLeft(int this){
+	return RBNode___memory[this].RBNode__left;
+}
+
+int RBNode__getRight(int this){
+	return RBNode___memory[this].RBNode__right;
+}
+
+int RBNode__setLeft(int this,int node){
+	if(node == Map___memory[RBNode___memory[this].RBNode__tree].TreeMap__RIGHT_LEAF){
+		node = Map___memory[RBNode___memory[this].RBNode__tree].TreeMap__LEFT_LEAF;
+	}
+	RBNode___memory[this].RBNode__left = node;
+	RBNode___memory[node].RBNode__parent = this;
+	return node;
+}
+
+int RBNode__setRight(int this,int node){
+	if(node == Map___memory[RBNode___memory[this].RBNode__tree].TreeMap__LEFT_LEAF){
+		node = Map___memory[RBNode___memory[this].RBNode__tree].TreeMap__RIGHT_LEAF;
+	}
+	RBNode___memory[this].RBNode__right = node;
+	RBNode___memory[node].RBNode__parent = this;
+	return node;
+}
+
+unit createUnit(string s,point p){
+	unit newUnit = s_unit__create(s, 0, 1, p, 0.0);
+	unit__setCustomValue(newUnit,0, IntToFixed(inc));
+	inc += 1;
+	TriggerAddEventUnitDamaged(TriggerCreate("damageUnit"), unit__getUnitRef(newUnit), -1, 0, null);
+	return newUnit;
+}
+
+bool damageUnit(bool conditions,bool actions){
+	unit src = EventUnitDamageSourceUnit();
+	unit trg = EventUnit();
+	int p_src;
+	int p_trg;
+	int damage;
+	int curHP;
+	s_System__debug(unit__getType(src));
+	s_System__debug(unit__getType(trg));
+	p_src = vcall___Map__getValue(map,FixedToInt(unit__getCustomValue(src,0)));
+	p_trg = vcall___Map__getValue(map,FixedToInt(unit__getCustomValue(trg,0)));
+	if(p_src == 0 || p_trg == 0){
+		return false;
+	}
+	damage = Pokemon__damage(p_src,p_trg);
+	s_System__debug("" + IntToString(damage));
+	curHP = unit__getPropertyInt(trg,0, false);
+	unit__setPropertyInt(trg,0, curHP - damage);
+	return true;
+}
+
+//Static init
+bool init___global4(bool A__1,bool A__2){
+	new__MapEntry(MC___MapEntry,0, 0);
+	return true;
+}
+
+//Static init
+bool init___global5(bool A__1,bool A__2){
+	unit u;
+	initPlayers(2);
+	createBoard(2);
+	VisEnable(1, false);
+	CameraPan(1, Point(50.0, 50.0), 0.0, 0.0, 0.0, false);
+	createUnit("Archon", Point(50.0, 50.0));
+	u = s_unit__create("RentalCenters", 0, 1, Point(40.0, 40.0), 0.0);
+	trigger__addEventChatMessage(s_trigger__create("n_createUnit"),-1, "", false);
+	trigger__addEventUnitAbility(s_trigger__create("print5"),unit__getUnitRef(u), AbilityCommand("Print", 0), -3, false);
+	return true;
+}
+
+bool print5(bool a,bool b){
+	s_System__debug("5");
+	return false;
+}
+
+void initPlayers(int players){
+	int i;
+	//generated for-loop
+	i = 0;
+	while(i < players){
+		lives[i] = 20;
+		
+		i += 1;
+	}
+}
+
+int createBoard(int players){
+	int i;
+	lb = s_LeaderBoard__create(2, players, StringToText("Lives"), s_color__create(100.0, 0.0, 0.0, 100.0));
+	//generated for-loop
+	i = 0;
+	while(i < players){
+		LeaderBoard__setItemText(lb,1, i + 1, StringToText("tmp"));
+		LeaderBoard__setItemText(lb,2, i + 1, StringToText(IntToString(lives[i])));
+		
+		i += 1;
+	}
+	return lb;
+}
+
+bool n_createUnit(bool b1,bool b2){
+	createUnit(EventChatMessage(false), Point(50.0, 50.0));
+	return false;
+}
+
+void initAndromeda(){
+	trigger t;
+	A__classInit();
+	t = TriggerCreate("init___global1");
+	TriggerAddEventMapInit(t);
+	t = TriggerCreate("init___global3");
+	TriggerAddEventMapInit(t);
+	t = TriggerCreate("init___global2");
+	TriggerAddEventMapInit(t);
+	t = TriggerCreate("init___global4");
+	TriggerAddEventMapInit(t);
+	t = TriggerCreate("init___global5");
+	TriggerAddEventMapInit(t);
+}
+
+

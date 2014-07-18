@@ -1,0 +1,82 @@
+import a.natives.point;
+import a.natives.string;
+
+include "main.a"
+include "unit.a"
+include "data.a"
+
+/*
+supported commands:
+
+buy <X>             ... buy one or more pokemon
+id                  ... list ids of all pokemon
+    -p <X>              ... of a certain species
+stats <X>           ... list stats of pokemon X
+    -p <X>              ... of a certain species
+upgrade <X>         ... upgrade pokemon X by one level
+    -a <L>              ... by L levels
+*/
+
+void parse_text(string s, int player) {
+    string command = s.getWord(1);
+
+    if (command == "buy") {
+        process_buy(s, player);
+    }
+    else if (command == "id") {
+        process_id(s, player);
+    }
+    else if (command == "stats") {
+        process_stats(s, player);
+    }
+    else if (command == "upgrade" || command == "upg") {
+        process_upgrade(s, player);
+    }
+}
+void process_buy(string s, int player) {
+    int num = 2;
+    while (s.getWord(num) != null) {
+        ++num;
+    }
+    for (int i=2; i<num; ++i) {
+        createUnitHelper(s.getWord(i), player, point.fromId(3));
+    }
+}
+void process_id(string s, int player) {
+    if (s.getWord(2) == null) {
+        for (int i=0; i<unitList[player-1].size(); ++i) {
+            System.debug(unitList[player-1].getIndex(i).getUnitId().toString() + ": " + unitList[player-1].getIndex(i).nam);
+        }
+    }
+    else if (s.getWord(2) == "-p" && s.getWord(3) != null) {
+        for (int i=0; i<unitList[player-1].size(); ++i) {
+            if (unitList[player-1].getIndex(i).nam == s.getWord(3)) {
+                System.debug(unitList[player-1].getIndex(i).getUnitId().toString() + ": " + unitList[player-1].getIndex(i).nam);
+            }
+        }
+    }
+    else {
+        System.debug("error");
+    }
+}
+void process_stats(string s, int player) {
+    if (s.getWord(2) != null && s.getWord(3) == null) {
+        Pokemon p = getUnitById(s.getWord(2).toInt(), player);
+
+        System.debug(p.getUnitId() + ": " + "level " + p.level + " / maxhp " + p.maxhp + " / atk: " + p.atk + " / def: " + p.def + " / movetype: " + types[p.type1]);
+    }
+    else if (s.getWord(2) == "-p" && s.getWord(3) != null) {
+        for (int i=0; i<unitList[player-1].size(); ++i) {
+            if (unitList[player-1].getIndex(i).nam == s.getWord(3)) {
+                Pokemon p = unitList[player-1].getIndex(i);
+
+                System.debug(p.getUnitId() + ": " + "level " + p.level + " / maxhp " + p.maxhp + " / atk: " + p.atk + " / def: " + p.def + " / movetype: " + types[p.type1]);
+            }
+        }
+    }
+    else {
+        System.debug("error");
+    }
+}
+void process_upgrade(string s, int player) {
+}

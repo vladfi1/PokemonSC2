@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CWeaponLegacy default="1" id="DefaultMeleeAttack">
+        <Range value="0.25"/>
+        <RandomDelayMin value="0"/>
+        <RandomDelayMax value="0"/>
+        <Effect value="None"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="MeleeAttack" parent="DefaultMeleeAttack"/>
+    <CWeaponLegacy id="Flamethrower">
+        <Range value="4"/>
+        <Period value="2.75"/>
+        <DamagePoint value="1.4"/>
+        <RandomDelayMin value="0"/>
+        <RandomDelayMax value="0"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="ThunderWave">
+        <Period value="2"/>
+        <DamagePoint value="1"/>
+        <RandomDelayMin value="0"/>
+        <RandomDelayMax value="0"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="HydroPump">
+        <Range value="8"/>
+        <Period value="2.3"/>
+        <DamagePoint value="1.3"/>
+        <RandomDelayMin value="0"/>
+        <RandomDelayMax value="0"/>
+        <DisplayEffect value="HydroPumpDamage"/>
+        <Effect value="HydroPumpInitial"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="WaterGun">
+        <Range value="4"/>
+        <Period value="2.25"/>
+        <DamagePoint value="1.3"/>
+        <RandomDelayMin value="0"/>
+        <RandomDelayMax value="0"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="ShadowBall">
+        <Range value="60"/>
+        <Period value="2.25"/>
+        <DamagePoint value="1.3"/>
+        <RandomDelayMin value="0"/>
+        <RandomDelayMax value="0"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="DragonClaw" parent="DefaultMeleeAttack">
+        <Period value="2.25"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="RazorLeaf" parent="DefaultMeleeAttack">
+        <Period value="1"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="TailWhip" parent="DefaultMeleeAttack">
+        <Period value="1.2"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="MachampMeleeAttack" parent="DefaultMeleeAttack">
+        <Period value="3"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="HitmonchanMeleeAttack" parent="DefaultMeleeAttack">
+        <Period value="1.5"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="TyranitarMeleeAttack" parent="DefaultMeleeAttack">
+        <Period value="3"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="MagikarpSplashAttack" parent="DefaultMeleeAttack">
+        <Period value="4"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="MewMeleeAttack" parent="DefaultMeleeAttack">
+        <Period value="4"/>
+    </CWeaponLegacy>
+</Catalog>
+

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CMoverMissile id="ShadowBall" parent="MissileDefault">
+        <MotionPhases index="0">
+            <Driver value="Guidance"/>
+            <Acceleration value="2"/>
+            <MaxSpeed value="25"/>
+            <ClearanceAcceleration value="75"/>
+            <Outro value="-1"/>
+            <YawPitchRoll value="719.2968"/>
+        </MotionPhases>
+    </CMoverMissile>
+</Catalog>
+

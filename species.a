@@ -1,0 +1,38 @@
+include "data.a"
+
+const int PHYSICAL = 0;
+const int SPECIAL = 1;
+
+public class PokemonSpecies {
+    public int hp, basePower, atk, def, satk, sdef, moveType, type1, type2;
+    public string nam;
+
+    public PokemonSpecies(string nam, int hp, int basePower, int atk, int def, int satk, int sdef, int moveType, string type1, string type2) {
+        this.nam = nam;
+        this.hp = hp;
+        this.basePower = basePower;
+        this.atk = atk;
+        this.def = def;
+        this.satk = satk;
+        this.sdef = sdef;
+        this.moveType = moveType;
+        this.type1 = typeNameToCode(type1);
+        this.type2 = typeNameToCode(type2);
+    }
+}
+public string typeCodeToName(int code) {
+    if (code == -1) {
+        return "none";
+    }
+    return types[code];
+}
+
+public int typeNameToCode(string name) {
+    for (int i=0; i<NUM_TYPES; i+=1) {
+        if (types[i] == name) {
+            return i;
+        }
+    }
+    return -1;
+}
+

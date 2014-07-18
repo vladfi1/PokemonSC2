@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CEffectDamage id="HydroPumpDamage">
+        <Amount value="1"/>
+    </CEffectDamage>
+    <CEffectSet id="HydroPumpImpact">
+        <EffectArray value="HydroPumpDamage"/>
+    </CEffectSet>
+    <CEffectCreatePersistent id="HydroPumpInitial">
+        <Flags index="Channeling" value="1"/>
+        <PeriodicEffectArray value="HydroPumpLaunch"/>
+        <PeriodicPeriodArray value="0.05"/>
+        <InitialEffect value="HydroPumpLaunch"/>
+        <ExpireEffect value="HydroPumpDamage"/>
+        <ExpireDelay value="1"/>
+        <WhichLocation Value="TargetUnit"/>
+    </CEffectCreatePersistent>
+    <CEffectSet id="HydroPumpLaunch">
+        <EffectArray value="HydroPumpLaunchLeft"/>
+        <EffectArray value="HydroPumpLaunchRight"/>
+    </CEffectSet>
+    <CEffectLaunchMissile id="HydroPumpLaunchLeft">
+        <AmmoUnit value="WeaponHydroPump"/>
+        <Movers Link="AcidSalivaWeapon"/>
+    </CEffectLaunchMissile>
+    <CEffectLaunchMissile id="HydroPumpLaunchRight">
+        <AmmoUnit value="WeaponHydroPump"/>
+        <Movers Link="AcidSalivaWeapon"/>
+    </CEffectLaunchMissile>
+    <CEffectDamage id="ThunderWave"/>
+    <CEffectDamage id="Flamethrower"/>
+    <CEffectDamage id="None"/>
+    <CEffectLaunchMissile id="WaterGun">
+        <AmmoUnit value="WeaponHydroPump"/>
+        <Movers Link="InfestedTerransLayEggWeapon"/>
+    </CEffectLaunchMissile>
+    <CEffectLaunchMissile id="ShadowBall">
+        <AmmoUnit value="WeaponShadowBall"/>
+        <Movers Link="ShadowBall"/>
+    </CEffectLaunchMissile>
+</Catalog>
+

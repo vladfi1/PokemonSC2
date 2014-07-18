@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CUnit default="1" id="MovingUnit">
+        <Speed value="2"/>
+        <Acceleration value="1000"/>
+        <PlaneArray index="Ground" value="1"/>
+        <Collide index="Ground" value="1"/>
+        <CardLayouts>
+            <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>
+            <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
+            <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
+            <LayoutButtons Face="MoveHoldPosition" Type="AbilCmd" AbilCmd="move,HoldPos" Row="0" Column="2"/>
+        </CardLayouts>
+        <AbilArray Link="move"/>
+        <AbilArray Link="stop"/>
+        <Fidget>
+            <ChanceArray index="Anim" value="50"/>
+            <ChanceArray index="Idle" value="50"/>
+        </Fidget>
+    </CUnit>
+    <CUnit default="1" id="AttackingUnit" parent="MovingUnit">
+        <CardLayouts index="0">
+            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
+        </CardLayouts>
+        <AbilArray Link="attack"/>
+    </CUnit>
+    <CUnit id="Pikachu" parent="AttackingUnit">
+        <WeaponArray Link="TailWhip"/>
+        <InnerRadius value="0.5"/>
+    </CUnit>
+    <CUnit id="Eevee" parent="AttackingUnit">
+        <WeaponArray Link="ThunderWave"/>
+        <InnerRadius value="0.5"/>
+    </CUnit>
+    <CUnit id="Blastoise" parent="AttackingUnit">
+        <WeaponArray Link="HydroPump"/>
+        <Radius value="1.0"/>
+        <InnerRadius value="1.0"/>
+    </CUnit>
+    <CUnit id="Charizard" parent="AttackingUnit">
+        <WeaponArray Link="Flamethrower"/>
+        <Radius value="1.0"/>
+        <InnerRadius value="1.0"/>
+    </CUnit>
+    <CUnit id="Garchomp" parent="AttackingUnit">
+        <WeaponArray Link="DragonClaw"/>
+        <Radius value="1.0"/>
+        <InnerRadius value="1.0"/>
+    </CUnit>
+    <CUnit id="Suicune" parent="AttackingUnit">
+        <WeaponArray Link="WaterGun"/>
+        <Speed value="4"/>
+        <Radius value="1.25"/>
+        <InnerRadius value="1"/>
+    </CUnit>
+    <CUnit id="Gengar" parent="AttackingUnit">
+        <WeaponArray Link="ShadowBall"/>
+        <Radius value="0.75"/>
+        <InnerRadius value="0.75"/>
+    </CUnit>
+    <CUnit id="Squirtle" parent="AttackingUnit">
+        <WeaponArray Link="WaterGun"/>
+        <InnerRadius value="0.5"/>
+    </CUnit>
+    <CUnit id="Chikorita" parent="AttackingUnit">
+        <WeaponArray Link="RazorLeaf"/>
+        <InnerRadius value="0.5"/>
+    </CUnit>
+    <CUnit id="Jolteon" parent="AttackingUnit">
+        <WeaponArray Link="ThunderWave"/>
+        <InnerRadius value="0.75"/>
+    </CUnit>
+    <CUnit id="Vaporeon" parent="AttackingUnit">
+        <WeaponArray Link="WaterGun"/>
+        <InnerRadius value="0.75"/>
+    </CUnit>
+    <CUnit id="Flareon" parent="AttackingUnit">
+        <WeaponArray Link="Flamethrower"/>
+        <InnerRadius value="0.75"/>
+    </CUnit>
+    <CUnit id="Espeon" parent="AttackingUnit">
+        <WeaponArray Link="MeleeAttack"/>
+        <InnerRadius value="0.5"/>
+    </CUnit>
+    <CUnit id="Umbreon" parent="AttackingUnit">
+        <WeaponArray Link="MeleeAttack"/>
+        <InnerRadius value="0.5"/>
+    </CUnit>
+    <CUnit id="Ninetales" parent="AttackingUnit">
+        <WeaponArray Link="Flamethrower"/>
+        <InnerRadius value="0.75"/>
+    </CUnit>
+    <CUnit id="Arcanine" parent="AttackingUnit">
+        <WeaponArray Link="Flamethrower"/>
+        <InnerRadius value="0.75"/>
+    </CUnit>
+    <CUnit id="Gyarados" parent="AttackingUnit">
+        <WeaponArray Link="Flamethrower"/>
+        <InnerRadius value="1.5"/>
+    </CUnit>
+    <CUnit id="Meowth" parent="AttackingUnit">
+        <WeaponArray Link="MeleeAttack"/>
+        <InnerRadius value="0.5"/>
+    </CUnit>
+    <CUnit id="Hitmonchan" parent="AttackingUnit">
+        <WeaponArray Link="HitmonchanMeleeAttack"/>
+        <InnerRadius value="0.75"/>
+    </CUnit>
+    <CUnit id="Hitmonlee" parent="AttackingUnit">
+        <WeaponArray Link="MeleeAttack"/>
+        <InnerRadius value="0.75"/>
+    </CUnit>
+    <CUnit id="Machamp" parent="AttackingUnit">
+        <WeaponArray Link="MachampMeleeAttack"/>
+        <InnerRadius value="1"/>
+    </CUnit>
+    <CUnit id="Tyranitar" parent="AttackingUnit">
+        <WeaponArray Link="TyranitarMeleeAttack"/>
+        <InnerRadius value="1"/>
+    </CUnit>
+    <CUnit id="Magikarp" parent="AttackingUnit">
+        <WeaponArray Link="MagikarpSplashAttack"/>
+        <InnerRadius value="0.5"/>
+    </CUnit>
+    <CUnit id="Abra" parent="AttackingUnit">
+        <WeaponArray Link="AnotherMeleeAttack"/>
+        <InnerRadius value="0.5"/>
+    </CUnit>
+    <CUnit id="Haunter" parent="AttackingUnit">
+        <WeaponArray Link="ShadowBall"/>
+        <InnerRadius value="0.75"/>
+    </CUnit>
+    <CUnit id="Dragonite" parent="AttackingUnit">
+        <WeaponArray Link="Flamethrower"/>
+        <InnerRadius value="1.0"/>
+    </CUnit>
+    <CUnit id="Mew" parent="AttackingUnit">
+        <WeaponArray Link="MewMeleeAttack"/>
+        <InnerRadius value="0.5"/>
+    </CUnit>
+    <CUnit id="WeaponHydroPump" parent="MISSILE_INVULNERABLE"/>
+    <CUnit id="WeaponShadowBall" parent="MISSILE_INVULNERABLE"/>
+</Catalog>
+

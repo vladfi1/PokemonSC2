@@ -1,0 +1,134 @@
+import a.natives.actor;
+import a.natives.point;
+import a.natives.timer;
+import a.natives.LeaderBoard;
+import a.natives.color;
+import a.natives.unit;
+import a.natives.int;
+import a.natives.region;
+
+include "data.a"
+include "poke_data.a"
+include "unit.a"
+include "workaround.a"
+
+static {
+    initPlayers(2);
+    createBoard(2);
+
+	VisEnable(c_visTypeFog, false);
+
+    //libNtve_gf_SendActorMessageToUnit(u, "ModelSwap " + "Cube");
+	CameraPan(1, Point(50, 50), 0, 0, 0, false);
+
+    //unit u = unit.create("RentalCenters", 0, 1, Point(40, 40), 0);
+
+    createUnitHelper("Tower", 7, point.fromId(1));
+    createUnitHelper("Tower", 7, point.fromId(2));
+    //createUnitHelper("Tower", 1, point.fromId(3));
+    //createUnitHelper("Tower", 1, point.fromId(4));
+
+    trigger.create(n_createUnit.name).addEventChatMessage(c_playerAny, "", false);
+
+    //trigger.create(print5.name).addEventUnitAbility(u.getUnitRef(), AbilityCommand("Print", 0), -3, false);
+
+    timer t = timer.create();
+    t.start(5, true, timer.GAME_TIME);
+
+    trigger.create(transferUnits.name).addEventTimer(t);
+
+    for (int i=1; i<=3; ++i) {
+        for (int j=i+1; j<=3; ++j) {
+            libNtve_gf_SetAlliance(i, j, 2);
+            libNtve_gf_SetAlliance(i+3, j+3, 2);
+        }
+        libNtve_gf_SetAlliance(i, 7, 2);
+        libNtve_gf_SetAlliance(i+3, 8, 2);
+    }
+}
+
+public bool print5(bool a, bool b) {
+    System.debug("5");
+    return false;
+}
+
+LeaderBoard lb;
+int[12] lives;
+
+/////  logistic methods
+
+public void initPlayers(int players) {
+    for (int i=0; i<players; i+=1) {
+        lives[i] = 20;
+    }
+}
+
+/////  leaderboard methods
+
+public LeaderBoard createBoard(int players) {
+    lb = LeaderBoard.create(2, players, "Lives", color.create(100, 0, 0, 100));
+
+    for (int i=0; i<players; i+=1) {
+        lb.setItemText(1, i+1, "tmp");
+        lb.setItemText(2, i+1, (string)lives[i]);
+    }
+    return lb;    
+}
+
+bool n_createUnit(bool b1, bool b2) {
+    createUnitHelper(EventChatMessage(false), 1, Point(50, 50));
+    return false;
+}
+bool createUnitHelper(string nam, int player, point p) {
+    Pokemon pk = createUnit(nam, player, p);
+    assignUnit(pk, player - 1);
+    return false;
+}
+
+bool transferUnits(bool b1, bool b2) {
+    for (int i=0; i<6; ++i) {
+        for (int j=0; j<unitList[i].size(); ++j) {
+            Pokemon pp = unitList[i].getIndex(j);
+            unit u = pp.getUnit();
+            
+            point p = u.getPosition();
+            if (region.fromID(1).contains(p)) {
+                point newp = point.create(p.getX() + 2, p.getY());
+                Pokemon newu = createUnit(pp.nam, 7, newp);
+
+                order o = OrderTargetingPoint(AbilityCommand("attack", 0), region.fromID(2).center);
+                UnitIssueOrder(newu.getUnit(), o, c_orderQueueAddToEnd);
+            }
+            else if (region.fromID(2).contains(p)) {
+                point newp = point.create(p.getX() - 2, p.getY());
+                Pokemon newu = createUnit(pp.nam, 8, newp);
+
+                order o = OrderTargetingPoint(AbilityCommand("attack", 0), region.fromID(1).center);
+                UnitIssueOrder(newu.getUnit(), o, c_orderQueueAddToEnd);
+            }
+        }
+    }
+    return false;
+}
+
+/////  wave methods
+
+/*public void setMonsterPath(unit u) {
+    for (int i=2; i<=6; i+=1) {
+        order o = OrderTargetingPoint(AbilityCommand("move", 0), point.fromId(i));
+        UnitIssueOrder(u, o, c_orderQueueAddToEnd);
+    }
+}*/
+
+/*public void createWave(string s, int number) {
+    for (int i=0; i<number; i+=1) {
+        unit u = createUnit(s, WAVE_START_POINT);
+        TriggerAddEventUnitDamaged(TriggerCreate(damageUnit.name), u.getUnitRef(), c_unitDamageTypeAny, c_unitDamageEither, null);
+        setMonsterPath(u);
+
+        if (i < number-1) {
+            Wait(1, c_timeGame);
+        }
+    }
+}*/
+

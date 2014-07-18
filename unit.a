@@ -1,0 +1,63 @@
+import a.natives.int;
+import a.natives.fixed;
+import a.natives.unit;
+import a.natives.trigger;
+import a.util.TreeMap;
+import a.util.Map;
+import a.util.ArrayList;
+import a.wrapper.Unit;
+
+include "poke_data.a"
+include "species_data.a"
+
+int inc = 1;
+Map<int, Pokemon> map = new TreeMap<int, Pokemon>(int.getComparator());
+ArrayList<Pokemon>[8] unitList;
+
+static {
+    for (int i=0; i<8; ++i) {
+        unitList[i] = new ArrayList<Pokemon>();
+    }
+}
+
+public Pokemon createUnit(string s, int player, point p) {
+    Pokemon pp = new Pokemon(speciesFromString(s), 5, player, p);
+    unit u = pp.getUnit();
+
+    u.setCustomValue(0, inc);
+    u.setPropertyInt(2, pp.maxhp);
+    u.setPropertyInt(0, pp.hp);
+    map.put(inc, pp);
+    inc += 1;
+
+    TriggerAddEventUnitDamaged(TriggerCreate(damageUnit.name), u.getUnitRef(), c_unitDamageTypeAny, c_unitDamageEither, null);
+
+    return pp;
+}
+
+public bool damageUnit(bool conditions, bool actions) {
+    unit src = EventUnitDamageSourceUnit();
+    unit trg = EventUnit();
+    
+    Pokemon p_src, p_trg;
+    
+    p_src = map.getValue((int)src.getCustomValue(0));
+    p_trg = map.getValue((int)trg.getCustomValue(0));
+
+    if (p_src == null || p_trg == null) {
+        return false;
+    }
+
+    int damage = p_src.damage(p_trg);
+    p_trg.hp -= damage;
+    if (p_trg.hp < 0) {
+        p_trg.hp = 0;
+    }
+    trg.setPropertyInt(0, p_trg.hp);
+
+    return true;
+}
+
+public void assignUnit(Pokemon u, int player) {
+    unitList[player].addLast(u);
+}

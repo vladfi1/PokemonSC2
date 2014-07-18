@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CModel default="1" id="GenericPokemon">
+        <Model value="##id##.m3"/>
+    </CModel>
+    <CModel default="1" id="LargePokemon" parent="GenericPokemon">
+        <SelectionRadius value="6.000000"/>
+        <ShadowRadius value="4.000000"/>
+        <ScaleMax value="0.100000,0.100000,0.100000"/>
+        <ScaleMin value="0.100000,0.100000,0.100000"/>
+    </CModel>
+    <CModel default="1" id="SmallPokemon" parent="GenericPokemon">
+        <SelectionRadius value="3.000000"/>
+        <ShadowRadius value="2.000000"/>
+        <ScaleMax value="0.150000,0.150000,0.150000"/>
+        <ScaleMin value="0.150000,0.150000,0.150000"/>
+    </CModel>
+    <CModel default="1" id="MediumPokemon" parent="GenericPokemon">
+        <SelectionRadius value="4.500000"/>
+        <ShadowRadius value="3.000000"/>
+        <ScaleMax value="0.125000,0.125000,0.125000"/>
+        <ScaleMin value="0.125000,0.125000,0.125000"/>
+    </CModel>
+    <CModel id="HitTestSphere">
+        <Model value="Assets\Units\Test\HitTestSphere\HitTestSphere.m3"/>
+    </CModel>
+    <CModel id="HydroPump" parent="PersistentSpellFX">
+        <Model value="WaterSplash2.m3"/>
+    </CModel>
+    <CModel id="FlamethrowerAttackLaunch" parent="LaunchFX">
+        <Model value="Assets\Effects\Terran\FirebatFireSprite\FirebatFireSprite.m3"/>
+        <ScaleMax value="0.400000,4.000000,0.400000"/>
+        <ScaleMin value="0.400000,4.000000,0.400000"/>
+        <ShadowRadius value="0.800000"/>
+    </CModel>
+    <CModel id="Pikachu" parent="SmallPokemon"/>
+    <CModel id="Blastoise" parent="LargePokemon"/>
+    <CModel id="Charizard" parent="LargePokemon"/>
+    <CModel id="Suicune" parent="LargePokemon"/>
+    <CModel id="Garchomp" parent="LargePokemon"/>
+    <CModel id="Gengar" parent="LargePokemon"/>
+    <CModel id="Eevee" parent="SmallPokemon"/>
+    <CModel id="Squirtle" parent="SmallPokemon"/>
+    <CModel id="Chikorita" parent="SmallPokemon"/>
+    <CModel id="Jolteon" parent="MediumPokemon"/>
+    <CModel id="Vaporeon" parent="MediumPokemon"/>
+    <CModel id="Flareon" parent="MediumPokemon"/>
+    <CModel id="Espeon" parent="MediumPokemon"/>
+    <CModel id="Umbreon" parent="MediumPokemon"/>
+    <CModel id="Ninetales" parent="MediumPokemon"/>
+    <CModel id="Arcanine" parent="LargePokemon"/>
+    <CModel id="Gyarados" parent="LargePokemon"/>
+    <CModel id="Magikarp" parent="SmallPokemon"/>
+    <CModel id="Meowth" parent="SmallPokemon"/>
+    <CModel id="Hitmonchan" parent="LargePokemon"/>
+    <CModel id="Hitmonlee" parent="LargePokemon"/>
+    <CModel id="Machamp" parent="LargePokemon"/>
+    <CModel id="Tyranitar" parent="LargePokemon"/>
+    <CModel id="Abra" parent="MediumPokemon"/>
+    <CModel id="Haunter" parent="MediumPokemon">
+        <ScaleMax value="0.050000,0.050000,0.050000"/>
+        <ScaleMin value="0.050000,0.050000,0.050000"/>
+    </CModel>
+    <CModel id="Dragonite" parent="LargePokemon"/>
+    <CModel id="Mew" parent="SmallPokemon"/>
+</Catalog>
+
