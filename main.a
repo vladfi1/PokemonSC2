@@ -6,11 +6,12 @@ import a.natives.color;
 import a.natives.unit;
 import a.natives.int;
 import a.natives.region;
+import a.natives.trigger;
+import a.natives.point;
 
 include "data.a"
 include "poke_data.a"
 include "unit.a"
-//include "workaround.a"
 
 static {
     initPlayers(2);
@@ -23,8 +24,9 @@ static {
 
     //unit u = unit.create("RentalCenters", 0, 1, Point(40, 40), 0);
 
-    createUnitHelper("Tower", 7, point.fromId(1));
-    createUnitHelper("Tower", 7, point.fromId(2));
+    //point.fromId doesn't work :(
+    //createUnitHelper("Tower", 7, point.fromId(1));
+    //createUnitHelper("Tower", 7, point.fromId(2));
     //createUnitHelper("Tower", 1, point.fromId(3));
     //createUnitHelper("Tower", 1, point.fromId(4));
 
@@ -32,11 +34,11 @@ static {
 
     //trigger.create(print5.name).addEventUnitAbility(u.getUnitRef(), AbilityCommand("Print", 0), -3, false);
 
-    timer t = timer.create();
-    t.start(5, true, timer.GAME_TIME);
+    //timer t = timer.create();
+    //t.start(5, true, timer.GAME_TIME);
 
-    trigger.create(transferUnits.name).addEventTimer(t);
-
+    //trigger.create(transferUnits.name).addEventTimer(t);
+    
     for (int i=1; i<=3; ++i) {
         for (int j=i+1; j<=3; ++j) {
             libNtve_gf_SetAlliance(i, j, 2);

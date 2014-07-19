@@ -1,4 +1,4 @@
-//Andromeda generated code @ Fri Jul 18 21:18:41 EDT 2014
+//Andromeda generated code @ Fri Jul 18 23:21:02 EDT 2014
 
 struct Class{
 	int Class____id;
@@ -195,11 +195,8 @@ void s_System__debug(string message);
 void s_System__debug__1(string message,bool showIngame);
 void s_System__print(string message);
 point s_point__create(fixed x,fixed y);
-point s_point__fromId(int id);
 fixed point__getX(point this);
 fixed point__getY(point this);
-timer s_timer__create();
-void timer__start(timer this,fixed duration,bool periodic,int timeType);
 color s_color__create(fixed red,fixed green,fixed blue,fixed alpha);
 int s_LeaderBoard__create(int columns,int rows,text name,color c);
 void LeaderBoard__setItemText(int this,int column,int row,text value);
@@ -218,20 +215,24 @@ point region__get__center(region this);
 region s_region__fromID(int id);
 //Static init
 bool init___global2(bool A__1,bool A__2);
+trigger s_trigger__create(string func);
+void trigger__addEventChatMessage(trigger this,int p2,string p3,bool p4);
 //Static init
 bool init___global3(bool A__1,bool A__2);
+//Static init
+bool init___global4(bool A__1,bool A__2);
 //Constructor for class Char
 int new__Char(int A__class,int code,string str);
 int s_Char__compare(int c1,int c2);
 //Static init
-bool init___global4(bool A__1,bool A__2);
+bool init___global5(bool A__1,bool A__2);
 int CharComparator__compare(int this,int c1,int c2);
 //Constructor for class PokemonSpecies
 int new__PokemonSpecies(int A__class,string nam,int hp,int basePower,int atk,int def,int satk,int sdef,int moveType,string type1,string type2);
 string typeCodeToName(int code);
 int typeNameToCode(string name);
 //Static init
-bool init___global5(bool A__1,bool A__2);
+bool init___global6(bool A__1,bool A__2);
 int speciesFromString(string a);
 //Constructor for class Pokemon
 int new__Pokemon(int A__class,int s,int level,int player,point p);
@@ -240,11 +241,6 @@ fixed Pokemon__getTypeAdvantage(int this,int other,int typeIndex);
 fixed Pokemon__getTypeStats(int this,int t1,int t2);
 unit Pokemon__getUnit(int this);
 void Pokemon__setUnit(int this,unit u);
-//Static init
-bool init___global6(bool A__1,bool A__2);
-trigger s_trigger__create(string func);
-void trigger__addEventChatMessage(trigger this,int p2,string p3,bool p4);
-void trigger__addEventTimer(trigger this,timer p2);
 //Constructor for class MapEntry
 int new__MapEntry(int A__class,int key,int value);
 //Constructor for class TreeMap
@@ -404,6 +400,7 @@ int MC___ArrayList;
 playergroup s_System__ALL_PLAYERS = PlayerGroupAll();
 int s_int__intComparator;
 int s_int__intHasher;
+string[99] s_Key__displayText;
 const int NUM_TYPES = 17;
 string[17] types;
 fixed[17][17] typeChart;
@@ -414,7 +411,6 @@ const int PHYSICAL = 0;
 const int SPECIAL = 1;
 const int NUM_POKEMON = 5;
 int[5] pBase;
-string[99] s_Key__displayText;
 int[16412] s_Heap__array;
 int[15] s_Heap__head;
 int[15] s_Heap__count;
@@ -995,24 +991,12 @@ point s_point__create(fixed x,fixed y){
 	return Point(x, y);
 }
 
-point s_point__fromId(int id){
-	return PointFromId(id);
-}
-
 fixed point__getX(point this){
 	return PointGetX(this);
 }
 
 fixed point__getY(point this){
 	return PointGetY(this);
-}
-
-timer s_timer__create(){
-	return TimerCreate();
-}
-
-void timer__start(timer this,fixed duration,bool periodic,int timeType){
-	TimerStart(this, duration, periodic, timeType);
 }
 
 color s_color__create(fixed red,fixed green,fixed blue,fixed alpha){
@@ -1080,6 +1064,118 @@ region s_region__fromID(int id){
 
 //Static init
 bool init___global2(bool A__1,bool A__2){
+	s_Key__displayText[0] = "SHIFT";
+	s_Key__displayText[1] = "CTRL";
+	s_Key__displayText[2] = "ALT";
+	s_Key__displayText[3] = "0";
+	s_Key__displayText[4] = "1";
+	s_Key__displayText[5] = "2";
+	s_Key__displayText[6] = "3";
+	s_Key__displayText[7] = "4";
+	s_Key__displayText[8] = "5";
+	s_Key__displayText[9] = "6";
+	s_Key__displayText[10] = "7";
+	s_Key__displayText[11] = "8";
+	s_Key__displayText[12] = "9";
+	s_Key__displayText[13] = "A";
+	s_Key__displayText[14] = "B";
+	s_Key__displayText[15] = "C";
+	s_Key__displayText[16] = "D";
+	s_Key__displayText[17] = "E";
+	s_Key__displayText[18] = "F";
+	s_Key__displayText[19] = "G";
+	s_Key__displayText[20] = "H";
+	s_Key__displayText[21] = "I";
+	s_Key__displayText[22] = "J";
+	s_Key__displayText[23] = "K";
+	s_Key__displayText[24] = "L";
+	s_Key__displayText[25] = "M";
+	s_Key__displayText[26] = "N";
+	s_Key__displayText[27] = "O";
+	s_Key__displayText[28] = "P";
+	s_Key__displayText[29] = "Q";
+	s_Key__displayText[30] = "R";
+	s_Key__displayText[31] = "S";
+	s_Key__displayText[32] = "T";
+	s_Key__displayText[33] = "U";
+	s_Key__displayText[34] = "V";
+	s_Key__displayText[35] = "W";
+	s_Key__displayText[36] = "X";
+	s_Key__displayText[37] = "Y";
+	s_Key__displayText[38] = "Z";
+	s_Key__displayText[39] = " ";
+	s_Key__displayText[40] = "`";
+	s_Key__displayText[41] = "NUM0";
+	s_Key__displayText[42] = "NUM1";
+	s_Key__displayText[43] = "NUM2";
+	s_Key__displayText[44] = "NUM3";
+	s_Key__displayText[45] = "NUM4";
+	s_Key__displayText[46] = "NUM5";
+	s_Key__displayText[47] = "NUM6";
+	s_Key__displayText[48] = "NUM7";
+	s_Key__displayText[49] = "NUM8";
+	s_Key__displayText[50] = "NUM9";
+	s_Key__displayText[51] = "NUM+";
+	s_Key__displayText[52] = "NUM-";
+	s_Key__displayText[53] = "NUM*";
+	s_Key__displayText[54] = "NUM/";
+	s_Key__displayText[55] = "NUM.";
+	s_Key__displayText[56] = "=";
+	s_Key__displayText[57] = "-";
+	s_Key__displayText[58] = "(";
+	s_Key__displayText[59] = ")";
+	s_Key__displayText[60] = "\\";
+	s_Key__displayText[61] = ";";
+	s_Key__displayText[62] = "'";
+	s_Key__displayText[63] = ",";
+	s_Key__displayText[64] = ".";
+	s_Key__displayText[65] = "/";
+	s_Key__displayText[66] = "ESC";
+	s_Key__displayText[67] = "\n";
+	s_Key__displayText[68] = "BACKSPACE";
+	s_Key__displayText[69] = "\t";
+	s_Key__displayText[70] = "LEFT";
+	s_Key__displayText[71] = "UP";
+	s_Key__displayText[72] = "RIGHT";
+	s_Key__displayText[73] = "DOWN";
+	s_Key__displayText[74] = "INSERT";
+	s_Key__displayText[75] = "DELETE";
+	s_Key__displayText[76] = "HOME";
+	s_Key__displayText[77] = "END";
+	s_Key__displayText[78] = "PAGEUP";
+	s_Key__displayText[79] = "PAGEDOWN";
+	s_Key__displayText[80] = "CAPSLOCK";
+	s_Key__displayText[81] = "NUMLOCK";
+	s_Key__displayText[82] = "SCROLLLOCK";
+	s_Key__displayText[83] = "PAUSE";
+	s_Key__displayText[84] = "PRINT";
+	s_Key__displayText[85] = ">>";
+	s_Key__displayText[86] = "<<";
+	s_Key__displayText[87] = "F1";
+	s_Key__displayText[88] = "F2";
+	s_Key__displayText[89] = "F3";
+	s_Key__displayText[90] = "F4";
+	s_Key__displayText[91] = "F5";
+	s_Key__displayText[92] = "F6";
+	s_Key__displayText[93] = "F7";
+	s_Key__displayText[94] = "F8";
+	s_Key__displayText[95] = "F9";
+	s_Key__displayText[96] = "F10";
+	s_Key__displayText[97] = "F11";
+	s_Key__displayText[98] = "F12";
+	return true;
+}
+
+trigger s_trigger__create(string func){
+	return TriggerCreate(func);
+}
+
+void trigger__addEventChatMessage(trigger this,int p2,string p3,bool p4){
+	TriggerAddEventChatMessage(this, p2, p3, p4);
+}
+
+//Static init
+bool init___global3(bool A__1,bool A__2){
 	types[0] = "normal";
 	types[1] = "fire";
 	types[2] = "water";
@@ -1390,7 +1486,7 @@ bool init___global2(bool A__1,bool A__2){
 }
 
 //Static init
-bool init___global3(bool A__1,bool A__2){
+bool init___global4(bool A__1,bool A__2){
 	s_Char__chars[1] = new__Char(MC___Char,1, "");
 	s_Char__chars[2] = new__Char(MC___Char,2, "");
 	s_Char__chars[3] = new__Char(MC___Char,3, "");
@@ -1533,7 +1629,7 @@ int s_Char__compare(int c1,int c2){
 }
 
 //Static init
-bool init___global4(bool A__1,bool A__2){
+bool init___global5(bool A__1,bool A__2){
 	s_Char__comparator = alloc___Comparator(MC___CharComparator);
 	s_Char__hasher = alloc___Hasher(MC___CharHasher);
 	return true;
@@ -1581,7 +1677,7 @@ int typeNameToCode(string name){
 }
 
 //Static init
-bool init___global5(bool A__1,bool A__2){
+bool init___global6(bool A__1,bool A__2){
 	pBase[0] = new__PokemonSpecies(MC___PokemonSpecies,"Charizard", 100, 100, 100, 100, 100, 100, 0, "fighting", "none");
 	pBase[1] = new__PokemonSpecies(MC___PokemonSpecies,"Pikachu", 100, 100, 100, 100, 100, 100, 1, "ghost", "none");
 	pBase[2] = new__PokemonSpecies(MC___PokemonSpecies,"Chikorita", 25, 25, 25, 25, 25, 25, 1, "grass", "None");
@@ -1667,122 +1763,6 @@ unit Pokemon__getUnit(int this){
 
 void Pokemon__setUnit(int this,unit u){
 	Pokemon___memory[this].Pokemon___unit = u;
-}
-
-//Static init
-bool init___global6(bool A__1,bool A__2){
-	s_Key__displayText[0] = "SHIFT";
-	s_Key__displayText[1] = "CTRL";
-	s_Key__displayText[2] = "ALT";
-	s_Key__displayText[3] = "0";
-	s_Key__displayText[4] = "1";
-	s_Key__displayText[5] = "2";
-	s_Key__displayText[6] = "3";
-	s_Key__displayText[7] = "4";
-	s_Key__displayText[8] = "5";
-	s_Key__displayText[9] = "6";
-	s_Key__displayText[10] = "7";
-	s_Key__displayText[11] = "8";
-	s_Key__displayText[12] = "9";
-	s_Key__displayText[13] = "A";
-	s_Key__displayText[14] = "B";
-	s_Key__displayText[15] = "C";
-	s_Key__displayText[16] = "D";
-	s_Key__displayText[17] = "E";
-	s_Key__displayText[18] = "F";
-	s_Key__displayText[19] = "G";
-	s_Key__displayText[20] = "H";
-	s_Key__displayText[21] = "I";
-	s_Key__displayText[22] = "J";
-	s_Key__displayText[23] = "K";
-	s_Key__displayText[24] = "L";
-	s_Key__displayText[25] = "M";
-	s_Key__displayText[26] = "N";
-	s_Key__displayText[27] = "O";
-	s_Key__displayText[28] = "P";
-	s_Key__displayText[29] = "Q";
-	s_Key__displayText[30] = "R";
-	s_Key__displayText[31] = "S";
-	s_Key__displayText[32] = "T";
-	s_Key__displayText[33] = "U";
-	s_Key__displayText[34] = "V";
-	s_Key__displayText[35] = "W";
-	s_Key__displayText[36] = "X";
-	s_Key__displayText[37] = "Y";
-	s_Key__displayText[38] = "Z";
-	s_Key__displayText[39] = " ";
-	s_Key__displayText[40] = "`";
-	s_Key__displayText[41] = "NUM0";
-	s_Key__displayText[42] = "NUM1";
-	s_Key__displayText[43] = "NUM2";
-	s_Key__displayText[44] = "NUM3";
-	s_Key__displayText[45] = "NUM4";
-	s_Key__displayText[46] = "NUM5";
-	s_Key__displayText[47] = "NUM6";
-	s_Key__displayText[48] = "NUM7";
-	s_Key__displayText[49] = "NUM8";
-	s_Key__displayText[50] = "NUM9";
-	s_Key__displayText[51] = "NUM+";
-	s_Key__displayText[52] = "NUM-";
-	s_Key__displayText[53] = "NUM*";
-	s_Key__displayText[54] = "NUM/";
-	s_Key__displayText[55] = "NUM.";
-	s_Key__displayText[56] = "=";
-	s_Key__displayText[57] = "-";
-	s_Key__displayText[58] = "(";
-	s_Key__displayText[59] = ")";
-	s_Key__displayText[60] = "\\";
-	s_Key__displayText[61] = ";";
-	s_Key__displayText[62] = "'";
-	s_Key__displayText[63] = ",";
-	s_Key__displayText[64] = ".";
-	s_Key__displayText[65] = "/";
-	s_Key__displayText[66] = "ESC";
-	s_Key__displayText[67] = "\n";
-	s_Key__displayText[68] = "BACKSPACE";
-	s_Key__displayText[69] = "\t";
-	s_Key__displayText[70] = "LEFT";
-	s_Key__displayText[71] = "UP";
-	s_Key__displayText[72] = "RIGHT";
-	s_Key__displayText[73] = "DOWN";
-	s_Key__displayText[74] = "INSERT";
-	s_Key__displayText[75] = "DELETE";
-	s_Key__displayText[76] = "HOME";
-	s_Key__displayText[77] = "END";
-	s_Key__displayText[78] = "PAGEUP";
-	s_Key__displayText[79] = "PAGEDOWN";
-	s_Key__displayText[80] = "CAPSLOCK";
-	s_Key__displayText[81] = "NUMLOCK";
-	s_Key__displayText[82] = "SCROLLLOCK";
-	s_Key__displayText[83] = "PAUSE";
-	s_Key__displayText[84] = "PRINT";
-	s_Key__displayText[85] = ">>";
-	s_Key__displayText[86] = "<<";
-	s_Key__displayText[87] = "F1";
-	s_Key__displayText[88] = "F2";
-	s_Key__displayText[89] = "F3";
-	s_Key__displayText[90] = "F4";
-	s_Key__displayText[91] = "F5";
-	s_Key__displayText[92] = "F6";
-	s_Key__displayText[93] = "F7";
-	s_Key__displayText[94] = "F8";
-	s_Key__displayText[95] = "F9";
-	s_Key__displayText[96] = "F10";
-	s_Key__displayText[97] = "F11";
-	s_Key__displayText[98] = "F12";
-	return true;
-}
-
-trigger s_trigger__create(string func){
-	return TriggerCreate(func);
-}
-
-void trigger__addEventChatMessage(trigger this,int p2,string p3,bool p4){
-	TriggerAddEventChatMessage(this, p2, p3, p4);
-}
-
-void trigger__addEventTimer(trigger this,timer p2){
-	TriggerAddEventTimer(this, p2);
 }
 
 //Constructor for class MapEntry
@@ -2327,19 +2307,13 @@ void assignUnit(int u,int player){
 
 //Static init
 bool init___global9(bool A__1,bool A__2){
-	timer t;
 	int i;
 	int j;
 	initPlayers(2);
 	createBoard(2);
 	VisEnable(1, false);
 	CameraPan(1, Point(50.0, 50.0), 0.0, 0.0, 0.0, false);
-	createUnitHelper("Tower", 7, s_point__fromId(1));
-	createUnitHelper("Tower", 7, s_point__fromId(2));
 	trigger__addEventChatMessage(s_trigger__create("n_createUnit"),-1, "", false);
-	t = s_timer__create();
-	timer__start(t,5.0, true, 0);
-	trigger__addEventTimer(s_trigger__create("transferUnits"),t);
 	//generated for-loop
 	i = 1;
 	while(i <= 3){
@@ -2443,17 +2417,17 @@ void initAndromeda(){
 	A__classInit();
 	t = TriggerCreate("init___global1");
 	TriggerAddEventMapInit(t);
-	t = TriggerCreate("init___global6");
-	TriggerAddEventMapInit(t);
-	t = TriggerCreate("init___global3");
+	t = TriggerCreate("init___global2");
 	TriggerAddEventMapInit(t);
 	t = TriggerCreate("init___global4");
 	TriggerAddEventMapInit(t);
+	t = TriggerCreate("init___global5");
+	TriggerAddEventMapInit(t);
 	t = TriggerCreate("init___global7");
 	TriggerAddEventMapInit(t);
-	t = TriggerCreate("init___global2");
+	t = TriggerCreate("init___global3");
 	TriggerAddEventMapInit(t);
-	t = TriggerCreate("init___global5");
+	t = TriggerCreate("init___global6");
 	TriggerAddEventMapInit(t);
 	t = TriggerCreate("init___global8");
 	TriggerAddEventMapInit(t);
