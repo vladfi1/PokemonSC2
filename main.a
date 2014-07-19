@@ -10,7 +10,7 @@ import a.natives.region;
 include "data.a"
 include "poke_data.a"
 include "unit.a"
-include "workaround.a"
+//include "workaround.a"
 
 static {
     initPlayers(2);
