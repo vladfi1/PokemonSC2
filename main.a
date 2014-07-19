@@ -9,7 +9,7 @@ import a.natives.region;
 import a.natives.trigger;
 import a.natives.point;
 
-include "data.a"
+include "types.a"
 include "poke_data.a"
 include "unit.a"
 

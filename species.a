@@ -1,4 +1,4 @@
-include "data.a"
+include "types.a"
 
 const int PHYSICAL = 0;
 const int SPECIAL = 1;

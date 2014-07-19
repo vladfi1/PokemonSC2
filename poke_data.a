@@ -1,6 +1,6 @@
 import a.wrapper.Unit;
 
-include "data.a"
+include "types.a"
 include "species_data.a"
 
 public class Pokemon {
