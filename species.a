@@ -3,6 +3,26 @@ include "types.a"
 const int PHYSICAL = 0;
 const int SPECIAL = 1;
 
+const int NUM_POKEMON = 5;
+PokemonSpecies[NUM_POKEMON] pBase;
+
+static {
+    pBase[0] = new PokemonSpecies("Charizard", 100, 100, 100, 100, 100, 100, PHYSICAL, "fighting", "none");
+    pBase[1] = new PokemonSpecies("Pikachu", 100,100,100,100,100,100, SPECIAL, "ghost", "none");
+    pBase[2] = new PokemonSpecies("Chikorita", 25, 25, 25, 25, 25, 25, SPECIAL, "grass", "None");
+    pBase[3] = new PokemonSpecies("Squirtle", 10, 10, 10, 10, 10, 10, PHYSICAL, "fire", "fighting");
+    pBase[4] = new PokemonSpecies("Tower", 10, 10, 10, 10, 10, 10, PHYSICAL, "fire", "fighting");
+}
+
+public PokemonSpecies speciesFromString(string a) {
+    for (int i=0; i<NUM_POKEMON; ++i) {
+        if (pBase[i].nam == a) {
+            return pBase[i];
+        }
+    }
+    return null;
+}
+
 public class PokemonSpecies {
     public int hp, basePower, atk, def, satk, sdef, moveType, type1, type2;
     public string nam;
@@ -20,19 +40,3 @@ public class PokemonSpecies {
         this.type2 = typeNameToCode(type2);
     }
 }
-public string typeCodeToName(int code) {
-    if (code == -1) {
-        return "none";
-    }
-    return types[code];
-}
-
-public int typeNameToCode(string name) {
-    for (int i=0; i<NUM_TYPES; i+=1) {
-        if (types[i] == name) {
-            return i;
-        }
-    }
-    return -1;
-}
-

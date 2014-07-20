@@ -10,7 +10,7 @@ import a.natives.trigger;
 import a.natives.point;
 
 include "types.a"
-include "poke_data.a"
+include "pokemon.a"
 include "unit.a"
 
 static {

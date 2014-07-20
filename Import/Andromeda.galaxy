@@ -1,4 +1,4 @@
-//Andromeda generated code @ Sat Jul 19 19:30:56 EDT 2014
+//Andromeda generated code @ Sat Jul 19 20:27:10 EDT 2014
 
 struct Class{
 	int Class____id;
@@ -219,6 +219,8 @@ trigger s_trigger__create(string func);
 void trigger__addEventChatMessage(trigger this,int p2,string p3,bool p4);
 //Static init
 bool init___global3(bool A__1,bool A__2);
+string typeCodeToName(int code);
+int typeNameToCode(string name);
 //Static init
 bool init___global4(bool A__1,bool A__2);
 //Constructor for class Char
@@ -229,8 +231,6 @@ bool init___global5(bool A__1,bool A__2);
 int CharComparator__compare(int this,int c1,int c2);
 //Constructor for class PokemonSpecies
 int new__PokemonSpecies(int A__class,string nam,int hp,int basePower,int atk,int def,int satk,int sdef,int moveType,string type1,string type2);
-string typeCodeToName(int code);
-int typeNameToCode(string name);
 //Static init
 bool init___global6(bool A__1,bool A__2);
 int speciesFromString(string a);
@@ -1485,6 +1485,27 @@ bool init___global3(bool A__1,bool A__2){
 	return true;
 }
 
+string typeCodeToName(int code){
+	if(code == -1){
+		return "none";
+	}
+	return types[code];
+}
+
+int typeNameToCode(string name){
+	int i;
+	//generated for-loop
+	i = 0;
+	while(i < 17){
+		if(types[i] == name){
+			return i;
+		}
+		
+		i += 1;
+	}
+	return -1;
+}
+
 //Static init
 bool init___global4(bool A__1,bool A__2){
 	s_Char__chars[1] = new__Char(MC___Char,1, "");
@@ -1653,27 +1674,6 @@ int new__PokemonSpecies(int A__class,string nam,int hp,int basePower,int atk,int
 	PokemonSpecies___memory[this].PokemonSpecies__type1 = typeNameToCode(type1);
 	PokemonSpecies___memory[this].PokemonSpecies__type2 = typeNameToCode(type2);
 	return this;
-}
-
-string typeCodeToName(int code){
-	if(code == -1){
-		return "none";
-	}
-	return types[code];
-}
-
-int typeNameToCode(string name){
-	int i;
-	//generated for-loop
-	i = 0;
-	while(i < 17){
-		if(types[i] == name){
-			return i;
-		}
-		
-		i += 1;
-	}
-	return -1;
 }
 
 //Static init

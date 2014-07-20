@@ -1,7 +1,7 @@
 import a.wrapper.Unit;
 
 include "types.a"
-include "species_data.a"
+include "species.a"
 
 public class Pokemon {
     public int level, basePower, atk, def, satk, sdef, moveType, type1, type2;

@@ -7,8 +7,8 @@ import a.util.Map;
 import a.util.ArrayList;
 import a.wrapper.Unit;
 
-include "poke_data.a"
-include "species_data.a"
+include "pokemon.a"
+include "species.a"
 
 int inc = 1;
 Map<int, Pokemon> map = new TreeMap<int, Pokemon>(int.getComparator());
