@@ -27,7 +27,7 @@
         <RandomDelayMin value="0"/>
         <RandomDelayMax value="0"/>
         <DisplayEffect value="HydroPumpDamage"/>
-        <Effect value="HydroPumpInitial"/>
+        <Effect value="HydroPumpLaunch"/>
     </CWeaponLegacy>
     <CWeaponLegacy id="WaterGun">
         <Range value="4"/>
