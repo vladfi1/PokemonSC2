@@ -11,6 +11,7 @@ public class PokemonSpecies {
         species.addLast(new PokemonSpecies("Chikorita", 25, 25, 25, 25, 25, Type.GRASS, Move.generic));
         species.addLast(new PokemonSpecies("Squirtle", 10, 10, 10, 10, 10, Type.WATER, Move.generic));
         species.addLast(new PokemonSpecies("Gengar", 10, 10, 10, 10, 10, Type.GHOST, Type.POISON, Move.shadowBall));
+        species.addLast(new PokemonSpecies("Blastoise", 10, 10, 10, 10, 10, Type.WATER, Move.hydroPump));
         
         species.addLast(new PokemonSpecies("Tower", 10, 10, 10, 10, 10, Type.FIRE, Type.STEEL, Move.flamethrower));
     }
