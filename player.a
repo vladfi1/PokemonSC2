@@ -69,7 +69,7 @@ class Trainer {
     }
     
     public void addPokemon(PokemonSpecies species) {
-        pokemon.add(new Pokemon(species, 5, (int) player, team.spawn));
+        pokemon.add(new Pokemon(species, 10, (int) player, team.spawn));
     }
 }
 
