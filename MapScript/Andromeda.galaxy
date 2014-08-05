@@ -1,4 +1,4 @@
-//Andromeda generated code @ Mon Aug 04 23:51:46 EDT 2014
+//Andromeda generated code @ Tue Aug 05 06:11:09 EDT 2014
 
 struct Class{
 	int Class____id;
@@ -202,7 +202,7 @@ int new__Move(int A__class,string name,int power,int type,int kind);
 string Move__toString(int this);
 //Static init
 bool init___global4(bool A__1,bool A__2);
-int s_PokemonSpecies__fromString(string s);
+int s_PokemonSpecies__fromString(string name);
 //Constructor for class PokemonSpecies
 int new__PokemonSpecies(int A__class,string name,int hp,int atk,int def,int satk,int sdef,int type1,int type2,int move);
 //Constructor for class PokemonSpecies
@@ -397,8 +397,9 @@ const int s_Kind__SPECIAL = 1;
 string[2] s_Kind__kind_names;
 int s_Move__generic = new__Move(MC___Move,"Generic", 50, 0, 0);
 int s_Move__flamethrower = new__Move(MC___Move,"Flamethrower", 95, 1, 1);
-const int s_PokemonSpecies__NUM_POKEMON = 5;
-int[5] s_PokemonSpecies__pBase;
+int s_Move__shadowBall = new__Move(MC___Move,"Shadow Ball", 80, 13, 1);
+int s_Move__hydroPump = new__Move(MC___Move,"Hydro Pump", 120, 2, 1);
+int s_PokemonSpecies__species;
 int[16412] s_Heap__array;
 int[15] s_Heap__head;
 int[15] s_Heap__count;
@@ -1427,7 +1428,6 @@ fixed Type__getAdvantage(int this,int defending){
 	if(defending == -1){
 		return 1.0;
 	}
-	s_System__debug(Type__toString(this));
 	return s_Type__typeChart[this][defending];
 }
 
@@ -1458,25 +1458,31 @@ string Move__toString(int this){
 
 //Static init
 bool init___global4(bool A__1,bool A__2){
-	s_PokemonSpecies__pBase[0] = new__PokemonSpecies(MC___PokemonSpecies,"Charizard", 100, 100, 100, 100, 100, 1, 9, s_Move__flamethrower);
-	s_PokemonSpecies__pBase[1] = new__PokemonSpecies__1(MC___PokemonSpecies,"Pikachu", 100, 100, 100, 100, 100, 3, s_Move__generic);
-	s_PokemonSpecies__pBase[2] = new__PokemonSpecies__1(MC___PokemonSpecies,"Chikorita", 25, 25, 25, 25, 25, 4, s_Move__generic);
-	s_PokemonSpecies__pBase[3] = new__PokemonSpecies__1(MC___PokemonSpecies,"Squirtle", 10, 10, 10, 10, 10, 2, s_Move__generic);
-	s_PokemonSpecies__pBase[4] = new__PokemonSpecies(MC___PokemonSpecies,"Tower", 10, 10, 10, 10, 10, 1, 16, s_Move__flamethrower);
+	s_PokemonSpecies__species = new__ArrayList__1(MC___ArrayList,100);
+	ArrayList__addLast(s_PokemonSpecies__species,new__PokemonSpecies(MC___PokemonSpecies,"Charizard", 10, 10, 10, 10, 10, 1, 9, s_Move__flamethrower));
+	ArrayList__addLast(s_PokemonSpecies__species,new__PokemonSpecies__1(MC___PokemonSpecies,"Pikachu", 10, 10, 10, 10, 10, 3, s_Move__generic));
+	ArrayList__addLast(s_PokemonSpecies__species,new__PokemonSpecies__1(MC___PokemonSpecies,"Chikorita", 25, 25, 25, 25, 25, 4, s_Move__generic));
+	ArrayList__addLast(s_PokemonSpecies__species,new__PokemonSpecies__1(MC___PokemonSpecies,"Squirtle", 10, 10, 10, 10, 10, 2, s_Move__generic));
+	ArrayList__addLast(s_PokemonSpecies__species,new__PokemonSpecies(MC___PokemonSpecies,"Gengar", 10, 10, 10, 10, 10, 13, 7, s_Move__shadowBall));
+	ArrayList__addLast(s_PokemonSpecies__species,new__PokemonSpecies__1(MC___PokemonSpecies,"Blastoise", 10, 10, 10, 10, 10, 2, s_Move__hydroPump));
+	ArrayList__addLast(s_PokemonSpecies__species,new__PokemonSpecies(MC___PokemonSpecies,"Tower", 10, 10, 10, 10, 10, 1, 16, s_Move__flamethrower));
 	return true;
 }
 
-int s_PokemonSpecies__fromString(string s){
+int s_PokemonSpecies__fromString(string name){
 	int i;
+	int s;
 	//generated for-loop
 	i = 0;
-	while(i < 5){
-		if(PokemonSpecies___memory[s_PokemonSpecies__pBase[i]].PokemonSpecies__name == s){
-			return s_PokemonSpecies__pBase[i];
+	while(i < ArrayList__size(s_PokemonSpecies__species)){
+		s = ArrayList__getIndex(s_PokemonSpecies__species,i);
+		if(PokemonSpecies___memory[s].PokemonSpecies__name == name){
+			return s;
 		}
 		
 		i += 1;
 	}
+	s_System__debug(name);
 	return 0;
 }
 
@@ -1908,6 +1914,8 @@ int Pokemon__damage(int this,int other){
 	fixed defense;
 	fixed damage;
 	fixed effectiveness;
+	fixed stab;
+	fixed random;
 	if(Move___memory[move].Move__kind == 0){
 		attack = IntToFixed(Pokemon__getAtk(this));
 		defense = IntToFixed(Pokemon__getDef(other));
@@ -1918,13 +1926,18 @@ int Pokemon__damage(int this,int other){
 	damage = ((2.0 * IntToFixed(Pokemon___memory[this].Pokemon__level) + 10.0) / 250.0 * attack / defense * IntToFixed(Move___memory[move].Move__power) + 2.0);
 	effectiveness = Pokemon__getTypeAdvantage(this,other);
 	damage *= effectiveness;
+	stab = 1.0;
+	if(Move___memory[move].Move__type == PokemonSpecies___memory[Pokemon___memory[this].Pokemon__species].PokemonSpecies__type1 || Move___memory[move].Move__type == PokemonSpecies___memory[Pokemon___memory[this].Pokemon__species].PokemonSpecies__type2){
+		stab = 1.5;
+	}
+	damage *= stab;
+	random = 1.0;
+	damage *= random;
 	return FixedToInt(damage);
 }
 
 fixed Pokemon__getTypeAdvantage(int this,int other){
-	int attacking;
-	s_System__debug(Move__toString(PokemonSpecies___memory[Pokemon___memory[this].Pokemon__species].PokemonSpecies__move));
-	attacking = Move___memory[PokemonSpecies___memory[Pokemon___memory[this].Pokemon__species].PokemonSpecies__move].Move__type;
+	int attacking = Move___memory[PokemonSpecies___memory[Pokemon___memory[this].Pokemon__species].PokemonSpecies__move].Move__type;
 	return Type__getAdvantage(attacking,PokemonSpecies___memory[Pokemon___memory[other].Pokemon__species].PokemonSpecies__type1) * Type__getAdvantage(attacking,PokemonSpecies___memory[Pokemon___memory[other].Pokemon__species].PokemonSpecies__type2);
 }
 
@@ -1953,7 +1966,10 @@ bool damageUnit(bool conditions,bool actions){
 	unit trg = EventUnit();
 	int p_src = FixedToInt(unit__getCustomValue(src,0));
 	int p_trg = FixedToInt(unit__getCustomValue(trg,0));
-	int damage = Pokemon__damage(p_src,p_trg);
+	int damage;
+	s_System__debug(Move__toString(PokemonSpecies___memory[Pokemon___memory[p_src].Pokemon__species].PokemonSpecies__move));
+	damage = Pokemon__damage(p_src,p_trg);
+	s_System__debug(IntToString(damage));
 	Pokemon___memory[p_trg].Pokemon__hp -= damage;
 	if(Pokemon___memory[p_trg].Pokemon__hp < 0){
 		Pokemon___memory[p_trg].Pokemon__hp = 0;
@@ -2022,8 +2038,7 @@ int new__Trainer(int A__class,int player,int team){
 }
 
 void Trainer__addPokemon(int this,int species){
-	s_System__debug(Team___memory[Trainer___memory[this].Trainer__team].Team__name);
-	vcall___Set__add(Trainer___memory[this].Trainer__pokemon,new__Pokemon(MC___Pokemon,species, 5, Trainer___memory[this].Trainer__player, Team___memory[Trainer___memory[this].Trainer__team].Team__spawn));
+	vcall___Set__add(Trainer___memory[this].Trainer__pokemon,new__Pokemon(MC___Pokemon,species, 10, Trainer___memory[this].Trainer__player, Team___memory[Trainer___memory[this].Trainer__team].Team__spawn));
 }
 
 //Static init
