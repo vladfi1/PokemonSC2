@@ -70,7 +70,6 @@ public class Pokemon {
         
         fixed effectiveness = getTypeAdvantage(other);
         damage *= effectiveness;
-        return (int) damage;/*
         
         fixed stab = 1.0;
         if (move.type == species.type1 || move.type == species.type2) {
@@ -82,7 +81,7 @@ public class Pokemon {
         //random = RandomFixed(0.85, 1.0);
         damage *= random;
         
-        return (int) damage;*/
+        return (int) damage;
     }
     
     public fixed getTypeAdvantage(Pokemon other) {
