@@ -1,0 +1,44 @@
+include "types.a"
+
+typedef Kind uses int;
+
+public enrich Kind {
+    public static const Kind PHYSICAL = (Kind)0;
+    public static const Kind SPECIAL = (Kind)1;
+    
+    private static string[2] kind_names;
+
+    static {
+        kind_names[0] = "PHYSICAL";
+        kind_names[1] = "SPECIAL";
+    }
+
+    public string toString() {
+        return kind_names[(int)this];
+    }
+}
+
+class Move {
+    public static Move generic = new Move("Generic", 50, Type.NORMAL, Kind.PHYSICAL);
+    public static Move flamethrower = new Move("Flamethrower", 95, Type.FIRE, Kind.SPECIAL);
+    
+    // Name of this move.
+    public string name;
+    // Base power of the attack.
+    public int power;
+    // Type of the attack (one of 17).
+    public Type type;
+    // Physical or Special.
+    public Kind kind;
+    
+    public Move(string name, int power, Type type, Kind kind) {
+        this.name = name;
+        this.power = power;
+        this.type = type;
+        this.kind = kind;
+    }
+    
+    public string toString() {
+        return name + ", power " + (string) power + ", " + type.toString() + " type, " + kind.toString();
+    }
+}

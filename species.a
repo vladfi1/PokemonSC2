@@ -1,42 +1,50 @@
 include "types.a"
-
-const int PHYSICAL = 0;
-const int SPECIAL = 1;
-
-const int NUM_POKEMON = 5;
-PokemonSpecies[NUM_POKEMON] pBase;
-
-static {
-    pBase[0] = new PokemonSpecies("Charizard", 100, 100, 100, 100, 100, 100, PHYSICAL, "fighting", "none");
-    pBase[1] = new PokemonSpecies("Pikachu", 100,100,100,100,100,100, SPECIAL, "ghost", "none");
-    pBase[2] = new PokemonSpecies("Chikorita", 25, 25, 25, 25, 25, 25, SPECIAL, "grass", "None");
-    pBase[3] = new PokemonSpecies("Squirtle", 10, 10, 10, 10, 10, 10, PHYSICAL, "fire", "fighting");
-    pBase[4] = new PokemonSpecies("Tower", 10, 10, 10, 10, 10, 10, PHYSICAL, "fire", "fighting");
-}
-
-public PokemonSpecies speciesFromString(string a) {
-    for (int i=0; i<NUM_POKEMON; ++i) {
-        if (pBase[i].nam == a) {
-            return pBase[i];
-        }
-    }
-    return null;
-}
+include "move.a"
 
 public class PokemonSpecies {
-    public int hp, basePower, atk, def, satk, sdef, moveType, type1, type2;
-    public string nam;
+    public static const int NUM_POKEMON = 5;
+    private static PokemonSpecies[NUM_POKEMON] pBase;
 
-    public PokemonSpecies(string nam, int hp, int basePower, int atk, int def, int satk, int sdef, int moveType, string type1, string type2) {
-        this.nam = nam;
+    static {
+        pBase[0] = new PokemonSpecies("Charizard", 100, 100, 100, 100, 100, Type.FIRE, Type.FLYING, Move.flamethrower);
+        pBase[1] = new PokemonSpecies("Pikachu", 100,100,100,100,100, Type.ELECTRIC, Move.generic);
+        pBase[2] = new PokemonSpecies("Chikorita", 25, 25, 25, 25, 25, Type.GRASS, Move.generic);
+        pBase[3] = new PokemonSpecies("Squirtle", 10, 10, 10, 10, 10, Type.WATER, Move.generic);
+        pBase[4] = new PokemonSpecies("Tower", 10, 10, 10, 10, 10, Type.FIRE, Type.STEEL, Move.flamethrower);
+    }
+
+    public static PokemonSpecies fromString(string s) {
+        for (int i=0; i<NUM_POKEMON; ++i) {
+            if (pBase[i].name == s) {
+                return pBase[i];
+            }
+        }
+        return null;
+    }
+
+    // The name of this pokemon species.
+    public string name;
+    // The base stats for this species.
+    public int hp, atk, def, satk, sdef;
+    // A pokemon has 1 or 2 types.
+    public Type type1, type2;
+    
+    // For now species have a unique move.
+    public Move move;
+
+    public PokemonSpecies(string name, int hp, int atk, int def, int satk, int sdef, Type type1, Type type2, Move move) {
+        this.name = name;
         this.hp = hp;
-        this.basePower = basePower;
         this.atk = atk;
         this.def = def;
         this.satk = satk;
         this.sdef = sdef;
-        this.moveType = moveType;
-        this.type1 = typeNameToCode(type1);
-        this.type2 = typeNameToCode(type2);
+        this.type1 = type1;
+        this.type2 = type2;
+        this.move = move;
+    }
+    
+    public PokemonSpecies(string name, int hp, int atk, int def, int satk, int sdef, Type type, Move move) {
+        this(name, hp, atk, def, satk, sdef, type, Type.NONE, move);
     }
 }

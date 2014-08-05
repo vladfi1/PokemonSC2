@@ -1,0 +1,77 @@
+import a.util.Set;
+import a.util.ArraySet;
+import a.util.Map;
+import a.util.ArrayMap;
+import a.natives.Player;
+
+include "pokemon.a"
+include "species.a"
+
+static {
+    Team.left = new Team("Left Team", Point(37, 23));
+    Team.right = new Team("Right Team", Point(60, 23));
+    Team.left.enemy = Team.right;
+    Team.right.enemy = Team.left;
+    
+    Trainer.trainers = new ArrayMap<Player, Trainer>();
+    for (int p = 1; p < Player.MAX_PLAYERS; ++p) {
+        Player player = (Player) p;
+        if (player.isActive()) {
+            Team team = Team.left;
+            if (Team.right.size() < Team.left.size()) {
+                team = Team.right;
+            }
+            team.trainers.add(new Trainer(player, team));
+            System.debug("Added player " + player.toString() + " to " + team.name);
+        }
+    }
+}
+
+class Team {
+    static Team left, right;
+    
+    string name;
+    point spawn;
+    Set<Trainer> trainers;
+    Team enemy;
+    
+    Team(string name, point spawn) {
+        this.name = name;
+        this.spawn = spawn;
+        this.trainers = new ArraySet<Trainer>();
+    }
+    
+    public int size() {
+        return trainers.size();
+    }
+    
+    public string toString() {
+        return name;
+    }
+}
+
+class Trainer {
+    public static Map<Player, Trainer> trainers;
+    
+    public static Trainer getTrainer(int player) {
+        return trainers.getValue((Player)player);
+    }
+    
+    Player player;
+    Team team;
+    Set<Pokemon> pokemon;
+    
+    public Trainer(Player player, Team team) {
+        this.player = player;
+        this.team = team;
+        this.pokemon = new ArraySet<Pokemon>();
+        trainers.put(player, this);
+    }
+    
+    public void addPokemon(PokemonSpecies species) {
+        System.debug(team.name);
+        pokemon.add(new Pokemon(species, 5, (int) player, team.spawn));
+    }
+}
+
+

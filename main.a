@@ -1,26 +1,16 @@
-import a.natives.actor;
-import a.natives.point;
-import a.natives.timer;
-import a.natives.LeaderBoard;
-import a.natives.color;
-import a.natives.unit;
-import a.natives.int;
-import a.natives.region;
 import a.natives.trigger;
-import a.natives.point;
 
-include "types.a"
-include "pokemon.a"
-include "unit.a"
+include "species.a"
+include "player.a"
+
 
 static {
-    initPlayers(2);
-    createBoard(2);
+    //initPlayers(2);
+    //createBoard(2);
 
-	VisEnable(c_visTypeFog, false);
+    VisEnable(c_visTypeFog, false);
 
-    //libNtve_gf_SendActorMessageToUnit(u, "ModelSwap " + "Cube");
-	CameraPan(1, Point(50, 50), 0, 0, 0, false);
+    //CameraPan(1, Point(50, 50), 0, 0, 0, false);
 
     //unit u = unit.create("RentalCenters", 0, 1, Point(40, 40), 0);
 
@@ -30,7 +20,7 @@ static {
     //createUnitHelper("Tower", 1, point.fromId(3));
     //createUnitHelper("Tower", 1, point.fromId(4));
 
-    trigger.create(n_createUnit.name).addEventChatMessage(c_playerAny, "", false);
+    trigger.create(createUnitChat.name).addEventChatMessage(c_playerAny, "", false);
 
     //trigger.create(print5.name).addEventUnitAbility(u.getUnitRef(), AbilityCommand("Print", 0), -3, false);
 
@@ -39,6 +29,7 @@ static {
 
     //trigger.create(transferUnits.name).addEventTimer(t);
     
+    /*
     for (int i=1; i<=3; ++i) {
         for (int j=i+1; j<=3; ++j) {
             libNtve_gf_SetAlliance(i, j, 2);
@@ -46,27 +37,45 @@ static {
         }
         libNtve_gf_SetAlliance(i, 7, 2);
         libNtve_gf_SetAlliance(i+3, 8, 2);
-    }
+    }*/
 }
 
+bool createUnitChat(bool b1, bool b2) {
+    string chat = EventChatMessage(false);
+    
+    PokemonSpecies species = PokemonSpecies.fromString(chat);
+    if (species == null) {
+        System.print("Species " + chat + " does not exist!");
+        return false;
+    }
+    
+    int player = 1;
+    Trainer trainer = Trainer.getTrainer(player);
+    //System.debug("Team name: " + trainer.team.name);
+    //System.debug((string) Trainer.trainers.size());
+    trainer.addPokemon(species);
+    return true;
+}
+
+/*
 public bool print5(bool a, bool b) {
     System.debug("5");
     return false;
-}
+}*/
 
-LeaderBoard lb;
-int[12] lives;
+//LeaderBoard lb;
+//int[12] lives;
 
 /////  logistic methods
-
+/*
 public void initPlayers(int players) {
     for (int i=0; i<players; i+=1) {
         lives[i] = 20;
     }
-}
+}*/
 
 /////  leaderboard methods
-
+/*
 public LeaderBoard createBoard(int players) {
     lb = LeaderBoard.create(2, players, "Lives", color.create(100, 0, 0, 100));
 
@@ -75,18 +84,9 @@ public LeaderBoard createBoard(int players) {
         lb.setItemText(2, i+1, (string)lives[i]);
     }
     return lb;    
-}
+}*/
 
-bool n_createUnit(bool b1, bool b2) {
-    createUnitHelper(EventChatMessage(false), 1, Point(50, 50));
-    return false;
-}
-bool createUnitHelper(string nam, int player, point p) {
-    Pokemon pk = createUnit(nam, player, p);
-    assignUnit(pk, player - 1);
-    return false;
-}
-
+/*
 bool transferUnits(bool b1, bool b2) {
     for (int i=0; i<6; ++i) {
         for (int j=0; j<unitList[i].size(); ++j) {
@@ -96,14 +96,14 @@ bool transferUnits(bool b1, bool b2) {
             point p = u.getPosition();
             if (region.fromID(1).contains(p)) {
                 point newp = point.create(p.getX() + 2, p.getY());
-                Pokemon newu = createUnit(pp.nam, 7, newp);
+                Pokemon newu = createUnit(pp.name, 7, newp);
 
                 order o = OrderTargetingPoint(AbilityCommand("attack", 0), region.fromID(2).center);
                 UnitIssueOrder(newu.getUnit(), o, c_orderQueueAddToEnd);
             }
             else if (region.fromID(2).contains(p)) {
                 point newp = point.create(p.getX() - 2, p.getY());
-                Pokemon newu = createUnit(pp.nam, 8, newp);
+                Pokemon newu = createUnit(pp.name, 8, newp);
 
                 order o = OrderTargetingPoint(AbilityCommand("attack", 0), region.fromID(1).center);
                 UnitIssueOrder(newu.getUnit(), o, c_orderQueueAddToEnd);
@@ -112,6 +112,7 @@ bool transferUnits(bool b1, bool b2) {
     }
     return false;
 }
+*/
 
 /////  wave methods
 

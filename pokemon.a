@@ -1,68 +1,96 @@
-import a.wrapper.Unit;
+import a.util.Comparator;
+import a.natives.unit;
 
 include "types.a"
 include "species.a"
 
 public class Pokemon {
-    public int level, basePower, atk, def, satk, sdef, moveType, type1, type2;
-    public int hp, maxhp;
-    public string nam;
-
+    // The type of pokemon.
+    public PokemonSpecies species;
+    // The level of this pokemon.
+    public int level;
+    // The current amount of hp.
+    public int hp;
+    
+    // The SC2 unit for this pokemon.
     private unit _unit;
     
-    public Pokemon(PokemonSpecies s, int level, int player, point p) {
+    public Pokemon(PokemonSpecies species, int level, int player, point p) {
+        this.species = species;
         this.level = level;
+        this.hp = getHp();
 
-        this.nam = s.nam;
-        this.hp = s.hp + 2 * level;
-        this.maxhp = s.hp + 2 * level;
-        this.basePower = s.basePower;
-        this.atk = s.atk;
-        this.def = s.def;
-        this.satk = s.satk;
-        this.sdef = s.sdef;
-        this.moveType = s.moveType;
-        this.type1 = s.type1;
-        this.type2 = s.type2;
-
-        this._unit = unit.create(s.nam, 0, player, p, 0);
+        this._unit = unit.create(species.name, 0, player, p, 0);
+        this._unit.setPropertyInt(c_unitPropLifeMax, this.hp);
+        this._unit.setCustomValue(0, (int)this);
+        
+        TriggerAddEventUnitDamaged(TriggerCreate(damageUnit.name), _unit.getUnitRef(), c_unitDamageTypeAny, c_unitDamageEither, null);
     }
+    
+    public int getStat(int base) {
+        int iv = 31;
+        int ev = 0;
+        
+        return (iv + 2 * base + ev / 4) * level / 100 + 5;
+    }
+    
+    public int getHp() {
+        return getStat(species.hp);
+    }
+    public int getAtk() {
+        return getStat(species.atk);
+    }
+    public int getDef() {
+        return getStat(species.def);
+    }
+    public int getSAtk() {
+        return getStat(species.satk);
+    }
+    public int getSDef() {
+        return getStat(species.sdef);
+    }
+
+    // Calculates the damage this pokemon would do to another pokemon.
+    // http://bulbapedia.bulbagarden.net/wiki/Damage_calculation#Damage_formula
     public int damage(Pokemon other) {
-        int mod1 = 1;
-        int mod2 = 1;
-        int mod3 = 1;
-        int ch = 1;
-        fixed r = 100;
-        fixed stab = 1.5;
-        fixed se1 = getTypeAdvantage(other, 0);
-        fixed se2 = getTypeAdvantage(other, 1);
+        Move move = this.species.move;
+        
+        fixed attack;
+        fixed defense;
+        if (move.kind == Kind.PHYSICAL) {
+            attack = this.getAtk();
+            defense = other.getDef();
+        } else if (move.kind == Kind.SPECIAL) {
+            attack = this.getSAtk();
+            defense = other.getSDef();
+        }
+        
+        fixed damage = ((2.0 * level + 10.0) / 250 * attack / defense * move.power + 2);
+        
+        
+        fixed effectiveness = getTypeAdvantage(other);
+        damage *= effectiveness;
+        return (int) damage;/*
+        
+        fixed stab = 1.0;
+        if (move.type == species.type1 || move.type == species.type2) {
+            stab = 1.5;
+        }
+        damage *= stab;
+        
+        fixed random = 1.0;
+        //random = RandomFixed(0.85, 1.0);
+        damage *= random;
+        
+        return (int) damage;*/
+    }
+    
+    public fixed getTypeAdvantage(Pokemon other) {
+        System.debug(this.species.move.toString());
+        Type attacking = this.species.move.type;
+        return attacking.getAdvantage(other.species.type1) * attacking.getAdvantage(other.species.type2);
+    }
 
-        int use_atk = atk;
-        int use_def = other.def;
-        if (moveType == SPECIAL) {
-            use_atk = satk;
-            use_def = other.sdef;
-        }
-        int toReturn = (int)(((((((2 * level / 5) + 2) * basePower * use_atk / 50) / use_def) * mod1) + 2) * ch * mod2 * r / 100 * stab * se1 * se2 * mod3);
-
-        if (toReturn <= 0) {
-            return 0;
-        }
-        return toReturn;
-    }
-    public fixed getTypeAdvantage(Pokemon other, int typeIndex) {
-        int otherType = other.type1;
-        if (typeIndex == 1) {
-            otherType = other.type2;
-        }
-        return getTypeStats(this.type1, otherType) * getTypeStats(this.type2, otherType);
-    }
-    public fixed getTypeStats(int t1, int t2) {
-        if (t1 == -1 || t2 == -1) {
-            return 1;
-        }
-        return typeChart[t1][t2];
-    }
     public unit getUnit() {
         return _unit;
     }
@@ -74,5 +102,40 @@ public class Pokemon {
     //    p.setUnit(new Unit(_unit).clone().getValue());
     //    return p;
     //}
+    
+    public static Comparator<Pokemon> comparator = new PokemonComparator();
+    public static Hasher<Pokemon> hasher = new PokemonHasher();
+}
+
+public class PokemonComparator extends Comparator<Pokemon> {
+    public override int compare(Pokemon p1, Pokemon p2) {
+        return (int) p1 - (int) p2;
+    }
+}
+
+private class PokemonHasher extends Hasher<Pokemon> {
+	public override int hashCode(Pokemon p) {
+		return (int) p;
+	}
+	public override bool equal(Pokemon p1, Pokemon p2) {
+		return p1 == p2;
+	}
+}
+
+private bool damageUnit(bool conditions, bool actions) {
+    unit src = EventUnitDamageSourceUnit();
+    unit trg = EventUnit();
+    
+    Pokemon p_src = (Pokemon)(int)src.getCustomValue(0);
+    Pokemon p_trg = (Pokemon)(int)trg.getCustomValue(0);
+
+    int damage = p_src.damage(p_trg);
+    p_trg.hp -= damage;
+    if (p_trg.hp < 0) {
+        p_trg.hp = 0;
+    }
+    trg.setPropertyInt(c_unitPropLife, p_trg.hp);
+
+    return true;
 }
 
