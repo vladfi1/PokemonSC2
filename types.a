@@ -342,7 +342,6 @@ public enrich Type {
 
     public fixed getAdvantage(Type defending) {
         if (defending == NONE) return 1.0;
-        System.debug(this.toString());
         return typeChart[(int)this][(int)defending];
     }
 }

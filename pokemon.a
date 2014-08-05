@@ -86,7 +86,6 @@ public class Pokemon {
     }
     
     public fixed getTypeAdvantage(Pokemon other) {
-        System.debug(this.species.move.toString());
         Type attacking = this.species.move.type;
         return attacking.getAdvantage(other.species.type1) * attacking.getAdvantage(other.species.type2);
     }
