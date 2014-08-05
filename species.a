@@ -2,23 +2,27 @@ include "types.a"
 include "move.a"
 
 public class PokemonSpecies {
-    public static const int NUM_POKEMON = 5;
-    private static PokemonSpecies[NUM_POKEMON] pBase;
+    private static ArrayList<PokemonSpecies> species;
 
     static {
-        pBase[0] = new PokemonSpecies("Charizard", 100, 100, 100, 100, 100, Type.FIRE, Type.FLYING, Move.flamethrower);
-        pBase[1] = new PokemonSpecies("Pikachu", 100,100,100,100,100, Type.ELECTRIC, Move.generic);
-        pBase[2] = new PokemonSpecies("Chikorita", 25, 25, 25, 25, 25, Type.GRASS, Move.generic);
-        pBase[3] = new PokemonSpecies("Squirtle", 10, 10, 10, 10, 10, Type.WATER, Move.generic);
-        pBase[4] = new PokemonSpecies("Tower", 10, 10, 10, 10, 10, Type.FIRE, Type.STEEL, Move.flamethrower);
+        species = new ArrayList<PokemonSpecies>(100);
+        species.addLast(new PokemonSpecies("Charizard", 10, 10, 10, 10, 10, Type.FIRE, Type.FLYING, Move.flamethrower));
+        species.addLast(new PokemonSpecies("Pikachu", 10, 10,10,10,10, Type.ELECTRIC, Move.generic));
+        species.addLast(new PokemonSpecies("Chikorita", 25, 25, 25, 25, 25, Type.GRASS, Move.generic));
+        species.addLast(new PokemonSpecies("Squirtle", 10, 10, 10, 10, 10, Type.WATER, Move.generic));
+        species.addLast(new PokemonSpecies("Gengar", 10, 10, 10, 10, 10, Type.GHOST, Type.POISON, Move.shadowBall));
+        
+        species.addLast(new PokemonSpecies("Tower", 10, 10, 10, 10, 10, Type.FIRE, Type.STEEL, Move.flamethrower));
     }
 
-    public static PokemonSpecies fromString(string s) {
-        for (int i=0; i<NUM_POKEMON; ++i) {
-            if (pBase[i].name == s) {
-                return pBase[i];
+    public static PokemonSpecies fromString(string name) {
+        for (int i=0; i<species.size(); ++i) {
+            PokemonSpecies s = species.getIndex(i);
+            if (s.name == name) {
+                return s;
             }
         }
+        System.debug(name);
         return null;
     }
 

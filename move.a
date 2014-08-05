@@ -21,6 +21,7 @@ public enrich Kind {
 class Move {
     public static Move generic = new Move("Generic", 50, Type.NORMAL, Kind.PHYSICAL);
     public static Move flamethrower = new Move("Flamethrower", 95, Type.FIRE, Kind.SPECIAL);
+    public static Move shadowBall = new Move("Shadow Ball", 80, Type.GHOST, Kind.SPECIAL);
     
     // Name of this move.
     public string name;
