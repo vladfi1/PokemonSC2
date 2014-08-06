@@ -3,13 +3,14 @@ import a.util.ArraySet;
 import a.util.Map;
 import a.util.ArrayMap;
 import a.natives.Player;
+import a.natives.playergroup;
 
 include "pokemon.a"
 include "species.a"
 
 static {
-    Team.left = new Team("Left Team", Point(37, 23));
-    Team.right = new Team("Right Team", Point(60, 23));
+    Team.left = new Team("Left Team", Point(8, 36));
+    Team.right = new Team("Right Team", Point(136, 36));
     Team.left.enemy = Team.right;
     Team.right.enemy = Team.left;
     
@@ -22,9 +23,14 @@ static {
                 team = Team.right;
             }
             team.trainers.add(new Trainer(player, team));
+            team.group.add(player);
             System.debug("Added player " + player.toString() + " to " + team.name);
+			CameraPan((int)player, team.spawn, 0, 0, 0, false);
         }
     }
+    
+    libNtve_gf_SetPlayerGroupAlliance(Team.left.group, 2);
+    libNtve_gf_SetPlayerGroupAlliance(Team.right.group, 2);
 }
 
 class Team {
@@ -32,12 +38,14 @@ class Team {
     
     string name;
     point spawn;
+    playergroup group;
     Set<Trainer> trainers;
     Team enemy;
     
     Team(string name, point spawn) {
         this.name = name;
         this.spawn = spawn;
+        group = playergroup.empty();
         this.trainers = new ArraySet<Trainer>();
     }
     
@@ -69,7 +77,7 @@ class Trainer {
     }
     
     public void addPokemon(PokemonSpecies species) {
-        pokemon.add(new Pokemon(species, 10, (int) player, team.spawn));
+        pokemon.add(new Pokemon(species, 10, player, team.spawn));
     }
 }
 

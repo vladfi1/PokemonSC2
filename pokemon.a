@@ -1,5 +1,6 @@
 import a.util.Comparator;
 import a.natives.unit;
+import a.natives.Player;
 
 include "types.a"
 include "species.a"
@@ -11,16 +12,19 @@ public class Pokemon {
     public int level;
     // The current amount of hp.
     public int hp;
+    // Who owns this pokemon.
+    public Player owner;
     
     // The SC2 unit for this pokemon.
     private unit _unit;
     
-    public Pokemon(PokemonSpecies species, int level, int player, point p) {
+    public Pokemon(PokemonSpecies species, int level, Player owner, point p) {
         this.species = species;
         this.level = level;
+        this.owner = owner;
         this.hp = getHp();
 
-        this._unit = unit.create(species.name, 0, player, p, 0);
+        this._unit = unit.create(species.name, 0, (int)owner, p, 0);
         this._unit.setPropertyInt(c_unitPropLifeMax, this.hp);
         this._unit.setCustomValue(0, (int)this);
         
@@ -67,7 +71,6 @@ public class Pokemon {
         
         fixed damage = ((2.0 * level + 10.0) / 250 * attack / defense * move.power + 2);
         
-        
         fixed effectiveness = getTypeAdvantage(other);
         damage *= effectiveness;
         
@@ -95,11 +98,10 @@ public class Pokemon {
     public void setUnit(unit u) {
         _unit = u;
     }
-    //public Pokemon clone() {
-    //    Pokemon p = new Pokemon(level, basePower, atk, def, typeCodeToName(type1), typeCodeToName(type2));
-    //    p.setUnit(new Unit(_unit).clone().getValue());
-    //    return p;
-    //}
+    
+	public Pokemon clone(point p) {
+        return new Pokemon(species, level, owner, p);
+    }
     
     public static Comparator<Pokemon> comparator = new PokemonComparator();
     public static Hasher<Pokemon> hasher = new PokemonHasher();
@@ -136,6 +138,7 @@ private bool damageUnit(bool conditions, bool actions) {
     p_trg.hp -= damage;
     if (p_trg.hp < 0) {
         p_trg.hp = 0;
+        delete p_trg;
     }
     trg.setPropertyInt(c_unitPropLife, p_trg.hp);
 

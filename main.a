@@ -1,4 +1,6 @@
 import a.natives.trigger;
+import a.natives.point;
+import a.natives.timer;
 
 include "species.a"
 include "player.a"
@@ -24,10 +26,10 @@ static {
 
     //trigger.create(print5.name).addEventUnitAbility(u.getUnitRef(), AbilityCommand("Print", 0), -3, false);
 
-    //timer t = timer.create();
-    //t.start(5, true, timer.GAME_TIME);
+    timer t = timer.create();
+    t.start(15, true, timer.GAME_TIME);
 
-    //trigger.create(transferUnits.name).addEventTimer(t);
+    trigger.create(makeWave.name).addEventTimer(t);
     
     /*
     for (int i=1; i<=3; ++i) {
@@ -86,33 +88,38 @@ public LeaderBoard createBoard(int players) {
     return lb;    
 }*/
 
-/*
-bool transferUnits(bool b1, bool b2) {
-    for (int i=0; i<6; ++i) {
-        for (int j=0; j<unitList[i].size(); ++j) {
-            Pokemon pp = unitList[i].getIndex(j);
-            unit u = pp.getUnit();
-            
-            point p = u.getPosition();
-            if (region.fromID(1).contains(p)) {
-                point newp = point.create(p.getX() + 2, p.getY());
-                Pokemon newu = createUnit(pp.name, 7, newp);
-
-                order o = OrderTargetingPoint(AbilityCommand("attack", 0), region.fromID(2).center);
-                UnitIssueOrder(newu.getUnit(), o, c_orderQueueAddToEnd);
-            }
-            else if (region.fromID(2).contains(p)) {
-                point newp = point.create(p.getX() - 2, p.getY());
-                Pokemon newu = createUnit(pp.name, 8, newp);
-
-                order o = OrderTargetingPoint(AbilityCommand("attack", 0), region.fromID(1).center);
-                UnitIssueOrder(newu.getUnit(), o, c_orderQueueAddToEnd);
-            }
-        }
-    }
-    return false;
+bool makeWave(bool b1, bool b2) {
+    waveHelper(Team.left, 1);
+    waveHelper(Team.right, -1);
+    return true;
 }
-*/
+
+void waveHelper(Team team, int dx) {
+    int spawn_dx = 18 * dx;
+    int attack_dx = 100 * dx;
+
+    Iterator<Trainer> trainers = team.trainers.getIterator();
+    
+    while(trainers.hasNext()) {
+        Trainer trainer = trainers.next();
+        Iterator<Pokemon> pokemon = trainer.pokemon.getIterator();
+        
+        while(pokemon.hasNext()) {
+            Pokemon p = pokemon.next();
+            
+            point spawn = p.getUnit().getPosition().translateXY(spawn_dx, 0);
+            Pokemon clone = p.clone(spawn);
+            
+            point attack = spawn.translateXY(attack_dx, 0);
+            order o = OrderTargetingPoint(AbilityCommand("attack", 0), attack);
+            UnitIssueOrder(clone.getUnit(), o, c_orderQueueAddToEnd);
+        }
+        
+        delete pokemon;
+    }
+    
+    delete trainers;
+}
 
 /////  wave methods
 

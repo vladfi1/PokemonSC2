@@ -1,11 +1,11 @@
-//Andromeda generated code @ Tue Aug 05 06:11:09 EDT 2014
+//Andromeda generated code @ Wed Aug 06 05:35:33 EDT 2014
 
 struct Class{
 	int Class____id;
 	int Class____type;
 	int Class__id;
 	string Class__name;
-	int[5] Class__vct;
+	int[6] Class__vct;
 };
 
 struct Object{
@@ -83,6 +83,7 @@ struct Pokemon{
 	int Pokemon__species;
 	int Pokemon__level;
 	int Pokemon__hp;
+	int Pokemon__owner;
 	unit Pokemon___unit;
 };
 
@@ -91,6 +92,7 @@ struct Team{
 	int Team____type;
 	string Team__name;
 	point Team__spawn;
+	playergroup Team__group;
 	int Team__trainers;
 	int Team__enemy;
 };
@@ -134,18 +136,24 @@ void dealloc___PokemonSpecies(int this);
 int alloc___Iterator(int A__class);
 //Deallocator for class Iterator
 void dealloc___Iterator(int this);
+//Virtual caller for AbstractListIterator.hasNext
+bool vcall___Iterator__hasNext(int this);
+//Virtual caller for AbstractListIterator.next
+int vcall___Iterator__next(int this);
 //Allocator for class Iterable
 int alloc___Iterable(int A__class);
 //Deallocator for class Iterable
 void dealloc___Iterable(int this);
+//Virtual caller for ArraySet.getIterator
+int vcall___Iterable__getIterator(int this);
 //Virtual caller for ArraySet.size
 int vcall___Set__size(int this);
 //Virtual caller for ArraySet.add
 bool vcall___Set__add(int this,int e);
 //Virtual caller for ArrayList.size
-int vcall___size(int this);
+int vcall___List__size(int this);
 //Virtual caller for ArrayList.getIndex
-int vcall___getIndex(int this,int index);
+int vcall___List__getIndex(int this,int index);
 //Virtual caller for ArrayList.setIndex
 void vcall___setIndex(int this,int index,int element);
 //Virtual caller for ArrayList.addIndex
@@ -190,6 +198,10 @@ bool Player__isActive(int this);
 bool init___global1(bool A__1,bool A__2);
 trigger s_trigger__create(string func);
 void trigger__addEventChatMessage(trigger this,int p2,string p3,bool p4);
+void trigger__addEventTimer(trigger this,timer p2);
+point point__translateXY(point this,fixed dx,fixed dy);
+timer s_timer__create();
+void timer__start(timer this,fixed duration,bool periodic,int timeType);
 //Static init
 bool init___global2(bool A__1,bool A__2);
 string Type__toString(int this);
@@ -207,6 +219,12 @@ int s_PokemonSpecies__fromString(string name);
 int new__PokemonSpecies(int A__class,string name,int hp,int atk,int def,int satk,int sdef,int type1,int type2,int move);
 //Constructor for class PokemonSpecies
 int new__PokemonSpecies__1(int A__class,string name,int hp,int atk,int def,int satk,int sdef,int type,int move);
+int AbstractList__getIterator(int this);
+int AbstractList__getListIteratorAt(int this,int index);
+//Constructor for class AbstractListIterator
+int new__AbstractListIterator(int A__class,int list,int pos);
+bool AbstractListIterator__hasNext(int this);
+int AbstractListIterator__next(int this);
 //Static init
 bool init___global5(bool A__1,bool A__2);
 void s_Heap__initHeap();
@@ -247,18 +265,26 @@ int ArraySet__size(int this);
 void ArraySet__ensure(int this,int e);
 bool ArraySet__add(int this,int e);
 bool ArraySet__contains(int this,int e);
+int ArraySet__getIterator(int this);
+//Constructor for class ArraySetIterator
+int new__ArraySetIterator(int A__class,int list);
+bool ArraySetIterator__hasNext(int this);
+int ArraySetIterator__next(int this);
 //Constructor for class ArrayMap
 int new__ArrayMap(int A__class);
 void ArrayMap__ensure(int this,int key);
 int ArrayMap__put(int this,int key,int value);
 int ArrayMap__getValue(int this,int key);
+playergroup s_playergroup__empty();
+void playergroup__add(playergroup this,int p);
 unit s_unit__create(string name,int options,int player,point position,fixed angle);
+point unit__getPosition(unit this);
 void unit__setPropertyInt(unit this,int p2,int p3);
 void unit__setCustomValue(unit this,int p2,fixed p3);
 fixed unit__getCustomValue(unit this,int p2);
 unitref unit__getUnitRef(unit this);
 //Constructor for class Pokemon
-int new__Pokemon(int A__class,int species,int level,int player,point p);
+int new__Pokemon(int A__class,int species,int level,int owner,point p);
 int Pokemon__getStat(int this,int base);
 int Pokemon__getHp(int this);
 int Pokemon__getAtk(int this);
@@ -269,6 +295,7 @@ int Pokemon__damage(int this,int other);
 fixed Pokemon__getTypeAdvantage(int this,int other);
 unit Pokemon__getUnit(int this);
 void Pokemon__setUnit(int this,unit u);
+int Pokemon__clone(int this,point p);
 int PokemonComparator__compare(int this,int p1,int p2);
 int PokemonHasher__hashCode(int this,int p);
 bool PokemonHasher__equal(int this,int p1,int p2);
@@ -286,11 +313,13 @@ void Trainer__addPokemon(int this,int species);
 //Static init
 bool init___global7(bool A__1,bool A__2);
 bool createUnitChat(bool b1,bool b2);
+bool makeWave(bool b1,bool b2);
+void waveHelper(int team,int dx);
 
 int Class___allocPtr=1;
 int Class___freePtr;
-Class[30] Class___memory;
-int[30] Class___freeStack;
+Class[31] Class___memory;
+int[31] Class___freeStack;
 int MC___Class;
 int Object___allocPtr=1;
 int Object___freePtr;
@@ -310,6 +339,7 @@ int[129] Hasher___freeStack;
 int MC___Hasher;
 int MC___PlayerComparator;
 int MC___PlayerHasher;
+int MC___Math;
 int Move___allocPtr=1;
 int Move___freePtr;
 Move[129] Move___memory;
@@ -427,78 +457,95 @@ void A__classInit(){
 	Class___memory[A__class].Class__vct[0]=-1;
 	A__class=new__Class(7,7,"PlayerHasher");
 	MC___PlayerHasher=A__class;
-	A__class=new__Class(10,10,"Move");
+	A__class=new__Class(10,10,"Math");
+	MC___Math=A__class;
+	A__class=new__Class(11,11,"Move");
 	MC___Move=A__class;
-	A__class=new__Class(11,11,"PokemonSpecies");
+	A__class=new__Class(12,12,"PokemonSpecies");
 	MC___PokemonSpecies=A__class;
-	A__class=new__Class(15,15,"Iterator");
+	A__class=new__Class(16,16,"Iterator");
 	MC___Iterator=A__class;
-	A__class=new__Class(22,22,"Iterable");
+	Class___memory[A__class].Class__vct[0]=-1;
+	Class___memory[A__class].Class__vct[1]=-1;
+	A__class=new__Class(23,23,"Iterable");
 	MC___Iterable=A__class;
-	A__class=new__Class(17,17,"Set");
+	Class___memory[A__class].Class__vct[0]=-1;
+	A__class=new__Class(18,18,"Set");
 	MC___Set=A__class;
 	Class___memory[A__class].Class__vct[0]=-1;
 	Class___memory[A__class].Class__vct[1]=-1;
-	A__class=new__Class(13,13,"ListIterator");
+	Class___memory[A__class].Class__vct[2]=-1;
+	A__class=new__Class(14,14,"ListIterator");
 	MC___ListIterator=A__class;
-	A__class=new__Class(21,21,"List");
+	Class___memory[A__class].Class__vct[0]=-1;
+	Class___memory[A__class].Class__vct[1]=-1;
+	A__class=new__Class(22,22,"List");
 	MC___List=A__class;
 	Class___memory[A__class].Class__vct[0]=-1;
 	Class___memory[A__class].Class__vct[1]=-1;
 	Class___memory[A__class].Class__vct[2]=-1;
 	Class___memory[A__class].Class__vct[3]=-1;
 	Class___memory[A__class].Class__vct[4]=-1;
-	A__class=new__Class(20,20,"AbstractList");
+	Class___memory[A__class].Class__vct[5]=-1;
+	A__class=new__Class(21,21,"AbstractList");
 	MC___AbstractList=A__class;
-	Class___memory[A__class].Class__vct[0]=-1;
+	Class___memory[A__class].Class__vct[0]=1;
 	Class___memory[A__class].Class__vct[1]=-1;
 	Class___memory[A__class].Class__vct[2]=-1;
 	Class___memory[A__class].Class__vct[3]=-1;
 	Class___memory[A__class].Class__vct[4]=-1;
-	A__class=new__Class(12,12,"AbstractListIterator");
+	Class___memory[A__class].Class__vct[5]=-1;
+	A__class=new__Class(13,13,"AbstractListIterator");
 	MC___AbstractListIterator=A__class;
-	A__class=new__Class(23,23,"Heap");
+	Class___memory[A__class].Class__vct[0]=0;
+	Class___memory[A__class].Class__vct[1]=0;
+	A__class=new__Class(24,24,"Heap");
 	MC___Heap=A__class;
-	A__class=new__Class(18,18,"Array");
+	A__class=new__Class(19,19,"Array");
 	MC___Array=A__class;
-	Class___memory[A__class].Class__vct[0]=-1;
+	Class___memory[A__class].Class__vct[0]=1;
 	Class___memory[A__class].Class__vct[1]=-1;
 	Class___memory[A__class].Class__vct[2]=-1;
 	Class___memory[A__class].Class__vct[3]=-1;
 	Class___memory[A__class].Class__vct[4]=-1;
-	A__class=new__Class(19,19,"ArrayList");
+	Class___memory[A__class].Class__vct[5]=-1;
+	A__class=new__Class(20,20,"ArrayList");
 	MC___ArrayList=A__class;
-	Class___memory[A__class].Class__vct[0]=0;
+	Class___memory[A__class].Class__vct[0]=1;
 	Class___memory[A__class].Class__vct[1]=0;
 	Class___memory[A__class].Class__vct[2]=0;
 	Class___memory[A__class].Class__vct[3]=0;
 	Class___memory[A__class].Class__vct[4]=0;
-	A__class=new__Class(16,16,"ArraySet");
+	Class___memory[A__class].Class__vct[5]=0;
+	A__class=new__Class(17,17,"ArraySet");
 	MC___ArraySet=A__class;
 	Class___memory[A__class].Class__vct[0]=0;
 	Class___memory[A__class].Class__vct[1]=0;
-	A__class=new__Class(14,14,"ArraySetIterator");
+	Class___memory[A__class].Class__vct[2]=0;
+	A__class=new__Class(15,15,"ArraySetIterator");
 	MC___ArraySetIterator=A__class;
-	A__class=new__Class(25,25,"Map");
+	Class___memory[A__class].Class__vct[0]=1;
+	Class___memory[A__class].Class__vct[1]=1;
+	A__class=new__Class(26,26,"Map");
 	MC___Map=A__class;
 	Class___memory[A__class].Class__vct[0]=-1;
 	Class___memory[A__class].Class__vct[1]=-1;
-	A__class=new__Class(26,26,"MapEntry");
+	A__class=new__Class(27,27,"MapEntry");
 	MC___MapEntry=A__class;
-	A__class=new__Class(24,24,"ArrayMap");
+	A__class=new__Class(25,25,"ArrayMap");
 	MC___ArrayMap=A__class;
 	Class___memory[A__class].Class__vct[0]=0;
 	Class___memory[A__class].Class__vct[1]=0;
-	A__class=new__Class(27,27,"Pokemon");
+	A__class=new__Class(28,28,"Pokemon");
 	MC___Pokemon=A__class;
 	A__class=new__Class(5,5,"PokemonComparator");
 	MC___PokemonComparator=A__class;
 	Class___memory[A__class].Class__vct[0]=0;
 	A__class=new__Class(8,8,"PokemonHasher");
 	MC___PokemonHasher=A__class;
-	A__class=new__Class(28,28,"Team");
+	A__class=new__Class(29,29,"Team");
 	MC___Team=A__class;
-	A__class=new__Class(29,29,"Trainer");
+	A__class=new__Class(30,30,"Trainer");
 	MC___Trainer=A__class;
 }
 
@@ -509,7 +556,7 @@ int alloc___Class(int A__class){
 	if(Class___freePtr>0){
 		Class___freePtr-=1;
 		this=Class___freeStack[Class___freePtr];
-	}else if(Class___allocPtr<30){
+	}else if(Class___allocPtr<31){
 		this=Class___allocPtr;
 		Class___allocPtr+=1;
 	}else{
@@ -719,6 +766,26 @@ void dealloc___Iterator(int this){
 	Iterator___freePtr+=1;
 }
 
+//Virtual caller for AbstractListIterator.hasNext
+bool vcall___Iterator__hasNext(int this){
+	int cl=Class___memory[Iterator___memory[this].Iterator____type].Class__vct[0];
+	if(cl<1){
+		return AbstractListIterator__hasNext(this);
+	}else{
+		return ArraySetIterator__hasNext(this);
+	}
+}
+
+//Virtual caller for AbstractListIterator.next
+int vcall___Iterator__next(int this){
+	int cl=Class___memory[Iterator___memory[this].Iterator____type].Class__vct[1];
+	if(cl<1){
+		return AbstractListIterator__next(this);
+	}else{
+		return ArraySetIterator__next(this);
+	}
+}
+
 //Allocator for class Iterable
 int alloc___Iterable(int A__class){
 	int this;
@@ -749,45 +816,55 @@ void dealloc___Iterable(int this){
 	Iterable___freePtr+=1;
 }
 
+//Virtual caller for ArraySet.getIterator
+int vcall___Iterable__getIterator(int this){
+	int cl=Class___memory[Iterable___memory[this].Iterable____type].Class__vct[0];
+	if(cl<1){
+		return ArraySet__getIterator(this);
+	}else{
+		return AbstractList__getIterator(this);
+	}
+}
+
 //Virtual caller for ArraySet.size
 int vcall___Set__size(int this){
-	int cl=Class___memory[Iterable___memory[this].Iterable____type].Class__vct[0];
+	int cl=Class___memory[Iterable___memory[this].Iterable____type].Class__vct[1];
 	return ArraySet__size(this);
 }
 
 //Virtual caller for ArraySet.add
 bool vcall___Set__add(int this,int e){
-	int cl=Class___memory[Iterable___memory[this].Iterable____type].Class__vct[1];
+	int cl=Class___memory[Iterable___memory[this].Iterable____type].Class__vct[2];
 	return ArraySet__add(this,e);
 }
 
 //Virtual caller for ArrayList.size
-int vcall___size(int this){
-	int cl=Class___memory[Iterable___memory[this].Iterable____type].Class__vct[0];
+int vcall___List__size(int this){
+	int cl=Class___memory[Iterable___memory[this].Iterable____type].Class__vct[1];
 	return ArrayList__size(this);
 }
 
 //Virtual caller for ArrayList.getIndex
-int vcall___getIndex(int this,int index){
-	int cl=Class___memory[Iterable___memory[this].Iterable____type].Class__vct[1];
+int vcall___List__getIndex(int this,int index){
+	int cl=Class___memory[Iterable___memory[this].Iterable____type].Class__vct[2];
 	return ArrayList__getIndex(this,index);
 }
 
 //Virtual caller for ArrayList.setIndex
 void vcall___setIndex(int this,int index,int element){
-	int cl=Class___memory[Iterable___memory[this].Iterable____type].Class__vct[2];
+	int cl=Class___memory[Iterable___memory[this].Iterable____type].Class__vct[3];
 	ArrayList__setIndex(this,index,element);
 }
 
 //Virtual caller for ArrayList.addIndex
 bool vcall___addIndex(int this,int index,int element){
-	int cl=Class___memory[Iterable___memory[this].Iterable____type].Class__vct[3];
+	int cl=Class___memory[Iterable___memory[this].Iterable____type].Class__vct[4];
 	return ArrayList__addIndex(this,index,element);
 }
 
 //Virtual caller for ArrayList.removeIndex
 int vcall___removeIndex(int this,int index){
-	int cl=Class___memory[Iterable___memory[this].Iterable____type].Class__vct[4];
+	int cl=Class___memory[Iterable___memory[this].Iterable____type].Class__vct[5];
 	return ArrayList__removeIndex(this,index);
 }
 
@@ -1104,6 +1181,22 @@ trigger s_trigger__create(string func){
 
 void trigger__addEventChatMessage(trigger this,int p2,string p3,bool p4){
 	TriggerAddEventChatMessage(this, p2, p3, p4);
+}
+
+void trigger__addEventTimer(trigger this,timer p2){
+	TriggerAddEventTimer(this, p2);
+}
+
+point point__translateXY(point this,fixed dx,fixed dy){
+	return PointWithOffset(this, dx, dy);
+}
+
+timer s_timer__create(){
+	return TimerCreate();
+}
+
+void timer__start(timer this,fixed duration,bool periodic,int timeType){
+	TimerStart(this, duration, periodic, timeType);
 }
 
 //Static init
@@ -1507,6 +1600,47 @@ int new__PokemonSpecies__1(int A__class,string name,int hp,int atk,int def,int s
 	return this;
 }
 
+int AbstractList__getIterator(int this){
+	return AbstractList__getListIteratorAt(this,0);
+}
+
+int AbstractList__getListIteratorAt(int this,int index){
+	if(index < 0 || index > vcall___List__size(this)){
+		s_System__error("Index Out Of Bounds in a.util.AbstractList.getListIteratorAt(int) @" + IntToString(this) + ": " + IntToString(index));
+		return 0;
+	} else {
+		return new__AbstractListIterator(MC___AbstractListIterator,this, index);
+	}
+}
+
+//Constructor for class AbstractListIterator
+int new__AbstractListIterator(int A__class,int list,int pos){
+	int this=alloc___Iterator(A__class);
+	Iterator___memory[this].AbstractListIterator__list_mult = list;
+	Iterator___memory[this].AbstractListIterator__nextIndex_mult = pos;
+	Iterator___memory[this].AbstractListIterator__prevIndex = pos - 1;
+	Iterator___memory[this].AbstractListIterator__lastIndex = -1;
+	return this;
+}
+
+bool AbstractListIterator__hasNext(int this){
+	return Iterator___memory[this].AbstractListIterator__nextIndex_mult < vcall___List__size(Iterator___memory[this].AbstractListIterator__list_mult);
+}
+
+int AbstractListIterator__next(int this){
+	int temp;
+	if(AbstractListIterator__hasNext(this)){
+		Iterator___memory[this].AbstractListIterator__lastIndex = Iterator___memory[this].AbstractListIterator__nextIndex_mult;
+		Iterator___memory[this].AbstractListIterator__nextIndex_mult += 1;
+		Iterator___memory[this].AbstractListIterator__prevIndex += 1;
+		temp = vcall___List__getIndex(Iterator___memory[this].AbstractListIterator__list_mult,Iterator___memory[this].AbstractListIterator__lastIndex);
+		return temp;
+	} else {
+		s_System__error("No Such Element in a.util.AbstractList.AbstractListIterator.next() @" + IntToString(this));
+		return 0;
+	}
+}
+
 //Static init
 bool init___global5(bool A__1,bool A__2){
 	s_Heap__initHeap();
@@ -1818,6 +1952,34 @@ bool ArraySet__contains(int this,int e){
 	return ArrayList__getIndex(Iterable___memory[this].ArraySet__list_mult,e) != 0;
 }
 
+int ArraySet__getIterator(int this){
+	return new__ArraySetIterator(MC___ArraySetIterator,Iterable___memory[this].ArraySet__list_mult);
+}
+
+//Constructor for class ArraySetIterator
+int new__ArraySetIterator(int A__class,int list){
+	int this=alloc___Iterator(A__class);
+	Iterator___memory[this].AbstractListIterator__list_mult = list;
+	Iterator___memory[this].AbstractListIterator__nextIndex_mult = 0;
+	return this;
+}
+
+bool ArraySetIterator__hasNext(int this){
+	while(Iterator___memory[this].AbstractListIterator__nextIndex_mult < ArrayList__size(Iterator___memory[this].AbstractListIterator__list_mult)){
+		if(ArrayList__getIndex(Iterator___memory[this].AbstractListIterator__list_mult,Iterator___memory[this].AbstractListIterator__nextIndex_mult) != 0){
+			return true;
+		}
+		Iterator___memory[this].AbstractListIterator__nextIndex_mult += 1;
+	}
+	return false;
+}
+
+int ArraySetIterator__next(int this){
+	int temp = Iterator___memory[this].AbstractListIterator__nextIndex_mult;
+	Iterator___memory[this].AbstractListIterator__nextIndex_mult += 1;
+	return temp;
+}
+
 //Constructor for class ArrayMap
 int new__ArrayMap(int A__class){
 	int this=alloc___Map(A__class);
@@ -1849,8 +2011,20 @@ int ArrayMap__getValue(int this,int key){
 	return ArrayList__getIndex(Map___memory[this].ArrayMap__list,key);
 }
 
+playergroup s_playergroup__empty(){
+	return PlayerGroupEmpty();
+}
+
+void playergroup__add(playergroup this,int p){
+	PlayerGroupAdd(this, p);
+}
+
 unit s_unit__create(string name,int options,int player,point position,fixed angle){
 	return UnitGroupUnit(UnitCreate(1, name, options, player, position, angle), 1);
+}
+
+point unit__getPosition(unit this){
+	return UnitGetPosition(this);
 }
 
 void unit__setPropertyInt(unit this,int p2,int p3){
@@ -1870,12 +2044,13 @@ unitref unit__getUnitRef(unit this){
 }
 
 //Constructor for class Pokemon
-int new__Pokemon(int A__class,int species,int level,int player,point p){
+int new__Pokemon(int A__class,int species,int level,int owner,point p){
 	int this=alloc___Pokemon(A__class);
 	Pokemon___memory[this].Pokemon__species = species;
 	Pokemon___memory[this].Pokemon__level = level;
+	Pokemon___memory[this].Pokemon__owner = owner;
 	Pokemon___memory[this].Pokemon__hp = Pokemon__getHp(this);
-	Pokemon___memory[this].Pokemon___unit = s_unit__create(PokemonSpecies___memory[species].PokemonSpecies__name, 0, player, p, 0.0);
+	Pokemon___memory[this].Pokemon___unit = s_unit__create(PokemonSpecies___memory[species].PokemonSpecies__name, 0, owner, p, 0.0);
 	unit__setPropertyInt(Pokemon___memory[this].Pokemon___unit,2, Pokemon___memory[this].Pokemon__hp);
 	unit__setCustomValue(Pokemon___memory[this].Pokemon___unit,0, IntToFixed(this));
 	TriggerAddEventUnitDamaged(TriggerCreate("damageUnit"), unit__getUnitRef(Pokemon___memory[this].Pokemon___unit), -1, 0, null);
@@ -1949,6 +2124,10 @@ void Pokemon__setUnit(int this,unit u){
 	Pokemon___memory[this].Pokemon___unit = u;
 }
 
+int Pokemon__clone(int this,point p){
+	return new__Pokemon(MC___Pokemon,Pokemon___memory[this].Pokemon__species, Pokemon___memory[this].Pokemon__level, Pokemon___memory[this].Pokemon__owner, p);
+}
+
 int PokemonComparator__compare(int this,int p1,int p2){
 	return p1 - p2;
 }
@@ -1973,6 +2152,7 @@ bool damageUnit(bool conditions,bool actions){
 	Pokemon___memory[p_trg].Pokemon__hp -= damage;
 	if(Pokemon___memory[p_trg].Pokemon__hp < 0){
 		Pokemon___memory[p_trg].Pokemon__hp = 0;
+		dealloc___Pokemon(p_trg);
 	}
 	unit__setPropertyInt(trg,0, Pokemon___memory[p_trg].Pokemon__hp);
 	return true;
@@ -1983,8 +2163,8 @@ bool init___global6(bool A__1,bool A__2){
 	int p;
 	int player;
 	int team;
-	s_Team__left = new__Team(MC___Team,"Left Team", Point(37.0, 23.0));
-	s_Team__right = new__Team(MC___Team,"Right Team", Point(60.0, 23.0));
+	s_Team__left = new__Team(MC___Team,"Left Team", Point(8.0, 36.0));
+	s_Team__right = new__Team(MC___Team,"Right Team", Point(136.0, 36.0));
 	Team___memory[s_Team__left].Team__enemy = s_Team__right;
 	Team___memory[s_Team__right].Team__enemy = s_Team__left;
 	s_Trainer__trainers = new__ArrayMap(MC___ArrayMap);
@@ -1998,11 +2178,15 @@ bool init___global6(bool A__1,bool A__2){
 				team = s_Team__right;
 			}
 			vcall___Set__add(Team___memory[team].Team__trainers,new__Trainer(MC___Trainer,player, team));
+			playergroup__add(Team___memory[team].Team__group,player);
 			s_System__debug("Added player " + Player__toString(player) + " to " + Team___memory[team].Team__name);
+			CameraPan(player, Team___memory[team].Team__spawn, 0.0, 0.0, 0.0, false);
 		}
 		
 		p += 1;
 	}
+	libNtve_gf_SetPlayerGroupAlliance(Team___memory[s_Team__left].Team__group, 2);
+	libNtve_gf_SetPlayerGroupAlliance(Team___memory[s_Team__right].Team__group, 2);
 	return true;
 }
 
@@ -2011,6 +2195,7 @@ int new__Team(int A__class,string name,point spawn){
 	int this=alloc___Team(A__class);
 	Team___memory[this].Team__name = name;
 	Team___memory[this].Team__spawn = spawn;
+	Team___memory[this].Team__group = s_playergroup__empty();
 	Team___memory[this].Team__trainers = new__ArraySet(MC___ArraySet);
 	return this;
 }
@@ -2043,8 +2228,12 @@ void Trainer__addPokemon(int this,int species){
 
 //Static init
 bool init___global7(bool A__1,bool A__2){
+	timer t;
 	VisEnable(1, false);
 	trigger__addEventChatMessage(s_trigger__create("createUnitChat"),-1, "", false);
+	t = s_timer__create();
+	timer__start(t,15.0, true, 0);
+	trigger__addEventTimer(s_trigger__create("makeWave"),t);
 	return true;
 }
 
@@ -2061,6 +2250,39 @@ bool createUnitChat(bool b1,bool b2){
 	trainer = s_Trainer__getTrainer(player);
 	Trainer__addPokemon(trainer,species);
 	return true;
+}
+
+bool makeWave(bool b1,bool b2){
+	waveHelper(s_Team__left, 1);
+	waveHelper(s_Team__right, -1);
+	return true;
+}
+
+void waveHelper(int team,int dx){
+	int spawn_dx = 18 * dx;
+	int attack_dx = 100 * dx;
+	int trainers = vcall___Iterable__getIterator(Team___memory[team].Team__trainers);
+	int trainer;
+	int pokemon;
+	int p;
+	point spawn;
+	int clone;
+	point attack;
+	order o;
+	while(vcall___Iterator__hasNext(trainers)){
+		trainer = vcall___Iterator__next(trainers);
+		pokemon = vcall___Iterable__getIterator(Trainer___memory[trainer].Trainer__pokemon);
+		while(vcall___Iterator__hasNext(pokemon)){
+			p = vcall___Iterator__next(pokemon);
+			spawn = point__translateXY(unit__getPosition(Pokemon__getUnit(p)),IntToFixed(spawn_dx), 0.0);
+			clone = Pokemon__clone(p,spawn);
+			attack = point__translateXY(spawn,IntToFixed(attack_dx), 0.0);
+			o = OrderTargetingPoint(AbilityCommand("attack", 0), attack);
+			UnitIssueOrder(Pokemon__getUnit(clone), o, 1);
+		}
+		dealloc___Iterator(pokemon);
+	}
+	dealloc___Iterator(trainers);
 }
 
 void initAndromeda(){
