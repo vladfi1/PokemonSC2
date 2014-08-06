@@ -51,7 +51,7 @@ bool createUnitChat(bool b1, bool b2) {
         return false;
     }
     
-    int player = 1;
+    int player = EventPlayer();
     Trainer trainer = Trainer.getTrainer(player);
     //System.debug("Team name: " + trainer.team.name);
     //System.debug((string) Trainer.trainers.size());
