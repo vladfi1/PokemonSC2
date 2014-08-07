@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <Catalog>
+    <CActorUnit id="RentalCenter" parent="GenericUnitStandard" unitName="RentalCenter"/>
     <CActorUnit default="1" id="Pokemon" parent="GenericUnitStandard">
         <WalkAnimMoveSpeed value="6"/>
         <On Terms="ActorCreation" Send="Create HitTestSphere"/>

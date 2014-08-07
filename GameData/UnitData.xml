@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <Catalog>
+    <CUnit id="RentalCenter"/>
     <CUnit default="1" id="MovingUnit">
         <Speed value="2"/>
         <Acceleration value="1000"/>

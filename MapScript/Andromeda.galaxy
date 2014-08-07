@@ -1,4 +1,4 @@
-//Andromeda generated code @ Thu Aug 07 04:26:20 EDT 2014
+//Andromeda generated code @ Thu Aug 07 08:58:37 EDT 2014
 
 struct Class{
 	int Class____id;
@@ -194,11 +194,13 @@ void s_System__debug__1(string message,bool showIngame);
 void s_System__print(string message);
 string Player__toString(int this);
 bool Player__isActive(int this);
+point Player__get__startLocation(int this);
 //Static init
 bool init___global1(bool A__1,bool A__2);
 trigger s_trigger__create(string func);
 void trigger__addEventChatMessage(trigger this,int p2,string p3,bool p4);
 void trigger__addEventTimer(trigger this,timer p2);
+fixed point__get__x(point this);
 point point__translateXY(point this,fixed dx,fixed dy);
 timer s_timer__create();
 void timer__start(timer this,fixed duration,bool periodic,int timeType);
@@ -307,6 +309,7 @@ bool init___global6(bool A__1,bool A__2);
 int new__Team(int A__class,string name,point spawn);
 int Team__size(int this);
 string Team__toString(int this);
+void Team__addTrainer(int this,int trainer);
 int s_Trainer__getTrainer(int player);
 //Constructor for class Trainer
 int new__Trainer(int A__class,int player,int team);
@@ -1072,6 +1075,10 @@ bool Player__isActive(int this){
 	return PlayerStatus(this) == 1;
 }
 
+point Player__get__startLocation(int this){
+	return PlayerStartLocation(this);
+}
+
 //Static init
 bool init___global1(bool A__1,bool A__2){
 	s_Key__displayText[0] = "SHIFT";
@@ -1186,6 +1193,10 @@ void trigger__addEventChatMessage(trigger this,int p2,string p3,bool p4){
 
 void trigger__addEventTimer(trigger this,timer p2){
 	TriggerAddEventTimer(this, p2);
+}
+
+fixed point__get__x(point this){
+	return PointGetX(this);
 }
 
 point point__translateXY(point this,fixed dx,fixed dy){
@@ -2166,11 +2177,14 @@ bool damageUnit(bool conditions,bool actions){
 
 //Static init
 bool init___global6(bool A__1,bool A__2){
+	int centerX;
 	int p;
 	int player;
 	int team;
+	point start;
 	s_Team__left = new__Team(MC___Team,"Left Team", Point(8.0, 36.0));
 	s_Team__right = new__Team(MC___Team,"Right Team", Point(136.0, 36.0));
+	centerX = 72;
 	Team___memory[s_Team__left].Team__enemy = s_Team__right;
 	Team___memory[s_Team__right].Team__enemy = s_Team__left;
 	s_Trainer__trainers = new__ArrayMap(MC___ArrayMap);
@@ -2179,20 +2193,20 @@ bool init___global6(bool A__1,bool A__2){
 	while(p < 32){
 		player = p;
 		if(Player__isActive(player)){
-			team = s_Team__left;
-			if(Team__size(s_Team__right) < Team__size(s_Team__left)){
+			if(point__get__x(Player__get__startLocation(player)) < centerX){
+				team = s_Team__left;
+			} else {
 				team = s_Team__right;
 			}
-			vcall___Set__add(Team___memory[team].Team__trainers,new__Trainer(MC___Trainer,player, team));
-			playergroup__add(Team___memory[team].Team__group,player);
+			Team__addTrainer(team,new__Trainer(MC___Trainer,player, team));
 			s_System__debug("Added player " + Player__toString(player) + " to " + Team___memory[team].Team__name);
+			start = Player__get__startLocation(player);
+			s_unit__create("RentalCenter", 0, player, start, 0.0);
 			CameraPan(player, Team___memory[team].Team__spawn, 0.0, 0.0, 0.0, false);
 		}
 		
 		p += 1;
 	}
-	libNtve_gf_SetPlayerGroupAlliance(Team___memory[s_Team__left].Team__group, 2);
-	libNtve_gf_SetPlayerGroupAlliance(Team___memory[s_Team__right].Team__group, 2);
 	return true;
 }
 
@@ -2212,6 +2226,11 @@ int Team__size(int this){
 
 string Team__toString(int this){
 	return Team___memory[this].Team__name;
+}
+
+void Team__addTrainer(int this,int trainer){
+	vcall___Set__add(Team___memory[this].Team__trainers,trainer);
+	playergroup__add(Team___memory[this].Team__group,Trainer___memory[trainer].Trainer__player);
 }
 
 int s_Trainer__getTrainer(int player){

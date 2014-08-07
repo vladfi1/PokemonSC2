@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <Catalog>
+    <CModel id="RentalCenter" parent="Building">
+        <Model value="Assets\Buildings\Terran\CommandCenter\CommandCenter.m3"/>
+    </CModel>
     <CModel default="1" id="GenericPokemon">
         <Model value="##id##.m3"/>
     </CModel>

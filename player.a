@@ -4,6 +4,7 @@ import a.util.Map;
 import a.util.ArrayMap;
 import a.natives.Player;
 import a.natives.playergroup;
+import a.natives.unit;
 
 include "pokemon.a"
 include "species.a"
@@ -28,6 +29,9 @@ static {
             }
             team.addTrainer(new Trainer(player, team));
             System.debug("Added player " + player.toString() + " to " + team.name);
+            
+            point start = player.startLocation;
+            unit.create("RentalCenter", 0, (int)player, start, 0);
             CameraPan((int)player, team.spawn, 0, 0, 0, false);
         }
     }
