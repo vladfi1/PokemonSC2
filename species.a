@@ -2,20 +2,23 @@ include "types.a"
 include "move.a"
 
 public class PokemonSpecies {
-    private static ArrayList<PokemonSpecies> species;
-
-    static {
-        species = new ArrayList<PokemonSpecies>(100);
-        species.addLast(new PokemonSpecies("Charizard", 10, 10, 10, 10, 10, Type.FIRE, Type.FLYING, Move.flamethrower));
-        species.addLast(new PokemonSpecies("Pikachu", 10, 10,10,10,10, Type.ELECTRIC, Move.generic));
-        species.addLast(new PokemonSpecies("Chikorita", 25, 25, 25, 25, 25, Type.GRASS, Move.generic));
-        species.addLast(new PokemonSpecies("Squirtle", 10, 10, 10, 10, 10, Type.WATER, Move.generic));
-        species.addLast(new PokemonSpecies("Gengar", 10, 10, 10, 10, 10, Type.GHOST, Type.POISON, Move.shadowBall));
-        species.addLast(new PokemonSpecies("Blastoise", 10, 10, 10, 10, 10, Type.WATER, Move.hydroPump));
-        
-        species.addLast(new PokemonSpecies("Tower", 10, 10, 10, 10, 10, Type.FIRE, Type.STEEL, Move.flamethrower));
+    private static ArrayList<PokemonSpecies> species = null;
+    
+    public static ArrayList<PokemonSpecies> getSpecies() {
+        if (species == null) {
+            species = new ArrayList<PokemonSpecies>(100);
+            species.addLast(new PokemonSpecies("Charizard", 10, 10, 10, 10, 10, Type.FIRE, Type.FLYING, Move.flamethrower));
+            species.addLast(new PokemonSpecies("Pikachu", 10, 10,10,10,10, Type.ELECTRIC, Move.generic));
+            species.addLast(new PokemonSpecies("Chikorita", 25, 25, 25, 25, 25, Type.GRASS, Move.generic));
+            species.addLast(new PokemonSpecies("Squirtle", 10, 10, 10, 10, 10, Type.WATER, Move.generic));
+            species.addLast(new PokemonSpecies("Gengar", 10, 10, 10, 10, 10, Type.GHOST, Type.POISON, Move.shadowBall));
+            species.addLast(new PokemonSpecies("Blastoise", 10, 10, 10, 10, 10, Type.WATER, Move.hydroPump));
+            
+            species.addLast(new PokemonSpecies("Tower", 10, 10, 10, 10, 10, Type.FIRE, Type.STEEL, Move.flamethrower));
+        }
+        return species;
     }
-
+    
     public static PokemonSpecies fromString(string name) {
         for (int i=0; i<species.size(); ++i) {
             PokemonSpecies s = species.getIndex(i);
@@ -23,7 +26,6 @@ public class PokemonSpecies {
                 return s;
             }
         }
-        System.debug(name);
         return null;
     }
 

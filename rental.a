@@ -1,0 +1,29 @@
+import a.natives.trigger;
+import a.natives.unit;
+import a.natives.abilcmd;
+
+include "species.a"
+include "player.a"
+
+void makeRentalCenter(Player player) {
+    unit u = unit.create("RentalCenter", 0, (int)player, player.startLocation, 0);
+    
+    trigger t = trigger.create(rent.name);
+    
+    ArrayList<PokemonSpecies> speciesList = PokemonSpecies.getSpecies();
+    
+    for (int i = 0; i < speciesList.size(); ++i) {
+        PokemonSpecies species = speciesList.getIndex(i);
+        System.debug(species.name);
+        t.addEventUnitAbility(u.getUnitRef(), AbilityCommand(species.name, 0), c_unitAbilStageComplete, false);
+        System.debug("Added trigger for player " + player.toString() + " to rent " + species.name);
+    }
+}
+
+bool rent(bool conditions, bool actions) {
+    string abilName = EventUnitAbility().getAbility();
+    System.debug("Ability " + abilName);
+    Player player = (Player)EventPlayer();
+    Trainer.addPokemon(player, PokemonSpecies.fromString(abilName));
+    return true;
+}

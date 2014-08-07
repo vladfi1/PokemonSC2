@@ -1,4 +1,4 @@
-//Andromeda generated code @ Thu Aug 07 08:58:37 EDT 2014
+//Andromeda generated code @ Thu Aug 07 19:16:02 EDT 2014
 
 struct Class{
 	int Class____id;
@@ -200,6 +200,7 @@ bool init___global1(bool A__1,bool A__2);
 trigger s_trigger__create(string func);
 void trigger__addEventChatMessage(trigger this,int p2,string p3,bool p4);
 void trigger__addEventTimer(trigger this,timer p2);
+void trigger__addEventUnitAbility(trigger this,unitref p2,abilcmd p3,int p4,bool p5);
 fixed point__get__x(point this);
 point point__translateXY(point this,fixed dx,fixed dy);
 timer s_timer__create();
@@ -214,8 +215,7 @@ string Kind__toString(int this);
 //Constructor for class Move
 int new__Move(int A__class,string name,int power,int type,int kind);
 string Move__toString(int this);
-//Static init
-bool init___global4(bool A__1,bool A__2);
+int s_PokemonSpecies__getSpecies();
 int s_PokemonSpecies__fromString(string name);
 //Constructor for class PokemonSpecies
 int new__PokemonSpecies(int A__class,string name,int hp,int atk,int def,int satk,int sdef,int type1,int type2,int move);
@@ -228,7 +228,7 @@ int new__AbstractListIterator(int A__class,int list,int pos);
 bool AbstractListIterator__hasNext(int this);
 int AbstractListIterator__next(int this);
 //Static init
-bool init___global5(bool A__1,bool A__2);
+bool init___global4(bool A__1,bool A__2);
 void s_Heap__initHeap();
 void s_Heap__initLevel(int level);
 int s_Heap__level(int ptr);
@@ -303,8 +303,11 @@ int PokemonComparator__compare(int this,int p1,int p2);
 int PokemonHasher__hashCode(int this,int p);
 bool PokemonHasher__equal(int this,int p1,int p2);
 bool damageUnit(bool conditions,bool actions);
+string abilcmd__getAbility(abilcmd this);
+void makeRentalCenter(int player);
+bool rent(bool conditions,bool actions);
 //Static init
-bool init___global6(bool A__1,bool A__2);
+bool init___global5(bool A__1,bool A__2);
 //Constructor for class Team
 int new__Team(int A__class,string name,point spawn);
 int Team__size(int this);
@@ -314,8 +317,9 @@ int s_Trainer__getTrainer(int player);
 //Constructor for class Trainer
 int new__Trainer(int A__class,int player,int team);
 void Trainer__addPokemon(int this,int species);
+void s_Trainer__addPokemon__1(int player,int species);
 //Static init
-bool init___global7(bool A__1,bool A__2);
+bool init___global6(bool A__1,bool A__2);
 bool createUnitChat(bool b1,bool b2);
 bool makeWave(bool b1,bool b2);
 void waveHelper(int team,int dx);
@@ -433,7 +437,7 @@ int s_Move__generic = new__Move(MC___Move,"Generic", 50, 0, 0);
 int s_Move__flamethrower = new__Move(MC___Move,"Flamethrower", 95, 1, 1);
 int s_Move__shadowBall = new__Move(MC___Move,"Shadow Ball", 80, 13, 1);
 int s_Move__hydroPump = new__Move(MC___Move,"Hydro Pump", 120, 2, 1);
-int s_PokemonSpecies__species;
+int s_PokemonSpecies__species = 0;
 int[16412] s_Heap__array;
 int[15] s_Heap__head;
 int[15] s_Heap__count;
@@ -1195,6 +1199,10 @@ void trigger__addEventTimer(trigger this,timer p2){
 	TriggerAddEventTimer(this, p2);
 }
 
+void trigger__addEventUnitAbility(trigger this,unitref p2,abilcmd p3,int p4,bool p5){
+	TriggerAddEventUnitAbility(this, p2, p3, p4, p5);
+}
+
 fixed point__get__x(point this){
 	return PointGetX(this);
 }
@@ -1561,17 +1569,18 @@ string Move__toString(int this){
 	return Move___memory[this].Move__name + ", power " + IntToString(Move___memory[this].Move__power) + ", " + Type__toString(Move___memory[this].Move__type) + " type, " + Kind__toString(Move___memory[this].Move__kind);
 }
 
-//Static init
-bool init___global4(bool A__1,bool A__2){
-	s_PokemonSpecies__species = new__ArrayList__1(MC___ArrayList,100);
-	ArrayList__addLast(s_PokemonSpecies__species,new__PokemonSpecies(MC___PokemonSpecies,"Charizard", 10, 10, 10, 10, 10, 1, 9, s_Move__flamethrower));
-	ArrayList__addLast(s_PokemonSpecies__species,new__PokemonSpecies__1(MC___PokemonSpecies,"Pikachu", 10, 10, 10, 10, 10, 3, s_Move__generic));
-	ArrayList__addLast(s_PokemonSpecies__species,new__PokemonSpecies__1(MC___PokemonSpecies,"Chikorita", 25, 25, 25, 25, 25, 4, s_Move__generic));
-	ArrayList__addLast(s_PokemonSpecies__species,new__PokemonSpecies__1(MC___PokemonSpecies,"Squirtle", 10, 10, 10, 10, 10, 2, s_Move__generic));
-	ArrayList__addLast(s_PokemonSpecies__species,new__PokemonSpecies(MC___PokemonSpecies,"Gengar", 10, 10, 10, 10, 10, 13, 7, s_Move__shadowBall));
-	ArrayList__addLast(s_PokemonSpecies__species,new__PokemonSpecies__1(MC___PokemonSpecies,"Blastoise", 10, 10, 10, 10, 10, 2, s_Move__hydroPump));
-	ArrayList__addLast(s_PokemonSpecies__species,new__PokemonSpecies(MC___PokemonSpecies,"Tower", 10, 10, 10, 10, 10, 1, 16, s_Move__flamethrower));
-	return true;
+int s_PokemonSpecies__getSpecies(){
+	if(s_PokemonSpecies__species == 0){
+		s_PokemonSpecies__species = new__ArrayList__1(MC___ArrayList,100);
+		ArrayList__addLast(s_PokemonSpecies__species,new__PokemonSpecies(MC___PokemonSpecies,"Charizard", 10, 10, 10, 10, 10, 1, 9, s_Move__flamethrower));
+		ArrayList__addLast(s_PokemonSpecies__species,new__PokemonSpecies__1(MC___PokemonSpecies,"Pikachu", 10, 10, 10, 10, 10, 3, s_Move__generic));
+		ArrayList__addLast(s_PokemonSpecies__species,new__PokemonSpecies__1(MC___PokemonSpecies,"Chikorita", 25, 25, 25, 25, 25, 4, s_Move__generic));
+		ArrayList__addLast(s_PokemonSpecies__species,new__PokemonSpecies__1(MC___PokemonSpecies,"Squirtle", 10, 10, 10, 10, 10, 2, s_Move__generic));
+		ArrayList__addLast(s_PokemonSpecies__species,new__PokemonSpecies(MC___PokemonSpecies,"Gengar", 10, 10, 10, 10, 10, 13, 7, s_Move__shadowBall));
+		ArrayList__addLast(s_PokemonSpecies__species,new__PokemonSpecies__1(MC___PokemonSpecies,"Blastoise", 10, 10, 10, 10, 10, 2, s_Move__hydroPump));
+		ArrayList__addLast(s_PokemonSpecies__species,new__PokemonSpecies(MC___PokemonSpecies,"Tower", 10, 10, 10, 10, 10, 1, 16, s_Move__flamethrower));
+	}
+	return s_PokemonSpecies__species;
 }
 
 int s_PokemonSpecies__fromString(string name){
@@ -1587,7 +1596,6 @@ int s_PokemonSpecies__fromString(string name){
 		
 		i += 1;
 	}
-	s_System__debug(name);
 	return 0;
 }
 
@@ -1654,7 +1662,7 @@ int AbstractListIterator__next(int this){
 }
 
 //Static init
-bool init___global5(bool A__1,bool A__2){
+bool init___global4(bool A__1,bool A__2){
 	s_Heap__initHeap();
 	return true;
 }
@@ -2175,13 +2183,43 @@ bool damageUnit(bool conditions,bool actions){
 	return true;
 }
 
+string abilcmd__getAbility(abilcmd this){
+	return AbilityCommandGetAbility(this);
+}
+
+void makeRentalCenter(int player){
+	unit u = s_unit__create("RentalCenter", 0, player, Player__get__startLocation(player), 0.0);
+	trigger t = s_trigger__create("rent");
+	int speciesList = s_PokemonSpecies__getSpecies();
+	int i;
+	int species;
+	//generated for-loop
+	i = 0;
+	while(i < ArrayList__size(speciesList)){
+		species = ArrayList__getIndex(speciesList,i);
+		s_System__debug(PokemonSpecies___memory[species].PokemonSpecies__name);
+		trigger__addEventUnitAbility(t,unit__getUnitRef(u), AbilityCommand(PokemonSpecies___memory[species].PokemonSpecies__name, 0), -6, false);
+		s_System__debug("Added trigger for player " + Player__toString(player) + " to rent " + PokemonSpecies___memory[species].PokemonSpecies__name);
+		
+		i += 1;
+	}
+}
+
+bool rent(bool conditions,bool actions){
+	string abilName = abilcmd__getAbility(EventUnitAbility());
+	int player;
+	s_System__debug("Ability " + abilName);
+	player = EventPlayer();
+	s_Trainer__addPokemon__1(player, s_PokemonSpecies__fromString(abilName));
+	return true;
+}
+
 //Static init
-bool init___global6(bool A__1,bool A__2){
+bool init___global5(bool A__1,bool A__2){
 	int centerX;
 	int p;
 	int player;
 	int team;
-	point start;
 	s_Team__left = new__Team(MC___Team,"Left Team", Point(8.0, 36.0));
 	s_Team__right = new__Team(MC___Team,"Right Team", Point(136.0, 36.0));
 	centerX = 72;
@@ -2200,9 +2238,8 @@ bool init___global6(bool A__1,bool A__2){
 			}
 			Team__addTrainer(team,new__Trainer(MC___Trainer,player, team));
 			s_System__debug("Added player " + Player__toString(player) + " to " + Team___memory[team].Team__name);
-			start = Player__get__startLocation(player);
-			s_unit__create("RentalCenter", 0, player, start, 0.0);
-			CameraPan(player, Team___memory[team].Team__spawn, 0.0, 0.0, 0.0, false);
+			makeRentalCenter(player);
+			CameraPan(player, Player__get__startLocation(player), 0.0, 0.0, 0.0, false);
 		}
 		
 		p += 1;
@@ -2251,8 +2288,12 @@ void Trainer__addPokemon(int this,int species){
 	vcall___Set__add(Trainer___memory[this].Trainer__pokemon,new__Pokemon(MC___Pokemon,species, 10, Trainer___memory[this].Trainer__player, Team___memory[Trainer___memory[this].Trainer__team].Team__spawn));
 }
 
+void s_Trainer__addPokemon__1(int player,int species){
+	Trainer__addPokemon(vcall___Map__getValue(s_Trainer__trainers,player),species);
+}
+
 //Static init
-bool init___global7(bool A__1,bool A__2){
+bool init___global6(bool A__1,bool A__2){
 	timer t;
 	VisEnable(1, false);
 	trigger__addEventChatMessage(s_trigger__create("createUnitChat"),-1, "", false);
@@ -2315,17 +2356,15 @@ void initAndromeda(){
 	A__classInit();
 	t = TriggerCreate("init___global1");
 	TriggerAddEventMapInit(t);
-	t = TriggerCreate("init___global5");
+	t = TriggerCreate("init___global4");
 	TriggerAddEventMapInit(t);
-	t = TriggerCreate("init___global6");
+	t = TriggerCreate("init___global5");
 	TriggerAddEventMapInit(t);
 	t = TriggerCreate("init___global2");
 	TriggerAddEventMapInit(t);
 	t = TriggerCreate("init___global3");
 	TriggerAddEventMapInit(t);
-	t = TriggerCreate("init___global4");
-	TriggerAddEventMapInit(t);
-	t = TriggerCreate("init___global7");
+	t = TriggerCreate("init___global6");
 	TriggerAddEventMapInit(t);
 }
 

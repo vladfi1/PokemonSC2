@@ -5,9 +5,11 @@ import a.util.ArrayMap;
 import a.natives.Player;
 import a.natives.playergroup;
 import a.natives.unit;
+import a.natives.trigger;
 
 include "pokemon.a"
 include "species.a"
+include "rental.a"
 
 static {
     Team.left = new Team("Left Team", Point(8, 36));
@@ -30,9 +32,8 @@ static {
             team.addTrainer(new Trainer(player, team));
             System.debug("Added player " + player.toString() + " to " + team.name);
             
-            point start = player.startLocation;
-            unit.create("RentalCenter", 0, (int)player, start, 0);
-            CameraPan((int)player, start, 0, 0, 0, false);
+            makeRentalCenter(player);
+            CameraPan((int)player, player.startLocation, 0, 0, 0, false);
         }
     }
     
@@ -91,6 +92,10 @@ class Trainer {
     
     public void addPokemon(PokemonSpecies species) {
         pokemon.add(new Pokemon(species, 10, player, team.spawn));
+    }
+    
+    public static void addPokemon(Player player, PokemonSpecies species) {
+        trainers.getValue(player).addPokemon(species);
     }
 }
 
