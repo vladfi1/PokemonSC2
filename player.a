@@ -11,26 +11,29 @@ include "species.a"
 static {
     Team.left = new Team("Left Team", Point(8, 36));
     Team.right = new Team("Right Team", Point(136, 36));
+    int centerX = 72;
     Team.left.enemy = Team.right;
     Team.right.enemy = Team.left;
     
     Trainer.trainers = new ArrayMap<Player, Trainer>();
     for (int p = 1; p < Player.MAX_PLAYERS; ++p) {
         Player player = (Player) p;
+        
         if (player.isActive()) {
-            Team team = Team.left;
-            if (Team.right.size() < Team.left.size()) {
+            Team team;
+            if (player.startLocation.x < centerX) {
+                team = Team.left;
+            } else {
                 team = Team.right;
             }
-            team.trainers.add(new Trainer(player, team));
-            team.group.add(player);
+            team.addTrainer(new Trainer(player, team));
             System.debug("Added player " + player.toString() + " to " + team.name);
-			CameraPan((int)player, team.spawn, 0, 0, 0, false);
+            CameraPan((int)player, team.spawn, 0, 0, 0, false);
         }
     }
     
-    libNtve_gf_SetPlayerGroupAlliance(Team.left.group, 2);
-    libNtve_gf_SetPlayerGroupAlliance(Team.right.group, 2);
+    //libNtve_gf_SetPlayerGroupAlliance(Team.left.group, 2);
+    //libNtve_gf_SetPlayerGroupAlliance(Team.right.group, 2);
 }
 
 class Team {
@@ -56,6 +59,12 @@ class Team {
     public string toString() {
         return name;
     }
+    
+    public void addTrainer(Trainer trainer) {
+        trainers.add(trainer);
+        group.add(trainer.player);
+    }
+    
 }
 
 class Trainer {
