@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CButton id="Pikachu">
+        <AlertIcon value="Assets\Textures\btn-ability-protoss-psistorm.dds"/>
+        <Icon value="Assets\Textures\btn-ability-protoss-psistorm.dds"/>
+    </CButton>
+</Catalog>
