@@ -32,7 +32,7 @@ static {
             
             point start = player.startLocation;
             unit.create("RentalCenter", 0, (int)player, start, 0);
-            CameraPan((int)player, team.spawn, 0, 0, 0, false);
+            CameraPan((int)player, start, 0, 0, 0, false);
         }
     }
     
