@@ -28,6 +28,8 @@ public class Pokemon {
         this._unit.setPropertyInt(c_unitPropLifeMax, this.hp);
         this._unit.setCustomValue(0, (int)this);
         
+        this._unit.setInfoText("Level " + level, "", "");
+        
         TriggerAddEventUnitDamaged(TriggerCreate(damageUnit.name), _unit.getUnitRef(), c_unitDamageTypeAny, c_unitDamageEither, null);
     }
     

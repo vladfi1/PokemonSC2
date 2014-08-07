@@ -1,4 +1,4 @@
-//Andromeda generated code @ Wed Aug 06 05:59:34 EDT 2014
+//Andromeda generated code @ Thu Aug 07 04:26:20 EDT 2014
 
 struct Class{
 	int Class____id;
@@ -279,6 +279,7 @@ playergroup s_playergroup__empty();
 void playergroup__add(playergroup this,int p);
 unit s_unit__create(string name,int options,int player,point position,fixed angle);
 point unit__getPosition(unit this);
+void unit__setInfoText(unit this,text p2,text p3,text p4);
 void unit__setPropertyInt(unit this,int p2,int p3);
 void unit__setCustomValue(unit this,int p2,fixed p3);
 fixed unit__getCustomValue(unit this,int p2);
@@ -2027,6 +2028,10 @@ point unit__getPosition(unit this){
 	return UnitGetPosition(this);
 }
 
+void unit__setInfoText(unit this,text p2,text p3,text p4){
+	UnitSetInfoText(this, p2, p3, p4);
+}
+
 void unit__setPropertyInt(unit this,int p2,int p3){
 	UnitSetPropertyInt(this, p2, p3);
 }
@@ -2053,6 +2058,7 @@ int new__Pokemon(int A__class,int species,int level,int owner,point p){
 	Pokemon___memory[this].Pokemon___unit = s_unit__create(PokemonSpecies___memory[species].PokemonSpecies__name, 0, owner, p, 0.0);
 	unit__setPropertyInt(Pokemon___memory[this].Pokemon___unit,2, Pokemon___memory[this].Pokemon__hp);
 	unit__setCustomValue(Pokemon___memory[this].Pokemon___unit,0, IntToFixed(this));
+	unit__setInfoText(Pokemon___memory[this].Pokemon___unit,StringToText("Level " + IntToString(level)), StringToText(""), StringToText(""));
 	TriggerAddEventUnitDamaged(TriggerCreate("damageUnit"), unit__getUnitRef(Pokemon___memory[this].Pokemon___unit), -1, 0, null);
 	return this;
 }
