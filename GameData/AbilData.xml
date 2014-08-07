@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <Catalog>
     <CAbilEffectInstant id="Pikachu"/>
+    <CAbilEffectInstant id="Charizard"/>
+    <CAbilEffectInstant id="Gengar"/>
+    <CAbilEffectInstant id="Blastoise"/>
+    <CAbilEffectInstant id="Chikorita"/>
+    <CAbilEffectInstant id="Squirtle"/>
 </Catalog>

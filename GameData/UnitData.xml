@@ -3,8 +3,18 @@
     <CUnit id="RentalCenter">
         <CardLayouts>
             <LayoutButtons Face="Pikachu" Type="AbilCmd" AbilCmd="Pikachu,Execute" Row="0" Column="0"/>
+            <LayoutButtons Face="Chikorita" Type="AbilCmd" AbilCmd="Chikorita,Execute" Row="0" Column="1"/>
+            <LayoutButtons Face="Squirtle" Type="AbilCmd" AbilCmd="Squirtle,Execute" Row="0" Column="2"/>
+            <LayoutButtons Face="Charizard" Type="AbilCmd" AbilCmd="Charizard,Execute" Row="2" Column="0"/>
+            <LayoutButtons Face="Blastoise" Type="AbilCmd" AbilCmd="Blastoise,Execute" Row="2" Column="1"/>
+            <LayoutButtons Face="Gengar" Type="AbilCmd" AbilCmd="Gengar,Execute" Row="2" Column="2"/>
         </CardLayouts>
         <AbilArray Link="Pikachu"/>
+        <AbilArray Link="Charizard"/>
+        <AbilArray Link="Gengar"/>
+        <AbilArray Link="Blastoise"/>
+        <AbilArray Link="Chikorita"/>
+        <AbilArray Link="Squirtle"/>
     </CUnit>
     <CUnit default="1" id="MovingUnit">
         <Speed value="2"/>

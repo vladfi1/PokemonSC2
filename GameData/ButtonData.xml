@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <Catalog>
-    <CButton id="Pikachu">
+    <CButton default="1" id="GenericButton">
         <AlertIcon value="Assets\Textures\btn-ability-protoss-psistorm.dds"/>
         <Icon value="Assets\Textures\btn-ability-protoss-psistorm.dds"/>
     </CButton>
+    <CButton id="Pikachu" parent="GenericButton"/>
+    <CButton id="Charizard" parent="GenericButton"/>
+    <CButton id="Gengar" parent="GenericButton"/>
+    <CButton id="Blastoise" parent="GenericButton"/>
+    <CButton id="Chikorita" parent="GenericButton"/>
+    <CButton id="Squirtle" parent="GenericButton"/>
 </Catalog>
