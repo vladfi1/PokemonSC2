@@ -1,4 +1,4 @@
-//Andromeda generated code @ Fri Aug 08 01:48:11 EDT 2014
+//Andromeda generated code @ Fri Aug 08 03:28:52 EDT 2014
 
 struct Class{
 	int Class____id;
@@ -92,6 +92,7 @@ struct Team{
 	int Team____type;
 	string Team__name;
 	point Team__spawn;
+	int Team__cpu;
 	playergroup Team__group;
 	int Team__trainers;
 	int Team__enemy;
@@ -202,7 +203,6 @@ trigger s_trigger__create(string func);
 void trigger__addEventChatMessage(trigger this,int p2,string p3,bool p4);
 void trigger__addEventTimer(trigger this,timer p2);
 void trigger__addEventUnitAbility(trigger this,unitref p2,abilcmd p3,int p4,bool p5);
-fixed point__get__x(point this);
 point point__translateXY(point this,fixed dx,fixed dy);
 timer s_timer__create();
 void timer__start(timer this,fixed duration,bool periodic,int timeType);
@@ -299,7 +299,7 @@ int Pokemon__damage(int this,int other);
 fixed Pokemon__getTypeAdvantage(int this,int other);
 unit Pokemon__getUnit(int this);
 void Pokemon__setUnit(int this,unit u);
-int Pokemon__clone(int this,point p);
+int Pokemon__clone(int this,int player,point spawn);
 int PokemonComparator__compare(int this,int p1,int p2);
 int PokemonHasher__hashCode(int this,int p);
 bool PokemonHasher__equal(int this,int p1,int p2);
@@ -307,10 +307,11 @@ bool damageUnit(bool conditions,bool actions);
 string abilcmd__getAbility(abilcmd this);
 void makeRentalCenter(int player);
 bool rent(bool conditions,bool actions);
+void initTrainer(int player,int team);
 //Static init
 bool init___global5(bool A__1,bool A__2);
 //Constructor for class Team
-int new__Team(int A__class,string name,point spawn);
+int new__Team(int A__class,string name,point spawn,int cpu);
 int Team__size(int this);
 string Team__toString(int this);
 void Team__addTrainer(int this,int trainer);
@@ -1208,10 +1209,6 @@ void trigger__addEventTimer(trigger this,timer p2){
 
 void trigger__addEventUnitAbility(trigger this,unitref p2,abilcmd p3,int p4,bool p5){
 	TriggerAddEventUnitAbility(this, p2, p3, p4, p5);
-}
-
-fixed point__get__x(point this){
-	return PointGetX(this);
 }
 
 point point__translateXY(point this,fixed dx,fixed dy){
@@ -2155,8 +2152,8 @@ void Pokemon__setUnit(int this,unit u){
 	Pokemon___memory[this].Pokemon___unit = u;
 }
 
-int Pokemon__clone(int this,point p){
-	return new__Pokemon(MC___Pokemon,Pokemon___memory[this].Pokemon__species, Pokemon___memory[this].Pokemon__level, Pokemon___memory[this].Pokemon__owner, p);
+int Pokemon__clone(int this,int player,point spawn){
+	return new__Pokemon(MC___Pokemon,Pokemon___memory[this].Pokemon__species, Pokemon___memory[this].Pokemon__level, player, spawn);
 }
 
 int PokemonComparator__compare(int this,int p1,int p2){
@@ -2220,45 +2217,43 @@ bool rent(bool conditions,bool actions){
 	return true;
 }
 
+void initTrainer(int player,int team){
+	int p = player;
+	if(!Player__isActive(p)){
+		return;
+	}
+	Team__addTrainer(team,new__Trainer(MC___Trainer,p, team));
+	s_System__debug("Added player " + Player__toString(p) + " to " + Team___memory[team].Team__name);
+	makeRentalCenter(p);
+	CameraPan(player, Player__get__startLocation(p), 0.0, 0.0, 0.0, false);
+}
+
 //Static init
 bool init___global5(bool A__1,bool A__2){
 	int centerX;
-	int p;
-	int player;
-	int team;
-	s_Team__left = new__Team(MC___Team,"Left Team", Point(8.0, 36.0));
-	s_Team__right = new__Team(MC___Team,"Right Team", Point(136.0, 36.0));
+	s_Team__left = new__Team(MC___Team,"Left Team", Point(8.0, 36.0), 9);
+	s_Team__right = new__Team(MC___Team,"Right Team", Point(136.0, 36.0), 10);
 	centerX = 72;
 	Team___memory[s_Team__left].Team__enemy = s_Team__right;
 	Team___memory[s_Team__right].Team__enemy = s_Team__left;
 	s_Trainer__trainers = new__ArrayMap(MC___ArrayMap);
-	//generated for-loop
-	p = 1;
-	while(p < 32){
-		player = p;
-		if(Player__isActive(player)){
-			if(point__get__x(Player__get__startLocation(player)) < centerX){
-				team = s_Team__left;
-			} else {
-				team = s_Team__right;
-			}
-			Team__addTrainer(team,new__Trainer(MC___Trainer,player, team));
-			s_System__debug("Added player " + Player__toString(player) + " to " + Team___memory[team].Team__name);
-			makeRentalCenter(player);
-			CameraPan(player, Player__get__startLocation(player), 0.0, 0.0, 0.0, false);
-		}
-		
-		p += 1;
-	}
+	initTrainer(1, s_Team__left);
+	initTrainer(2, s_Team__left);
+	initTrainer(3, s_Team__right);
+	initTrainer(4, s_Team__right);
+	libNtve_gf_SetPlayerGroupAlliance(Team___memory[s_Team__left].Team__group, 2);
+	libNtve_gf_SetPlayerGroupAlliance(Team___memory[s_Team__right].Team__group, 2);
 	return true;
 }
 
 //Constructor for class Team
-int new__Team(int A__class,string name,point spawn){
+int new__Team(int A__class,string name,point spawn,int cpu){
 	int this=alloc___Team(A__class);
 	Team___memory[this].Team__name = name;
 	Team___memory[this].Team__spawn = spawn;
+	Team___memory[this].Team__cpu = cpu;
 	Team___memory[this].Team__group = s_playergroup__empty();
+	playergroup__add(Team___memory[this].Team__group,cpu);
 	Team___memory[this].Team__trainers = new__ArraySet(MC___ArraySet);
 	return this;
 }
@@ -2348,7 +2343,7 @@ void waveHelper(int team,int dx){
 		while(vcall___Iterator__hasNext(pokemon)){
 			p = vcall___Iterator__next(pokemon);
 			spawn = point__translateXY(unit__getPosition(Pokemon__getUnit(p)),IntToFixed(spawn_dx), 0.0);
-			clone = Pokemon__clone(p,spawn);
+			clone = Pokemon__clone(p,Team___memory[Trainer___memory[trainer].Trainer__team].Team__cpu, spawn);
 			attack = point__translateXY(spawn,IntToFixed(attack_dx), 0.0);
 			o = OrderTargetingPoint(AbilityCommand("attack", 0), attack);
 			UnitIssueOrder(Pokemon__getUnit(clone), o, 1);

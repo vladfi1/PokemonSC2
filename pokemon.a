@@ -101,8 +101,8 @@ public class Pokemon {
         _unit = u;
     }
     
-	public Pokemon clone(point p) {
-        return new Pokemon(species, level, owner, p);
+	public Pokemon clone(Player player, point spawn) {
+        return new Pokemon(species, level, player, spawn);
     }
     
     public static Comparator<Pokemon> comparator = new PokemonComparator();

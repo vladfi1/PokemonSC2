@@ -11,34 +11,33 @@ include "pokemon.a"
 include "species.a"
 include "rental.a"
 
+void initTrainer(int player, Team team) {
+    Player p = (Player) player;
+    if (!p.isActive()) return;
+    
+    team.addTrainer(new Trainer(p, team));
+    System.debug("Added player " + p.toString() + " to " + team.name);
+    
+    makeRentalCenter(p);
+    CameraPan(player, p.startLocation, 0, 0, 0, false);
+}
+
 static {
-    Team.left = new Team("Left Team", Point(8, 36));
-    Team.right = new Team("Right Team", Point(136, 36));
+    Team.left = new Team("Left Team", Point(8, 36), (Player) 9);
+    Team.right = new Team("Right Team", Point(136, 36), (Player) 10);
     int centerX = 72;
     Team.left.enemy = Team.right;
     Team.right.enemy = Team.left;
     
     Trainer.trainers = new ArrayMap<Player, Trainer>();
-    for (int p = 1; p < Player.MAX_PLAYERS; ++p) {
-        Player player = (Player) p;
-        
-        if (player.isActive()) {
-            Team team;
-            if (player.startLocation.x < centerX) {
-                team = Team.left;
-            } else {
-                team = Team.right;
-            }
-            team.addTrainer(new Trainer(player, team));
-            System.debug("Added player " + player.toString() + " to " + team.name);
-            
-            makeRentalCenter(player);
-            CameraPan((int)player, player.startLocation, 0, 0, 0, false);
-        }
-    }
     
-    //libNtve_gf_SetPlayerGroupAlliance(Team.left.group, 2);
-    //libNtve_gf_SetPlayerGroupAlliance(Team.right.group, 2);
+    initTrainer(1, Team.left);
+    initTrainer(2, Team.left);
+    initTrainer(3, Team.right);
+    initTrainer(4, Team.right);
+    
+    libNtve_gf_SetPlayerGroupAlliance(Team.left.group, 2);
+    libNtve_gf_SetPlayerGroupAlliance(Team.right.group, 2);
 }
 
 class Team {
@@ -46,14 +45,17 @@ class Team {
     
     string name;
     point spawn;
+    Player cpu;
     playergroup group;
     Set<Trainer> trainers;
     Team enemy;
     
-    Team(string name, point spawn) {
+    Team(string name, point spawn, Player cpu) {
         this.name = name;
         this.spawn = spawn;
+        this.cpu = cpu;
         group = playergroup.empty();
+        group.add(cpu);
         this.trainers = new ArraySet<Trainer>();
     }
     

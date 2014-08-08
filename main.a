@@ -108,7 +108,7 @@ void waveHelper(Team team, int dx) {
             Pokemon p = pokemon.next();
             
             point spawn = p.getUnit().getPosition().translateXY(spawn_dx, 0);
-            Pokemon clone = p.clone(spawn);
+            Pokemon clone = p.clone(trainer.team.cpu, spawn);
             
             point attack = spawn.translateXY(attack_dx, 0);
             order o = OrderTargetingPoint(AbilityCommand("attack", 0), attack);
