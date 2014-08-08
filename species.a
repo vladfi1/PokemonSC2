@@ -14,7 +14,7 @@ public class PokemonSpecies {
             species.addLast(new PokemonSpecies("Gengar", 60, 65, 60, 130, 75, Type.GHOST, Type.POISON, Move.SHADOW_BALL));
             species.addLast(new PokemonSpecies("Blastoise", 79, 83, 100, 85, 105, Type.WATER, Move.HYDRO_PUMP));
             
-            //species.addLast(new PokemonSpecies("Tower", 10, 10, 10, 10, 10, Type.FIRE, Type.STEEL, Move.flamethrower));
+            //species.addLast(new PokemonSpecies("Tower", 10, 10, 10, 10, 10, Type.FIRE, Type.STEEL, Move.FLAMETHROWER));
         }
         return species;
     }
