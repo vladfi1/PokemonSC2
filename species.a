@@ -7,14 +7,14 @@ public class PokemonSpecies {
     public static ArrayList<PokemonSpecies> getSpecies() {
         if (species == null) {
             species = new ArrayList<PokemonSpecies>(100);
-            species.addLast(new PokemonSpecies("Charizard", 10, 10, 10, 10, 10, Type.FIRE, Type.FLYING, Move.flamethrower));
-            species.addLast(new PokemonSpecies("Pikachu", 10, 10,10,10,10, Type.ELECTRIC, Move.generic));
-            species.addLast(new PokemonSpecies("Chikorita", 25, 25, 25, 25, 25, Type.GRASS, Move.generic));
-            species.addLast(new PokemonSpecies("Squirtle", 10, 10, 10, 10, 10, Type.WATER, Move.generic));
-            species.addLast(new PokemonSpecies("Gengar", 10, 10, 10, 10, 10, Type.GHOST, Type.POISON, Move.shadowBall));
-            species.addLast(new PokemonSpecies("Blastoise", 10, 10, 10, 10, 10, Type.WATER, Move.hydroPump));
+            species.addLast(new PokemonSpecies("Charizard", 78, 84, 78, 109, 85 , Type.FIRE, Type.FLYING, Move.FLAMETHROWER));
+            species.addLast(new PokemonSpecies("Pikachu", 35, 55, 30, 50, 40, Type.ELECTRIC, Move.GENERIC));
+            species.addLast(new PokemonSpecies("Chikorita", 45, 49, 65, 49, 65, Type.GRASS, Move.RAZOR_LEAF));
+            species.addLast(new PokemonSpecies("Squirtle", 44, 48, 65, 50, 64, Type.WATER, Move.WATER_GUN));
+            species.addLast(new PokemonSpecies("Gengar", 60, 65, 60, 130, 75, Type.GHOST, Type.POISON, Move.SHADOW_BALL));
+            species.addLast(new PokemonSpecies("Blastoise", 79, 83, 100, 85, 105, Type.WATER, Move.HYDRO_PUMP));
             
-            species.addLast(new PokemonSpecies("Tower", 10, 10, 10, 10, 10, Type.FIRE, Type.STEEL, Move.flamethrower));
+            //species.addLast(new PokemonSpecies("Tower", 10, 10, 10, 10, 10, Type.FIRE, Type.STEEL, Move.flamethrower));
         }
         return species;
     }

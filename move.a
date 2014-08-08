@@ -19,10 +19,12 @@ public enrich Kind {
 }
 
 class Move {
-    public static Move generic = new Move("Generic", 50, Type.NORMAL, Kind.PHYSICAL);
-    public static Move flamethrower = new Move("Flamethrower", 95, Type.FIRE, Kind.SPECIAL);
-    public static Move shadowBall = new Move("Shadow Ball", 80, Type.GHOST, Kind.SPECIAL);
-    public static Move hydroPump = new Move("Hydro Pump", 120, Type.WATER, Kind.SPECIAL);
+    public static Move GENERIC = new Move("Generic", 50, Type.NORMAL, Kind.PHYSICAL);
+    public static Move FLAMETHROWER = new Move("Flamethrower", 95, Type.FIRE, Kind.SPECIAL);
+    public static Move SHADOW_BALL = new Move("Shadow Ball", 80, Type.GHOST, Kind.SPECIAL);
+    public static Move HYDRO_PUMP = new Move("Hydro Pump", 120, Type.WATER, Kind.SPECIAL);
+    public static Move WATER_GUN = new Move("Water Gun", 40, Type.WATER, Kind.SPECIAL);
+    public static Move RAZOR_LEAF = new Move("Razor Leaf", 55, Type.GRASS, Kind.PHYSICAL);
     
     // Name of this move.
     public string name;
