@@ -133,10 +133,10 @@ private bool damageUnit(bool conditions, bool actions) {
 
     //System.debug((string)(int)p_src.species);
     //System.debug((string)(int)p_trg.species);
-    System.debug(p_src.species.move.toString());
+    //System.debug(p_src.species.move.toString());
     
     int damage = p_src.damage(p_trg);
-    System.debug((string) damage);
+    //System.debug((string) damage);
     p_trg.hp -= damage;
     if (p_trg.hp < 0) {
         p_trg.hp = 0;

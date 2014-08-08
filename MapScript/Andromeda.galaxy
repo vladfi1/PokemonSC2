@@ -1,4 +1,4 @@
-//Andromeda generated code @ Fri Aug 08 03:28:52 EDT 2014
+//Andromeda generated code @ Fri Aug 08 03:32:47 EDT 2014
 
 struct Class{
 	int Class____id;
@@ -200,7 +200,6 @@ point Player__get__startLocation(int this);
 //Static init
 bool init___global1(bool A__1,bool A__2);
 trigger s_trigger__create(string func);
-void trigger__addEventChatMessage(trigger this,int p2,string p3,bool p4);
 void trigger__addEventTimer(trigger this,timer p2);
 void trigger__addEventUnitAbility(trigger this,unitref p2,abilcmd p3,int p4,bool p5);
 point point__translateXY(point this,fixed dx,fixed dy);
@@ -1199,10 +1198,6 @@ trigger s_trigger__create(string func){
 	return TriggerCreate(func);
 }
 
-void trigger__addEventChatMessage(trigger this,int p2,string p3,bool p4){
-	TriggerAddEventChatMessage(this, p2, p3, p4);
-}
-
 void trigger__addEventTimer(trigger this,timer p2){
 	TriggerAddEventTimer(this, p2);
 }
@@ -2173,10 +2168,7 @@ bool damageUnit(bool conditions,bool actions){
 	unit trg = EventUnit();
 	int p_src = FixedToInt(unit__getCustomValue(src,0));
 	int p_trg = FixedToInt(unit__getCustomValue(trg,0));
-	int damage;
-	s_System__debug(Move__toString(PokemonSpecies___memory[Pokemon___memory[p_src].Pokemon__species].PokemonSpecies__move));
-	damage = Pokemon__damage(p_src,p_trg);
-	s_System__debug(IntToString(damage));
+	int damage = Pokemon__damage(p_src,p_trg);
 	Pokemon___memory[p_trg].Pokemon__hp -= damage;
 	if(Pokemon___memory[p_trg].Pokemon__hp < 0){
 		Pokemon___memory[p_trg].Pokemon__hp = 0;
@@ -2200,9 +2192,7 @@ void makeRentalCenter(int player){
 	i = 0;
 	while(i < ArrayList__size(speciesList)){
 		species = ArrayList__getIndex(speciesList,i);
-		s_System__debug(PokemonSpecies___memory[species].PokemonSpecies__name);
 		trigger__addEventUnitAbility(t,unit__getUnitRef(u), AbilityCommand(PokemonSpecies___memory[species].PokemonSpecies__name, 0), -6, false);
-		s_System__debug("Added trigger for player " + Player__toString(player) + " to rent " + PokemonSpecies___memory[species].PokemonSpecies__name);
 		
 		i += 1;
 	}
@@ -2210,9 +2200,7 @@ void makeRentalCenter(int player){
 
 bool rent(bool conditions,bool actions){
 	string abilName = abilcmd__getAbility(EventUnitAbility());
-	int player;
-	s_System__debug("Ability " + abilName);
-	player = EventPlayer();
+	int player = EventPlayer();
 	s_Trainer__addPokemon__1(player, s_PokemonSpecies__fromString(abilName));
 	return true;
 }
@@ -2298,7 +2286,6 @@ void s_Trainer__addPokemon__1(int player,int species){
 bool init___global6(bool A__1,bool A__2){
 	timer t;
 	VisEnable(1, false);
-	trigger__addEventChatMessage(s_trigger__create("createUnitChat"),-1, "", false);
 	t = s_timer__create();
 	timer__start(t,15.0, true, 0);
 	trigger__addEventTimer(s_trigger__create("makeWave"),t);
