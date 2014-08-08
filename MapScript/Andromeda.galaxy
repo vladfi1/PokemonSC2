@@ -1,4 +1,4 @@
-//Andromeda generated code @ Thu Aug 07 20:07:17 EDT 2014
+//Andromeda generated code @ Fri Aug 08 01:48:11 EDT 2014
 
 struct Class{
 	int Class____id;
@@ -193,6 +193,7 @@ void s_System__debug(string message);
 void s_System__debug__1(string message,bool showIngame);
 void s_System__print(string message);
 string Player__toString(int this);
+void Player__set__minerals(int this,int value);
 bool Player__isActive(int this);
 point Player__get__startLocation(int this);
 //Static init
@@ -1075,6 +1076,10 @@ void s_System__print(string message){
 
 string Player__toString(int this){
 	return IntToString(this);
+}
+
+void Player__set__minerals(int this,int value){
+	PlayerModifyPropertyInt(this, 0, 0, value);
 }
 
 bool Player__isActive(int this){
@@ -2279,6 +2284,7 @@ int s_Trainer__getTrainer(int player){
 int new__Trainer(int A__class,int player,int team){
 	int this=alloc___Trainer(A__class);
 	Trainer___memory[this].Trainer__player = player;
+	Player__set__minerals(player,100);
 	Trainer___memory[this].Trainer__team = team;
 	Trainer___memory[this].Trainer__pokemon = new__ArraySet(MC___ArraySet);
 	vcall___Map__put(s_Trainer__trainers,player, this);

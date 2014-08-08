@@ -85,6 +85,7 @@ class Trainer {
     
     public Trainer(Player player, Team team) {
         this.player = player;
+        player.minerals = 100;
         this.team = team;
         this.pokemon = new ArraySet<Pokemon>();
         trainers.put(player, this);
