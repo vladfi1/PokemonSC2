@@ -22,7 +22,7 @@ static {
     //createUnitHelper("Tower", 1, point.fromId(3));
     //createUnitHelper("Tower", 1, point.fromId(4));
 
-    trigger.create(createUnitChat.name).addEventChatMessage(c_playerAny, "", false);
+    //trigger.create(createUnitChat.name).addEventChatMessage(c_playerAny, "", false);
 
     //trigger.create(print5.name).addEventUnitAbility(u.getUnitRef(), AbilityCommand("Print", 0), -3, false);
 
