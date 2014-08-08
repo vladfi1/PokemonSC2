@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <Catalog>
-    <CButton default="1" id="GenericButton">
+    <CButton default="1" id="Rent">
         <AlertIcon value="Assets\Textures\btn-ability-protoss-psistorm.dds"/>
         <Icon value="Assets\Textures\btn-ability-protoss-psistorm.dds"/>
+        <Name value="##id##"/>
+        <Tooltip value="Rent ##id##"/>
+        <AlertName value="##id##"/>
+        <AlertTooltip value="Rent ##id##"/>
     </CButton>
-    <CButton id="Pikachu" parent="GenericButton"/>
-    <CButton id="Charizard" parent="GenericButton"/>
-    <CButton id="Gengar" parent="GenericButton"/>
-    <CButton id="Blastoise" parent="GenericButton"/>
-    <CButton id="Chikorita" parent="GenericButton"/>
-    <CButton id="Squirtle" parent="GenericButton"/>
+    <CButton id="Pikachu" parent="Rent"/>
+    <CButton id="Charizard" parent="Rent"/>
+    <CButton id="Gengar" parent="Rent"/>
+    <CButton id="Blastoise" parent="Rent"/>
+    <CButton id="Chikorita" parent="Rent"/>
+    <CButton id="Squirtle" parent="Rent"/>
 </Catalog>
