@@ -25,5 +25,6 @@ bool rent(bool conditions, bool actions) {
     //System.debug("Ability " + abilName);
     Player player = (Player)EventPlayer();
     Trainer.addPokemon(player, PokemonSpecies.fromString(abilName));
+    System.debug("Player " + player.toString() + " rented " + abilName);
     return true;
 }

@@ -7,14 +7,7 @@ include "player.a"
 
 
 static {
-    //initPlayers(2);
-    //createBoard(2);
-
     VisEnable(c_visTypeFog, false);
-
-    //CameraPan(1, Point(50, 50), 0, 0, 0, false);
-
-    //unit u = unit.create("RentalCenters", 0, 1, Point(40, 40), 0);
 
     //point.fromId doesn't work :(
     //createUnitHelper("Tower", 7, point.fromId(1));
@@ -42,39 +35,8 @@ static {
     }*/
 }
 
-bool createUnitChat(bool b1, bool b2) {
-    string chat = EventChatMessage(false);
-    
-    PokemonSpecies species = PokemonSpecies.fromString(chat);
-    if (species == null) {
-        System.print("Species " + chat + " does not exist!");
-        return false;
-    }
-    
-    int player = EventPlayer();
-    Trainer trainer = Trainer.getTrainer(player);
-    //System.debug("Team name: " + trainer.team.name);
-    //System.debug((string) Trainer.trainers.size());
-    trainer.addPokemon(species);
-    return true;
-}
-
-/*
-public bool print5(bool a, bool b) {
-    System.debug("5");
-    return false;
-}*/
-
 //LeaderBoard lb;
 //int[12] lives;
-
-/////  logistic methods
-/*
-public void initPlayers(int players) {
-    for (int i=0; i<players; i+=1) {
-        lives[i] = 20;
-    }
-}*/
 
 /////  leaderboard methods
 /*
@@ -120,25 +82,3 @@ void waveHelper(Team team, int dx) {
     
     delete trainers;
 }
-
-/////  wave methods
-
-/*public void setMonsterPath(unit u) {
-    for (int i=2; i<=6; i+=1) {
-        order o = OrderTargetingPoint(AbilityCommand("move", 0), point.fromId(i));
-        UnitIssueOrder(u, o, c_orderQueueAddToEnd);
-    }
-}*/
-
-/*public void createWave(string s, int number) {
-    for (int i=0; i<number; i+=1) {
-        unit u = createUnit(s, WAVE_START_POINT);
-        TriggerAddEventUnitDamaged(TriggerCreate(damageUnit.name), u.getUnitRef(), c_unitDamageTypeAny, c_unitDamageEither, null);
-        setMonsterPath(u);
-
-        if (i < number-1) {
-            Wait(1, c_timeGame);
-        }
-    }
-}*/
-

@@ -1,4 +1,4 @@
-//Andromeda generated code @ Fri Aug 08 03:32:47 EDT 2014
+//Andromeda generated code @ Sun Aug 10 06:58:50 EDT 2014
 
 struct Class{
 	int Class____id;
@@ -87,12 +87,19 @@ struct Pokemon{
 	unit Pokemon___unit;
 };
 
+struct MapBounds{
+	int MapBounds____id;
+	int MapBounds____type;
+};
+
 struct Team{
 	int Team____id;
 	int Team____type;
 	string Team__name;
 	point Team__spawn;
 	int Team__cpu;
+	region Team__vulnerable;
+	int Team__lives;
 	playergroup Team__group;
 	int Team__trainers;
 	int Team__enemy;
@@ -177,6 +184,10 @@ void dealloc___MapEntry(int this);
 int alloc___Pokemon(int A__class);
 //Deallocator for class Pokemon
 void dealloc___Pokemon(int this);
+//Allocator for class MapBounds
+int alloc___MapBounds(int A__class);
+//Deallocator for class MapBounds
+void dealloc___MapBounds(int this);
 //Allocator for class Team
 int alloc___Team(int A__class);
 //Deallocator for class Team
@@ -201,7 +212,12 @@ point Player__get__startLocation(int this);
 bool init___global1(bool A__1,bool A__2);
 trigger s_trigger__create(string func);
 void trigger__addEventTimer(trigger this,timer p2);
+void trigger__addEventUnitDied(trigger this,unitref p2);
+void trigger__addEventUnitDamaged(trigger this,unitref p2,int p3,int p4,string p5);
+void trigger__addEventUnitRegion(trigger this,unitref p2,region p3,bool p4);
 void trigger__addEventUnitAbility(trigger this,unitref p2,abilcmd p3,int p4,bool p5);
+fixed point__get__x(point this);
+fixed point__get__y(point this);
 point point__translateXY(point this,fixed dx,fixed dy);
 timer s_timer__create();
 void timer__start(timer this,fixed duration,bool periodic,int timeType);
@@ -298,37 +314,49 @@ int Pokemon__damage(int this,int other);
 fixed Pokemon__getTypeAdvantage(int this,int other);
 unit Pokemon__getUnit(int this);
 void Pokemon__setUnit(int this,unit u);
-int Pokemon__clone(int this,int player,point spawn);
+int s_Pokemon__fromUnit(unit u);
+int Pokemon__clone(int this,int trainer,point spawn);
+string Pokemon__toString(int this);
 int PokemonComparator__compare(int this,int p1,int p2);
 int PokemonHasher__hashCode(int this,int p);
 bool PokemonHasher__equal(int this,int p1,int p2);
-bool damageUnit(bool conditions,bool actions);
+bool unitDamaged(bool conditions,bool actions);
+bool unitFainted(bool conditions,bool actions);
+bool decreaseLife__1(bool conditions,bool actions);
 string abilcmd__getAbility(abilcmd this);
 void makeRentalCenter(int player);
 bool rent(bool conditions,bool actions);
-void initTrainer(int player,int team);
+point region__minBound(region this);
+point region__maxBound(region this);
+region s_region__rect(fixed minx,fixed miny,fixed maxx,fixed maxy);
+region s_region__rect__1(point center,fixed width,fixed height);
+region s_region__entireMap();
 //Static init
 bool init___global5(bool A__1,bool A__2);
+void initTrainer(int player,int team);
+//Static init
+bool init___global6(bool A__1,bool A__2);
 //Constructor for class Team
 int new__Team(int A__class,string name,point spawn,int cpu);
 int Team__size(int this);
 string Team__toString(int this);
 void Team__addTrainer(int this,int trainer);
+bool decreaseLife__2(bool conditions,bool actions);
 int s_Trainer__getTrainer(int player);
 //Constructor for class Trainer
 int new__Trainer(int A__class,int player,int team);
 void Trainer__addPokemon(int this,int species);
 void s_Trainer__addPokemon__1(int player,int species);
+string Trainer__toString(int this);
 //Static init
-bool init___global6(bool A__1,bool A__2);
-bool createUnitChat(bool b1,bool b2);
+bool init___global7(bool A__1,bool A__2);
 bool makeWave(bool b1,bool b2);
 void waveHelper(int team,int dx);
 
 int Class___allocPtr=1;
 int Class___freePtr;
-Class[31] Class___memory;
-int[31] Class___freeStack;
+Class[32] Class___memory;
+int[32] Class___freeStack;
 int MC___Class;
 int Object___allocPtr=1;
 int Object___freePtr;
@@ -397,6 +425,11 @@ int[129] Pokemon___freeStack;
 int MC___Pokemon;
 int MC___PokemonComparator;
 int MC___PokemonHasher;
+int MapBounds___allocPtr=1;
+int MapBounds___freePtr;
+MapBounds[129] MapBounds___memory;
+int[129] MapBounds___freeStack;
+int MC___MapBounds;
 int Team___allocPtr=1;
 int Team___freePtr;
 Team[129] Team___memory;
@@ -446,6 +479,9 @@ int[15] s_Heap__head;
 int[15] s_Heap__count;
 int s_Pokemon__comparator = alloc___Comparator(MC___PokemonComparator);
 int s_Pokemon__hasher = alloc___Hasher(MC___PokemonHasher);
+region s_MapBounds__REGION;
+fixed s_MapBounds__WIDTH;
+fixed s_MapBounds__HEIGHT;
 int s_Team__left;
 int s_Team__right;
 int s_Trainer__trainers;
@@ -554,9 +590,11 @@ void A__classInit(){
 	Class___memory[A__class].Class__vct[0]=0;
 	A__class=new__Class(8,8,"PokemonHasher");
 	MC___PokemonHasher=A__class;
-	A__class=new__Class(29,29,"Team");
+	A__class=new__Class(29,29,"MapBounds");
+	MC___MapBounds=A__class;
+	A__class=new__Class(30,30,"Team");
 	MC___Team=A__class;
-	A__class=new__Class(30,30,"Trainer");
+	A__class=new__Class(31,31,"Trainer");
 	MC___Trainer=A__class;
 }
 
@@ -567,7 +605,7 @@ int alloc___Class(int A__class){
 	if(Class___freePtr>0){
 		Class___freePtr-=1;
 		this=Class___freeStack[Class___freePtr];
-	}else if(Class___allocPtr<31){
+	}else if(Class___allocPtr<32){
 		this=Class___allocPtr;
 		Class___allocPtr+=1;
 	}else{
@@ -981,6 +1019,36 @@ void dealloc___Pokemon(int this){
 	Pokemon___freePtr+=1;
 }
 
+//Allocator for class MapBounds
+int alloc___MapBounds(int A__class){
+	int this;
+	if(MapBounds___freePtr>0){
+		MapBounds___freePtr-=1;
+		this=MapBounds___freeStack[MapBounds___freePtr];
+	}else if(MapBounds___allocPtr<129){
+		this=MapBounds___allocPtr;
+		MapBounds___allocPtr+=1;
+	}else{
+		s_System__error("Instance limit reached for class MapBounds. Allocation failed!");
+		return 0;
+	}
+	MapBounds___memory[this].MapBounds____type=A__class;
+	MapBounds___memory[this].MapBounds____id=(A__class<<24)|this;
+	return this;
+}
+
+//Deallocator for class MapBounds
+void dealloc___MapBounds(int this){
+	if(MapBounds___memory[this].MapBounds____id==0){
+		s_System__error("Double free of class MapBounds");
+		return;
+	}
+	MapBounds___memory[this].MapBounds____id=0;
+	MapBounds___memory[this].MapBounds____type=0;
+	MapBounds___freeStack[MapBounds___freePtr]=this;
+	MapBounds___freePtr+=1;
+}
+
 //Allocator for class Team
 int alloc___Team(int A__class){
 	int this;
@@ -1202,8 +1270,28 @@ void trigger__addEventTimer(trigger this,timer p2){
 	TriggerAddEventTimer(this, p2);
 }
 
+void trigger__addEventUnitDied(trigger this,unitref p2){
+	TriggerAddEventUnitDied(this, p2);
+}
+
+void trigger__addEventUnitDamaged(trigger this,unitref p2,int p3,int p4,string p5){
+	TriggerAddEventUnitDamaged(this, p2, p3, p4, p5);
+}
+
+void trigger__addEventUnitRegion(trigger this,unitref p2,region p3,bool p4){
+	TriggerAddEventUnitRegion(this, p2, p3, p4);
+}
+
 void trigger__addEventUnitAbility(trigger this,unitref p2,abilcmd p3,int p4,bool p5){
 	TriggerAddEventUnitAbility(this, p2, p3, p4, p5);
+}
+
+fixed point__get__x(point this){
+	return PointGetX(this);
+}
+
+fixed point__get__y(point this){
+	return PointGetY(this);
 }
 
 point point__translateXY(point this,fixed dx,fixed dy){
@@ -2068,15 +2156,19 @@ unitref unit__getUnitRef(unit this){
 //Constructor for class Pokemon
 int new__Pokemon(int A__class,int species,int level,int owner,point p){
 	int this=alloc___Pokemon(A__class);
+	unitref ref;
 	Pokemon___memory[this].Pokemon__species = species;
 	Pokemon___memory[this].Pokemon__level = level;
 	Pokemon___memory[this].Pokemon__owner = owner;
 	Pokemon___memory[this].Pokemon__hp = Pokemon__getHp(this);
-	Pokemon___memory[this].Pokemon___unit = s_unit__create(PokemonSpecies___memory[species].PokemonSpecies__name, 0, owner, p, 0.0);
+	Pokemon___memory[this].Pokemon___unit = s_unit__create(PokemonSpecies___memory[species].PokemonSpecies__name, 0, Trainer___memory[owner].Trainer__player, p, 0.0);
 	unit__setPropertyInt(Pokemon___memory[this].Pokemon___unit,2, Pokemon___memory[this].Pokemon__hp);
 	unit__setCustomValue(Pokemon___memory[this].Pokemon___unit,0, IntToFixed(this));
 	unit__setInfoText(Pokemon___memory[this].Pokemon___unit,StringToText("Level " + IntToString(level)), StringToText(""), StringToText(""));
-	TriggerAddEventUnitDamaged(TriggerCreate("damageUnit"), unit__getUnitRef(Pokemon___memory[this].Pokemon___unit), -1, 0, null);
+	ref = unit__getUnitRef(Pokemon___memory[this].Pokemon___unit);
+	trigger__addEventUnitDamaged(s_trigger__create("unitDamaged"),ref, -1, 0, null);
+	trigger__addEventUnitDied(s_trigger__create("unitFainted"),ref);
+	trigger__addEventUnitRegion(s_trigger__create("decreaseLife__1"),ref, s_region__rect(100.0, 10.0, 120.0, 60.0), true);
 	return this;
 }
 
@@ -2147,8 +2239,16 @@ void Pokemon__setUnit(int this,unit u){
 	Pokemon___memory[this].Pokemon___unit = u;
 }
 
-int Pokemon__clone(int this,int player,point spawn){
-	return new__Pokemon(MC___Pokemon,Pokemon___memory[this].Pokemon__species, Pokemon___memory[this].Pokemon__level, player, spawn);
+int s_Pokemon__fromUnit(unit u){
+	return FixedToInt(unit__getCustomValue(u,0));
+}
+
+int Pokemon__clone(int this,int trainer,point spawn){
+	return new__Pokemon(MC___Pokemon,Pokemon___memory[this].Pokemon__species, Pokemon___memory[this].Pokemon__level, trainer, spawn);
+}
+
+string Pokemon__toString(int this){
+	return PokemonSpecies___memory[Pokemon___memory[this].Pokemon__species].PokemonSpecies__name + " level " + IntToString(Pokemon___memory[this].Pokemon__level) + " owned by " + Trainer__toString(Pokemon___memory[this].Pokemon__owner);
 }
 
 int PokemonComparator__compare(int this,int p1,int p2){
@@ -2163,18 +2263,29 @@ bool PokemonHasher__equal(int this,int p1,int p2){
 	return p1 == p2;
 }
 
-bool damageUnit(bool conditions,bool actions){
+bool unitDamaged(bool conditions,bool actions){
 	unit src = EventUnitDamageSourceUnit();
 	unit trg = EventUnit();
-	int p_src = FixedToInt(unit__getCustomValue(src,0));
-	int p_trg = FixedToInt(unit__getCustomValue(trg,0));
+	int p_src = s_Pokemon__fromUnit(src);
+	int p_trg = s_Pokemon__fromUnit(trg);
 	int damage = Pokemon__damage(p_src,p_trg);
 	Pokemon___memory[p_trg].Pokemon__hp -= damage;
 	if(Pokemon___memory[p_trg].Pokemon__hp < 0){
 		Pokemon___memory[p_trg].Pokemon__hp = 0;
-		dealloc___Pokemon(p_trg);
 	}
 	unit__setPropertyInt(trg,0, Pokemon___memory[p_trg].Pokemon__hp);
+	return true;
+}
+
+bool unitFainted(bool conditions,bool actions){
+	int fainted = s_Pokemon__fromUnit(EventUnit());
+	s_System__debug(Pokemon__toString(fainted));
+	dealloc___Pokemon(fainted);
+	return true;
+}
+
+bool decreaseLife__1(bool conditions,bool actions){
+	s_System__debug("asd");
 	return true;
 }
 
@@ -2202,35 +2313,67 @@ bool rent(bool conditions,bool actions){
 	string abilName = abilcmd__getAbility(EventUnitAbility());
 	int player = EventPlayer();
 	s_Trainer__addPokemon__1(player, s_PokemonSpecies__fromString(abilName));
+	s_System__debug("Player " + Player__toString(player) + " rented " + abilName);
+	return true;
+}
+
+point region__minBound(region this){
+	return RegionGetBoundsMin(this);
+}
+
+point region__maxBound(region this){
+	return RegionGetBoundsMax(this);
+}
+
+region s_region__rect(fixed minx,fixed miny,fixed maxx,fixed maxy){
+	return RegionRect(minx, miny, maxx, maxy);
+}
+
+region s_region__rect__1(point center,fixed width,fixed height){
+	width /= 2.0;
+	height /= 2.0;
+	return RegionRect(point__get__x(center) - width, point__get__y(center) - height, point__get__x(center) + width, point__get__y(center) + height);
+}
+
+region s_region__entireMap(){
+	return RegionEntireMap();
+}
+
+//Static init
+bool init___global5(bool A__1,bool A__2){
+	point min;
+	point max;
+	s_MapBounds__REGION = s_region__entireMap();
+	min = region__minBound(s_MapBounds__REGION);
+	max = region__maxBound(s_MapBounds__REGION);
+	s_MapBounds__WIDTH = point__get__x(max) - point__get__x(min);
+	s_MapBounds__HEIGHT = point__get__y(max) - point__get__y(min);
 	return true;
 }
 
 void initTrainer(int player,int team){
 	int p = player;
+	int trainer;
 	if(!Player__isActive(p)){
 		return;
 	}
-	Team__addTrainer(team,new__Trainer(MC___Trainer,p, team));
+	trainer = new__Trainer(MC___Trainer,p, team);
 	s_System__debug("Added player " + Player__toString(p) + " to " + Team___memory[team].Team__name);
 	makeRentalCenter(p);
 	CameraPan(player, Player__get__startLocation(p), 0.0, 0.0, 0.0, false);
 }
 
 //Static init
-bool init___global5(bool A__1,bool A__2){
-	int centerX;
+bool init___global6(bool A__1,bool A__2){
+	s_Trainer__trainers = new__ArrayMap(MC___ArrayMap);
 	s_Team__left = new__Team(MC___Team,"Left Team", Point(8.0, 36.0), 9);
 	s_Team__right = new__Team(MC___Team,"Right Team", Point(136.0, 36.0), 10);
-	centerX = 72;
 	Team___memory[s_Team__left].Team__enemy = s_Team__right;
 	Team___memory[s_Team__right].Team__enemy = s_Team__left;
-	s_Trainer__trainers = new__ArrayMap(MC___ArrayMap);
 	initTrainer(1, s_Team__left);
 	initTrainer(2, s_Team__left);
 	initTrainer(3, s_Team__right);
 	initTrainer(4, s_Team__right);
-	libNtve_gf_SetPlayerGroupAlliance(Team___memory[s_Team__left].Team__group, 2);
-	libNtve_gf_SetPlayerGroupAlliance(Team___memory[s_Team__right].Team__group, 2);
 	return true;
 }
 
@@ -2239,10 +2382,13 @@ int new__Team(int A__class,string name,point spawn,int cpu){
 	int this=alloc___Team(A__class);
 	Team___memory[this].Team__name = name;
 	Team___memory[this].Team__spawn = spawn;
-	Team___memory[this].Team__cpu = cpu;
+	Team___memory[this].Team__vulnerable = s_region__rect__1(Player__get__startLocation(cpu), 2.0, s_MapBounds__HEIGHT);
+	Team___memory[this].Team__vulnerable = s_MapBounds__REGION;
+	trigger__addEventUnitRegion(s_trigger__create("decreaseLife__2"),null, Team___memory[this].Team__vulnerable, true);
 	Team___memory[this].Team__group = s_playergroup__empty();
 	playergroup__add(Team___memory[this].Team__group,cpu);
 	Team___memory[this].Team__trainers = new__ArraySet(MC___ArraySet);
+	Team___memory[this].Team__cpu = new__Trainer(MC___Trainer,cpu, this);
 	return this;
 }
 
@@ -2259,6 +2405,11 @@ void Team__addTrainer(int this,int trainer){
 	playergroup__add(Team___memory[this].Team__group,Trainer___memory[trainer].Trainer__player);
 }
 
+bool decreaseLife__2(bool conditions,bool actions){
+	s_System__debug("asd1");
+	return true;
+}
+
 int s_Trainer__getTrainer(int player){
 	return vcall___Map__getValue(s_Trainer__trainers,player);
 }
@@ -2269,41 +2420,31 @@ int new__Trainer(int A__class,int player,int team){
 	Trainer___memory[this].Trainer__player = player;
 	Player__set__minerals(player,100);
 	Trainer___memory[this].Trainer__team = team;
+	Team__addTrainer(team,this);
 	Trainer___memory[this].Trainer__pokemon = new__ArraySet(MC___ArraySet);
 	vcall___Map__put(s_Trainer__trainers,player, this);
 	return this;
 }
 
 void Trainer__addPokemon(int this,int species){
-	vcall___Set__add(Trainer___memory[this].Trainer__pokemon,new__Pokemon(MC___Pokemon,species, 10, Trainer___memory[this].Trainer__player, Team___memory[Trainer___memory[this].Trainer__team].Team__spawn));
+	vcall___Set__add(Trainer___memory[this].Trainer__pokemon,new__Pokemon(MC___Pokemon,species, 10, this, Team___memory[Trainer___memory[this].Trainer__team].Team__spawn));
 }
 
 void s_Trainer__addPokemon__1(int player,int species){
 	Trainer__addPokemon(vcall___Map__getValue(s_Trainer__trainers,player),species);
 }
 
+string Trainer__toString(int this){
+	return "Trainer " + Player__toString(Trainer___memory[this].Trainer__player);
+}
+
 //Static init
-bool init___global6(bool A__1,bool A__2){
+bool init___global7(bool A__1,bool A__2){
 	timer t;
 	VisEnable(1, false);
 	t = s_timer__create();
 	timer__start(t,15.0, true, 0);
 	trigger__addEventTimer(s_trigger__create("makeWave"),t);
-	return true;
-}
-
-bool createUnitChat(bool b1,bool b2){
-	string chat = EventChatMessage(false);
-	int species = s_PokemonSpecies__fromString(chat);
-	int player;
-	int trainer;
-	if(species == 0){
-		s_System__print("Species " + chat + " does not exist!");
-		return false;
-	}
-	player = EventPlayer();
-	trainer = s_Trainer__getTrainer(player);
-	Trainer__addPokemon(trainer,species);
 	return true;
 }
 
@@ -2347,13 +2488,15 @@ void initAndromeda(){
 	TriggerAddEventMapInit(t);
 	t = TriggerCreate("init___global4");
 	TriggerAddEventMapInit(t);
-	t = TriggerCreate("init___global5");
+	t = TriggerCreate("init___global6");
 	TriggerAddEventMapInit(t);
 	t = TriggerCreate("init___global2");
 	TriggerAddEventMapInit(t);
 	t = TriggerCreate("init___global3");
 	TriggerAddEventMapInit(t);
-	t = TriggerCreate("init___global6");
+	t = TriggerCreate("init___global5");
+	TriggerAddEventMapInit(t);
+	t = TriggerCreate("init___global7");
 	TriggerAddEventMapInit(t);
 }
 

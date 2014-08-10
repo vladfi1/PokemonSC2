@@ -10,12 +10,13 @@ import a.natives.trigger;
 include "pokemon.a"
 include "species.a"
 include "rental.a"
+include "bounds.a"
 
-void initTrainer(int player, Team team) {
+private void initTrainer(int player, Team team) {
     Player p = (Player) player;
     if (!p.isActive()) return;
     
-    team.addTrainer(new Trainer(p, team));
+    Trainer trainer = new Trainer(p, team);
     System.debug("Added player " + p.toString() + " to " + team.name);
     
     makeRentalCenter(p);
@@ -23,40 +24,49 @@ void initTrainer(int player, Team team) {
 }
 
 static {
+    Trainer.trainers = new ArrayMap<Player, Trainer>();
+    
     Team.left = new Team("Left Team", Point(8, 36), (Player) 9);
     Team.right = new Team("Right Team", Point(136, 36), (Player) 10);
-    int centerX = 72;
     Team.left.enemy = Team.right;
     Team.right.enemy = Team.left;
-    
-    Trainer.trainers = new ArrayMap<Player, Trainer>();
     
     initTrainer(1, Team.left);
     initTrainer(2, Team.left);
     initTrainer(3, Team.right);
     initTrainer(4, Team.right);
     
-    libNtve_gf_SetPlayerGroupAlliance(Team.left.group, 2);
-    libNtve_gf_SetPlayerGroupAlliance(Team.right.group, 2);
+    //libNtve_gf_SetPlayerGroupAlliance(Team.left.group, 2);
+    //libNtve_gf_SetPlayerGroupAlliance(Team.right.group, 2);
 }
 
 class Team {
     static Team left, right;
     
     string name;
+    
     point spawn;
-    Player cpu;
+    Trainer cpu;
+    
+    region vulnerable;
+    int lives;
+    
     playergroup group;
     Set<Trainer> trainers;
+    
     Team enemy;
     
     Team(string name, point spawn, Player cpu) {
         this.name = name;
         this.spawn = spawn;
-        this.cpu = cpu;
+        this.vulnerable = region.rect(cpu.startLocation, 2, MapBounds.HEIGHT);
+        this.vulnerable = MapBounds.REGION;
+        trigger.create(decreaseLife.name).addEventUnitRegion(null, this.vulnerable, true);
         group = playergroup.empty();
         group.add(cpu);
         this.trainers = new ArraySet<Trainer>();
+        this.cpu = new Trainer(cpu, this);
+        //this.cpu = null;
     }
     
     public int size() {
@@ -74,6 +84,11 @@ class Team {
     
 }
 
+private bool decreaseLife(bool conditions, bool actions) {
+    System.debug("asd1");
+    return true;
+}
+
 class Trainer {
     public static Map<Player, Trainer> trainers;
     
@@ -89,17 +104,20 @@ class Trainer {
         this.player = player;
         player.minerals = 100;
         this.team = team;
+        team.addTrainer(this);
         this.pokemon = new ArraySet<Pokemon>();
         trainers.put(player, this);
     }
     
     public void addPokemon(PokemonSpecies species) {
-        pokemon.add(new Pokemon(species, 10, player, team.spawn));
+        pokemon.add(new Pokemon(species, 10, this, team.spawn));
     }
     
     public static void addPokemon(Player player, PokemonSpecies species) {
         trainers.getValue(player).addPokemon(species);
     }
+    
+    public string toString() {
+        return "Trainer " + player.toString();
+    }
 }
-
-
