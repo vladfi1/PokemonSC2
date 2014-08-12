@@ -6,11 +6,12 @@ import a.natives.Player;
 import a.natives.playergroup;
 import a.natives.unit;
 import a.natives.trigger;
+import a.natives.region;
 
 include "pokemon.a"
 include "species.a"
 include "rental.a"
-include "bounds.a"
+include "lb.a"
 
 private void initTrainer(int player, Team team) {
     Player p = (Player) player;
@@ -26,21 +27,26 @@ private void initTrainer(int player, Team team) {
 static {
     Trainer.trainers = new ArrayMap<Player, Trainer>();
     
-    Team.left = new Team("Left Team", Point(8, 36), (Player) 9);
-    Team.right = new Team("Right Team", Point(136, 36), (Player) 10);
+    Team.left = new Team("Left", Point(8, 36), (Player) 9);
+    Team.right = new Team("Right", Point(136, 36), (Player) 10);
     Team.left.enemy = Team.right;
     Team.right.enemy = Team.left;
-    
+    Team.teams[0] = Team.left;
+    Team.teams[1] = Team.right;
+
     initTrainer(1, Team.left);
     initTrainer(2, Team.left);
     initTrainer(3, Team.right);
     initTrainer(4, Team.right);
     
-    //libNtve_gf_SetPlayerGroupAlliance(Team.left.group, 2);
-    //libNtve_gf_SetPlayerGroupAlliance(Team.right.group, 2);
+    libNtve_gf_SetPlayerGroupAlliance(Team.left.group, 2);
+    libNtve_gf_SetPlayerGroupAlliance(Team.right.group, 2);
+    
+    updateLeaderBoard();
 }
 
 class Team {
+    static Team[2] teams;
     static Team left, right;
     
     string name;
@@ -48,8 +54,8 @@ class Team {
     point spawn;
     Trainer cpu;
     
-    region vulnerable;
     int lives;
+    region vulnerable;
     
     playergroup group;
     Set<Trainer> trainers;
@@ -57,16 +63,15 @@ class Team {
     Team enemy;
     
     Team(string name, point spawn, Player cpu) {
-        this.name = name;
+        this.name = name + " Team";
         this.spawn = spawn;
-        this.vulnerable = region.rect(cpu.startLocation, 2, MapBounds.HEIGHT);
-        this.vulnerable = MapBounds.REGION;
-        trigger.create(decreaseLife.name).addEventUnitRegion(null, this.vulnerable, true);
+        this.lives = 100;
+        this.vulnerable = region.rect(cpu.startLocation, 2, region.entireMap().height);
+        trigger.create("vulnerable" + name).addEventUnitRegion(null, this.vulnerable, true);
         group = playergroup.empty();
         group.add(cpu);
         this.trainers = new ArraySet<Trainer>();
         this.cpu = new Trainer(cpu, this);
-        //this.cpu = null;
     }
     
     public int size() {
@@ -81,11 +86,25 @@ class Team {
         trainers.add(trainer);
         group.add(trainer.player);
     }
-    
 }
 
-private bool decreaseLife(bool conditions, bool actions) {
-    System.debug("asd1");
+private bool vulnerableLeft(bool conditions, bool actions) {
+    Pokemon p = Pokemon.fromUnit(EventUnit());
+    Team team = p.owner.team.enemy;
+    if (team == Team.left) {
+        team.lives -= 1;
+        updateLeaderBoard();
+    }
+    return true;
+}
+
+private bool vulnerableRight(bool conditions, bool actions) {
+    Pokemon p = Pokemon.fromUnit(EventUnit());
+    Team team = p.owner.team.enemy;
+    if (team == Team.right) {
+        team.lives -= 1;
+        updateLeaderBoard();
+    }
     return true;
 }
 

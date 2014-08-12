@@ -2,11 +2,13 @@ import a.util.Comparator;
 import a.natives.unit;
 import a.natives.Player;
 import a.natives.trigger;
+import a.natives.point;
 
 include "types.a"
 include "species.a"
+include "player.a"
 
-public class Pokemon {
+public class Pokemon [1024] {
     // The type of pokemon.
     public PokemonSpecies species;
     // The level of this pokemon.
@@ -35,7 +37,6 @@ public class Pokemon {
         unitref ref = _unit.getUnitRef();
         trigger.create(unitDamaged.name).addEventUnitDamaged(ref, c_unitDamageTypeAny, c_unitDamageEither, null);
         trigger.create(unitFainted.name).addEventUnitDied(ref);
-        trigger.create(decreaseLife.name).addEventUnitRegion(ref, region.rect(100, 10, 120, 60), true);
     }
     
     public int getStat(int base) {
@@ -163,10 +164,5 @@ private bool unitFainted(bool conditions, bool actions) {
     Pokemon fainted = Pokemon.fromUnit(EventUnit());
     System.debug(fainted.toString());
     delete fainted;
-    return true;
-}
-
-private bool decreaseLife(bool conditions, bool actions) {
-    System.debug("asd");
     return true;
 }

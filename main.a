@@ -5,7 +5,6 @@ import a.natives.timer;
 include "species.a"
 include "player.a"
 
-
 static {
     VisEnable(c_visTypeFog, false);
 
@@ -34,21 +33,6 @@ static {
         libNtve_gf_SetAlliance(i+3, 8, 2);
     }*/
 }
-
-//LeaderBoard lb;
-//int[12] lives;
-
-/////  leaderboard methods
-/*
-public LeaderBoard createBoard(int players) {
-    lb = LeaderBoard.create(2, players, "Lives", color.create(100, 0, 0, 100));
-
-    for (int i=0; i<players; i+=1) {
-        lb.setItemText(1, i+1, "tmp");
-        lb.setItemText(2, i+1, (string)lives[i]);
-    }
-    return lb;    
-}*/
 
 bool makeWave(bool b1, bool b2) {
     waveHelper(Team.left, 1);

@@ -1,0 +1,24 @@
+import a.natives.LeaderBoard;
+import a.natives.playergroup;
+
+include "player.a"
+
+private LeaderBoard lb = LeaderBoard.NULL;
+
+public LeaderBoard getLeaderBoard() {
+    if (lb == LeaderBoard.NULL) {
+        lb = LeaderBoard.create(2, 2, "Lives", color.create(100, 0, 0, 100));
+        lb.setVisible(playergroup.allPlayers(), true);
+    }
+    return lb;
+}
+
+public void updateLeaderBoard() {
+    getLeaderBoard();
+    for (int i=0; i<2; i+=1) {
+        Team team = Team.teams[i];
+        lb.setItemText(1, i+1, team.name);
+        lb.setItemText(2, i+1, (string)team.lives);
+    }
+    System.debug("LeaderBoard updated.");
+}
