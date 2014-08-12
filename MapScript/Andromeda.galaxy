@@ -1,4 +1,4 @@
-//Andromeda generated code @ Tue Aug 12 18:24:24 EDT 2014
+//Andromeda generated code @ Tue Aug 12 18:47:21 EDT 2014
 
 struct Class{
 	int Class____id;
@@ -153,6 +153,8 @@ int vcall___Iterable__getIterator(int this);
 int vcall___Set__size(int this);
 //Virtual caller for ArraySet.add
 bool vcall___Set__add(int this,int e);
+//Virtual caller for ArraySet.remove
+bool vcall___Set__remove(int this,int e);
 //Virtual caller for ArrayList.size
 int vcall___List__size(int this);
 //Virtual caller for ArrayList.getIndex
@@ -275,6 +277,7 @@ int ArraySet__size(int this);
 void ArraySet__ensure(int this,int e);
 bool ArraySet__add(int this,int e);
 bool ArraySet__contains(int this,int e);
+bool ArraySet__remove(int this,int e);
 int ArraySet__getIterator(int this);
 //Constructor for class ArraySetIterator
 int new__ArraySetIterator(int A__class,int list);
@@ -289,6 +292,7 @@ playergroup s_playergroup__allPlayers();
 playergroup s_playergroup__empty();
 void playergroup__add(playergroup this,int p);
 unit s_unit__create(string name,int options,int player,point position,fixed angle);
+void unit__remove(unit this);
 point unit__getPosition(unit this);
 void unit__setInfoText(unit this,text p2,text p3,text p4);
 void unit__setPropertyInt(unit this,int p2,int p3);
@@ -302,6 +306,8 @@ region s_region__rect__1(point center,fixed width,fixed height);
 region s_region__entireMap();
 //Constructor for class Pokemon
 int new__Pokemon(int A__class,int species,int level,int owner,point p);
+//Destructor for class Pokemon
+void delete__Pokemon(int this);
 int Pokemon__getStat(int this,int base);
 int Pokemon__getHp(int this);
 int Pokemon__getAtk(int this);
@@ -314,6 +320,7 @@ unit Pokemon__getUnit(int this);
 void Pokemon__setUnit(int this,unit u);
 int s_Pokemon__fromUnit(unit u);
 int Pokemon__clone(int this,int trainer,point spawn);
+void Pokemon__remove(int this);
 string Pokemon__toString(int this);
 int PokemonComparator__compare(int this,int p1,int p2);
 int PokemonHasher__hashCode(int this,int p);
@@ -512,6 +519,7 @@ void A__classInit(){
 	Class___memory[A__class].Class__vct[0]=-1;
 	Class___memory[A__class].Class__vct[1]=-1;
 	Class___memory[A__class].Class__vct[2]=-1;
+	Class___memory[A__class].Class__vct[3]=-1;
 	A__class=new__Class(14,14,"ListIterator");
 	MC___ListIterator=A__class;
 	Class___memory[A__class].Class__vct[0]=-1;
@@ -559,6 +567,7 @@ void A__classInit(){
 	Class___memory[A__class].Class__vct[0]=0;
 	Class___memory[A__class].Class__vct[1]=0;
 	Class___memory[A__class].Class__vct[2]=0;
+	Class___memory[A__class].Class__vct[3]=0;
 	A__class=new__Class(15,15,"ArraySetIterator");
 	MC___ArraySetIterator=A__class;
 	Class___memory[A__class].Class__vct[0]=1;
@@ -873,6 +882,12 @@ int vcall___Set__size(int this){
 bool vcall___Set__add(int this,int e){
 	int cl=Class___memory[Iterable___memory[this].Iterable____type].Class__vct[2];
 	return ArraySet__add(this,e);
+}
+
+//Virtual caller for ArraySet.remove
+bool vcall___Set__remove(int this,int e){
+	int cl=Class___memory[Iterable___memory[this].Iterable____type].Class__vct[3];
+	return ArraySet__remove(this,e);
 }
 
 //Virtual caller for ArrayList.size
@@ -2020,6 +2035,15 @@ bool ArraySet__contains(int this,int e){
 	return ArrayList__getIndex(Iterable___memory[this].ArraySet__list_mult,e) != 0;
 }
 
+bool ArraySet__remove(int this,int e){
+	if(ArraySet__contains(this,e)){
+		ArrayList__setIndex(Iterable___memory[this].ArraySet__list_mult,e, 0);
+		Iterable___memory[this].ArraySet__size_mult -= 1;
+		return true;
+	}
+	return false;
+}
+
 int ArraySet__getIterator(int this){
 	return new__ArraySetIterator(MC___ArraySetIterator,Iterable___memory[this].ArraySet__list_mult);
 }
@@ -2095,6 +2119,10 @@ unit s_unit__create(string name,int options,int player,point position,fixed angl
 	return UnitGroupUnit(UnitCreate(1, name, options, player, position, angle), 1);
 }
 
+void unit__remove(unit this){
+	UnitRemove(this);
+}
+
 point unit__getPosition(unit this){
 	return UnitGetPosition(this);
 }
@@ -2157,6 +2185,13 @@ int new__Pokemon(int A__class,int species,int level,int owner,point p){
 	trigger__addEventUnitDamaged(s_trigger__create("unitDamaged"),ref, -1, 0, null);
 	trigger__addEventUnitDied(s_trigger__create("unitFainted"),ref);
 	return this;
+}
+
+//Destructor for class Pokemon
+void delete__Pokemon(int this){
+	vcall___Set__remove(Trainer___memory[Pokemon___memory[this].Pokemon__owner].Trainer__pokemon,this);
+	dealloc___Pokemon(this);
+	
 }
 
 int Pokemon__getStat(int this,int base){
@@ -2234,6 +2269,11 @@ int Pokemon__clone(int this,int trainer,point spawn){
 	return new__Pokemon(MC___Pokemon,Pokemon___memory[this].Pokemon__species, Pokemon___memory[this].Pokemon__level, trainer, spawn);
 }
 
+void Pokemon__remove(int this){
+	unit__remove(Pokemon___memory[this].Pokemon___unit);
+	delete__Pokemon(this);
+}
+
 string Pokemon__toString(int this){
 	return PokemonSpecies___memory[Pokemon___memory[this].Pokemon__species].PokemonSpecies__name + " level " + IntToString(Pokemon___memory[this].Pokemon__level) + " owned by " + Trainer__toString(Pokemon___memory[this].Pokemon__owner);
 }
@@ -2266,8 +2306,7 @@ bool unitDamaged(bool conditions,bool actions){
 
 bool unitFainted(bool conditions,bool actions){
 	int fainted = s_Pokemon__fromUnit(EventUnit());
-	s_System__debug(Pokemon__toString(fainted));
-	dealloc___Pokemon(fainted);
+	delete__Pokemon(fainted);
 	return true;
 }
 
@@ -2400,6 +2439,7 @@ bool vulnerableLeft(bool conditions,bool actions){
 	if(team == s_Team__left){
 		Team___memory[team].Team__lives -= 1;
 		updateLeaderBoard();
+		Pokemon__remove(p);
 	}
 	return true;
 }
@@ -2410,6 +2450,7 @@ bool vulnerableRight(bool conditions,bool actions){
 	if(team == s_Team__right){
 		Team___memory[team].Team__lives -= 1;
 		updateLeaderBoard();
+		Pokemon__remove(p);
 	}
 	return true;
 }

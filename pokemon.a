@@ -39,6 +39,10 @@ public class Pokemon [1024] {
         trigger.create(unitFainted.name).addEventUnitDied(ref);
     }
     
+    public ~Pokemon() {
+        owner.pokemon.remove(this);
+    }
+    
     public int getStat(int base) {
         int iv = 31;
         int ev = 0;
@@ -111,8 +115,13 @@ public class Pokemon [1024] {
         return (Pokemon)(int)u.getCustomValue(0);
     }
     
-	public Pokemon clone(Trainer trainer, point spawn) {
+    public Pokemon clone(Trainer trainer, point spawn) {
         return new Pokemon(species, level, trainer, spawn);
+    }
+    
+    public void remove() {
+        _unit.remove();
+        delete this;
     }
     
     public string toString() {
@@ -162,7 +171,6 @@ private bool unitDamaged(bool conditions, bool actions) {
 
 private bool unitFainted(bool conditions, bool actions) {
     Pokemon fainted = Pokemon.fromUnit(EventUnit());
-    System.debug(fainted.toString());
     delete fainted;
     return true;
 }

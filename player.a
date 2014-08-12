@@ -94,6 +94,7 @@ private bool vulnerableLeft(bool conditions, bool actions) {
     if (team == Team.left) {
         team.lives -= 1;
         updateLeaderBoard();
+        p.remove();
     }
     return true;
 }
@@ -104,6 +105,7 @@ private bool vulnerableRight(bool conditions, bool actions) {
     if (team == Team.right) {
         team.lives -= 1;
         updateLeaderBoard();
+        p.remove();
     }
     return true;
 }
