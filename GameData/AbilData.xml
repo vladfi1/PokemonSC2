@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <Catalog>
-    <CAbilEffectInstant default="1" id="Rent10">
+    <CAbilEffectInstant default="1" id="Rent40">
         <Cost>
-            <Resource index="Minerals" value="10"/>
+            <Resource index="Minerals" value="40"/>
             <Display index="Minerals" value="1"/>
         </Cost>
     </CAbilEffectInstant>
-    <CAbilEffectInstant default="1" id="Rent50">
+    <CAbilEffectInstant default="1" id="Rent100">
         <Cost>
-            <Resource index="Minerals" value="50"/>
+            <Resource index="Minerals" value="100"/>
             <Display index="Minerals" value="1"/>
         </Cost>
     </CAbilEffectInstant>
-    <CAbilEffectInstant id="Pikachu" parent="Rent10"/>
-    <CAbilEffectInstant id="Chikorita" parent="Rent10"/>
-    <CAbilEffectInstant id="Squirtle" parent="Rent10"/>
-    <CAbilEffectInstant id="Charizard" parent="Rent50"/>
-    <CAbilEffectInstant id="Gengar" parent="Rent50"/>
-    <CAbilEffectInstant id="Blastoise" parent="Rent50"/>
+    <CAbilEffectInstant id="Pikachu" parent="Rent40"/>
+    <CAbilEffectInstant id="Chikorita" parent="Rent40"/>
+    <CAbilEffectInstant id="Squirtle" parent="Rent40"/>
+    <CAbilEffectInstant id="Charizard" parent="Rent100"/>
+    <CAbilEffectInstant id="Gengar" parent="Rent100"/>
+    <CAbilEffectInstant id="Blastoise" parent="Rent100"/>
 </Catalog>
