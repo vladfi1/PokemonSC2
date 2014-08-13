@@ -51,7 +51,7 @@ public class Pokemon [1024] {
     }
     
     public int getHp() {
-        return getStat(species.hp);
+        return 5 * getStat(species.hp);
     }
     public int getAtk() {
         return getStat(species.atk);
