@@ -1,4 +1,4 @@
-//Andromeda generated code @ Tue Aug 12 20:26:00 EDT 2014
+//Andromeda generated code @ Tue Aug 12 21:15:08 EDT 2014
 
 struct Class{
 	int Class____id;
@@ -343,6 +343,10 @@ int new__Team(int A__class,string name,point spawn,int cpu);
 int Team__size(int this);
 string Team__toString(int this);
 void Team__addTrainer(int this,int trainer);
+void Team__gameOver(int this,int type);
+void Team__victory(int this);
+void Team__defeat(int this);
+void Team__checkDefeat(int this);
 bool vulnerableLeft(bool conditions,bool actions);
 bool vulnerableRight(bool conditions,bool actions);
 int s_Trainer__getTrainer(int player);
@@ -2432,6 +2436,31 @@ void Team__addTrainer(int this,int trainer){
 	playergroup__add(Team___memory[this].Team__group,Trainer___memory[trainer].Trainer__player);
 }
 
+void Team__gameOver(int this,int type){
+	int iter = vcall___Iterable__getIterator(Team___memory[this].Team__trainers);
+	int trainer;
+	while(vcall___Iterator__hasNext(iter)){
+		trainer = vcall___Iterator__next(iter);
+		GameOver(Trainer___memory[trainer].Trainer__player, type, true, true);
+	}
+	dealloc___Iterator(iter);
+}
+
+void Team__victory(int this){
+	Team__gameOver(this,0);
+}
+
+void Team__defeat(int this){
+	Team__gameOver(this,1);
+}
+
+void Team__checkDefeat(int this){
+	if(Team___memory[this].Team__lives == 0){
+		Team__victory(Team___memory[this].Team__enemy);
+		Team__defeat(this);
+	}
+}
+
 bool vulnerableLeft(bool conditions,bool actions){
 	int p = s_Pokemon__fromUnit(EventUnit());
 	int team = Team___memory[Trainer___memory[Pokemon___memory[p].Pokemon__owner].Trainer__team].Team__enemy;
@@ -2439,6 +2468,7 @@ bool vulnerableLeft(bool conditions,bool actions){
 		Team___memory[team].Team__lives -= 1;
 		updateLeaderBoard();
 		Pokemon__remove(p);
+		Team__checkDefeat(team);
 	}
 	return true;
 }
@@ -2450,6 +2480,7 @@ bool vulnerableRight(bool conditions,bool actions){
 		Team___memory[team].Team__lives -= 1;
 		updateLeaderBoard();
 		Pokemon__remove(p);
+		Team__checkDefeat(team);
 	}
 	return true;
 }

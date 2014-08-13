@@ -86,7 +86,33 @@ class Team {
         trainers.add(trainer);
         group.add(trainer.player);
     }
+    
+    public void gameOver(int type) {
+        Iterator<Trainer> iter = trainers.getIterator();
+        while (iter.hasNext()) {
+            Trainer trainer = iter.next();
+            GameOver ((int)trainer.player, type, true, true);
+        }
+        
+        delete iter;
+    }
+    
+    public void victory() {
+        gameOver(c_gameOverVictory);
+    }
+    
+    public void defeat() {
+        gameOver(c_gameOverDefeat);
+    }
+    
+    public void checkDefeat() {
+        if (lives == 0) {
+            enemy.victory();
+            this.defeat();
+        }
+    }
 }
+
 
 private bool vulnerableLeft(bool conditions, bool actions) {
     Pokemon p = Pokemon.fromUnit(EventUnit());
@@ -95,6 +121,7 @@ private bool vulnerableLeft(bool conditions, bool actions) {
         team.lives -= 1;
         updateLeaderBoard();
         p.remove();
+        team.checkDefeat();
     }
     return true;
 }
@@ -106,6 +133,7 @@ private bool vulnerableRight(bool conditions, bool actions) {
         team.lives -= 1;
         updateLeaderBoard();
         p.remove();
+        team.checkDefeat();
     }
     return true;
 }
