@@ -37,7 +37,7 @@
         <RandomDelayMax value="0"/>
     </CWeaponLegacy>
     <CWeaponLegacy id="ShadowBall">
-        <Range value="60"/>
+        <Range value="6"/>
         <Period value="2.25"/>
         <DamagePoint value="1.3"/>
         <RandomDelayMin value="0"/>

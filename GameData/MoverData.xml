@@ -3,11 +3,11 @@
     <CMoverMissile id="ShadowBall" parent="MissileDefault">
         <MotionPhases index="0">
             <Driver value="Guidance"/>
-            <Acceleration value="2"/>
+            <Acceleration value="3"/>
             <MaxSpeed value="25"/>
             <ClearanceAcceleration value="75"/>
             <Outro value="-1"/>
-            <YawPitchRoll value="719.2968"/>
+            <YawPitchRoll value="720"/>
         </MotionPhases>
     </CMoverMissile>
 </Catalog>
