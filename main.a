@@ -19,7 +19,7 @@ static {
     //trigger.create(print5.name).addEventUnitAbility(u.getUnitRef(), AbilityCommand("Print", 0), -3, false);
 
     timer t = timer.create();
-    t.start(15, true, timer.GAME_TIME);
+    t.start(30, true, timer.GAME_TIME);
 
     trigger.create(makeWave.name).addEventTimer(t);
     
