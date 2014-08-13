@@ -37,6 +37,11 @@ static {
 bool makeWave(bool b1, bool b2) {
     waveHelper(Team.left, 1);
     waveHelper(Team.right, -1);
+    
+    for (int i = 0; i < Trainer.trainers.size(); ++i) {
+        Trainer.trainers.getIndex(i).player.minerals += 10;
+    }
+    
     return true;
 }
 

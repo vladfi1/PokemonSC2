@@ -25,7 +25,8 @@ private void initTrainer(int player, Team team) {
 }
 
 static {
-    Trainer.trainers = new ArrayMap<Player, Trainer>();
+    Trainer.playerToTrainer = new ArrayMap<Player, Trainer>();
+    Trainer.trainers = new ArrayList<Trainer>();
     
     Team.left = new Team("Left", Point(8, 36), (Player) 9);
     Team.right = new Team("Right", Point(136, 36), (Player) 10);
@@ -113,7 +114,6 @@ class Team {
     }
 }
 
-
 private bool vulnerableLeft(bool conditions, bool actions) {
     Pokemon p = Pokemon.fromUnit(EventUnit());
     Team team = p.owner.team.enemy;
@@ -139,11 +139,8 @@ private bool vulnerableRight(bool conditions, bool actions) {
 }
 
 class Trainer {
-    public static Map<Player, Trainer> trainers;
-    
-    public static Trainer getTrainer(int player) {
-        return trainers.getValue((Player)player);
-    }
+    public static Map<Player, Trainer> playerToTrainer;
+    public static ArrayList<Trainer> trainers;
     
     Player player;
     Team team;
@@ -155,7 +152,8 @@ class Trainer {
         this.team = team;
         team.addTrainer(this);
         this.pokemon = new ArraySet<Pokemon>();
-        trainers.put(player, this);
+        playerToTrainer.put(player, this);
+        trainers.addLast(this);
     }
     
     public void addPokemon(PokemonSpecies species) {
@@ -163,7 +161,7 @@ class Trainer {
     }
     
     public static void addPokemon(Player player, PokemonSpecies species) {
-        trainers.getValue(player).addPokemon(species);
+        playerToTrainer.getValue(player).addPokemon(species);
     }
     
     public string toString() {

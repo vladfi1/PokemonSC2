@@ -1,4 +1,4 @@
-//Andromeda generated code @ Tue Aug 12 21:15:08 EDT 2014
+//Andromeda generated code @ Tue Aug 12 21:28:38 EDT 2014
 
 struct Class{
 	int Class____id;
@@ -199,6 +199,7 @@ void s_System__debug__1(string message,bool showIngame);
 void s_System__print(string message);
 color s_color__create(fixed red,fixed green,fixed blue,fixed alpha);
 string Player__toString(int this);
+int Player__get__minerals(int this);
 void Player__set__minerals(int this,int value);
 bool Player__isActive(int this);
 point Player__get__startLocation(int this);
@@ -349,7 +350,6 @@ void Team__defeat(int this);
 void Team__checkDefeat(int this);
 bool vulnerableLeft(bool conditions,bool actions);
 bool vulnerableRight(bool conditions,bool actions);
-int s_Trainer__getTrainer(int player);
 //Constructor for class Trainer
 int new__Trainer(int A__class,int player,int team);
 void Trainer__addPokemon(int this,int species);
@@ -485,6 +485,7 @@ static int lb = -1;
 int[2] s_Team__teams;
 int s_Team__left;
 int s_Team__right;
+int s_Trainer__playerToTrainer;
 int s_Trainer__trainers;
 
 void A__classInit(){
@@ -1125,6 +1126,10 @@ color s_color__create(fixed red,fixed green,fixed blue,fixed alpha){
 
 string Player__toString(int this){
 	return IntToString(this);
+}
+
+int Player__get__minerals(int this){
+	return PlayerGetPropertyInt(this, 0);
 }
 
 void Player__set__minerals(int this,int value){
@@ -2391,7 +2396,8 @@ void initTrainer(int player,int team){
 
 //Static init
 bool init___global5(bool A__1,bool A__2){
-	s_Trainer__trainers = new__ArrayMap(MC___ArrayMap);
+	s_Trainer__playerToTrainer = new__ArrayMap(MC___ArrayMap);
+	s_Trainer__trainers = new__ArrayList(MC___ArrayList);
 	s_Team__left = new__Team(MC___Team,"Left", Point(8.0, 36.0), 9);
 	s_Team__right = new__Team(MC___Team,"Right", Point(136.0, 36.0), 10);
 	Team___memory[s_Team__left].Team__enemy = s_Team__right;
@@ -2485,10 +2491,6 @@ bool vulnerableRight(bool conditions,bool actions){
 	return true;
 }
 
-int s_Trainer__getTrainer(int player){
-	return vcall___Map__getValue(s_Trainer__trainers,player);
-}
-
 //Constructor for class Trainer
 int new__Trainer(int A__class,int player,int team){
 	int this=alloc___Trainer(A__class);
@@ -2497,7 +2499,8 @@ int new__Trainer(int A__class,int player,int team){
 	Trainer___memory[this].Trainer__team = team;
 	Team__addTrainer(team,this);
 	Trainer___memory[this].Trainer__pokemon = new__ArraySet(MC___ArraySet);
-	vcall___Map__put(s_Trainer__trainers,player, this);
+	vcall___Map__put(s_Trainer__playerToTrainer,player, this);
+	ArrayList__addLast(s_Trainer__trainers,this);
 	return this;
 }
 
@@ -2506,7 +2509,7 @@ void Trainer__addPokemon(int this,int species){
 }
 
 void s_Trainer__addPokemon__1(int player,int species){
-	Trainer__addPokemon(vcall___Map__getValue(s_Trainer__trainers,player),species);
+	Trainer__addPokemon(vcall___Map__getValue(s_Trainer__playerToTrainer,player),species);
 }
 
 string Trainer__toString(int this){
@@ -2524,8 +2527,18 @@ bool init___global6(bool A__1,bool A__2){
 }
 
 bool makeWave(bool b1,bool b2){
+	int L__0;
+	int i;
 	waveHelper(s_Team__left, 1);
 	waveHelper(s_Team__right, -1);
+	//generated for-loop
+	i = 0;
+	while(i < ArrayList__size(s_Trainer__trainers)){
+		L__0 = Trainer___memory[ArrayList__getIndex(s_Trainer__trainers,i)].Trainer__player;
+		Player__set__minerals(L__0,Player__get__minerals(L__0) + 10);
+		
+		i += 1;
+	}
 	return true;
 }
 
