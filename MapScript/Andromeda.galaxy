@@ -1,4 +1,4 @@
-//Andromeda generated code @ Tue Aug 12 20:20:49 EDT 2014
+//Andromeda generated code @ Tue Aug 12 20:26:00 EDT 2014
 
 struct Class{
 	int Class____id;
@@ -2371,7 +2371,6 @@ void updateLeaderBoard(){
 		
 		i += 1;
 	}
-	s_System__debug("LeaderBoard updated.");
 }
 
 void initTrainer(int player,int team){

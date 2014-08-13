@@ -20,5 +20,4 @@ public void updateLeaderBoard() {
         lb.setItemText(1, i+1, team.name);
         lb.setItemText(2, i+1, (string)team.lives);
     }
-    System.debug("LeaderBoard updated.");
 }
