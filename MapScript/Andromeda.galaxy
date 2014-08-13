@@ -1,4 +1,4 @@
-//Andromeda generated code @ Tue Aug 12 18:47:21 EDT 2014
+//Andromeda generated code @ Tue Aug 12 20:20:49 EDT 2014
 
 struct Class{
 	int Class____id;
@@ -2396,8 +2396,8 @@ bool init___global5(bool A__1,bool A__2){
 	s_Team__teams[0] = s_Team__left;
 	s_Team__teams[1] = s_Team__right;
 	initTrainer(1, s_Team__left);
-	initTrainer(2, s_Team__left);
-	initTrainer(3, s_Team__right);
+	initTrainer(3, s_Team__left);
+	initTrainer(2, s_Team__right);
 	initTrainer(4, s_Team__right);
 	libNtve_gf_SetPlayerGroupAlliance(Team___memory[s_Team__left].Team__group, 2);
 	libNtve_gf_SetPlayerGroupAlliance(Team___memory[s_Team__right].Team__group, 2);

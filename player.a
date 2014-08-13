@@ -35,8 +35,8 @@ static {
     Team.teams[1] = Team.right;
 
     initTrainer(1, Team.left);
-    initTrainer(2, Team.left);
-    initTrainer(3, Team.right);
+    initTrainer(3, Team.left);
+    initTrainer(2, Team.right);
     initTrainer(4, Team.right);
     
     libNtve_gf_SetPlayerGroupAlliance(Team.left.group, 2);
