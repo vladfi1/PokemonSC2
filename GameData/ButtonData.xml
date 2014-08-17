@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <Catalog>
     <CButton default="1" id="Rent">
-        <AlertIcon value="Assets\Textures\btn-ability-protoss-psistorm.dds"/>
-        <Icon value="Assets\Textures\btn-ability-protoss-psistorm.dds"/>
+        <AlertIcon value="##id## Icon.tga"/>
+        <Icon value="##id## Icon.tga"/>
         <Name value="##id##"/>
         <Tooltip value="Rent ##id##"/>
         <AlertName value="##id##"/>
