@@ -3,12 +3,28 @@
     <CUnit id="RentalCenter">
         <FlagArray index="Invulnerable" value="1"/>
         <CardLayouts>
+            <LayoutButtons Face="Tier 1" Type="Submenu" SubmenuCardId="T1" Row="0" Column="0"/>
+            <LayoutButtons Face="Tier 2" Type="Submenu" SubmenuCardId="T2" Row="0" Column="1"/>
+            <LayoutButtons Face="Tier 3" Type="Submenu" SubmenuCardId="T3" Row="0" Column="2"/>
+            <LayoutButtons Face="Tier 4" Type="Submenu" SubmenuCardId="T4" Row="0" Column="3"/>
+        </CardLayouts>
+        <CardLayouts CardId="T1">
             <LayoutButtons Face="Pikachu" Type="AbilCmd" AbilCmd="Pikachu,Execute" Row="0" Column="0"/>
             <LayoutButtons Face="Chikorita" Type="AbilCmd" AbilCmd="Chikorita,Execute" Row="0" Column="1"/>
             <LayoutButtons Face="Squirtle" Type="AbilCmd" AbilCmd="Squirtle,Execute" Row="0" Column="2"/>
-            <LayoutButtons Face="Charizard" Type="AbilCmd" AbilCmd="Charizard,Execute" Row="2" Column="0"/>
-            <LayoutButtons Face="Blastoise" Type="AbilCmd" AbilCmd="Blastoise,Execute" Row="2" Column="1"/>
-            <LayoutButtons Face="Gengar" Type="AbilCmd" AbilCmd="Gengar,Execute" Row="2" Column="2"/>
+            <LayoutButtons Face="Cancel" Type="CancelSubmenu" Row="2" Column="4"/>
+        </CardLayouts>
+        <CardLayouts CardId="T2">
+            <LayoutButtons Face="Cancel" Type="CancelSubmenu" Row="2" Column="4"/>
+        </CardLayouts>
+        <CardLayouts CardId="T3">
+            <LayoutButtons Face="Charizard" Type="AbilCmd" AbilCmd="Charizard,Execute" Row="0" Column="0"/>
+            <LayoutButtons Face="Blastoise" Type="AbilCmd" AbilCmd="Blastoise,Execute" Row="0" Column="1"/>
+            <LayoutButtons Face="Gengar" Type="AbilCmd" AbilCmd="Gengar,Execute" Row="0" Column="2"/>
+            <LayoutButtons Face="Cancel" Type="CancelSubmenu" Row="2" Column="4"/>
+        </CardLayouts>
+        <CardLayouts CardId="T4">
+            <LayoutButtons Face="Cancel" Type="CancelSubmenu" Row="2" Column="4"/>
         </CardLayouts>
         <AbilArray Link="Pikachu"/>
         <AbilArray Link="Charizard"/>

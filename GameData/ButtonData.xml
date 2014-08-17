@@ -14,4 +14,29 @@
     <CButton id="Blastoise" parent="Rent"/>
     <CButton id="Chikorita" parent="Rent"/>
     <CButton id="Squirtle" parent="Rent"/>
+    
+    <CButton default="1" id="Tier">
+        <Name value="##id##"/>
+        <Tooltip value="Rent ##id## Pokemon"/>
+        <AlertName value="##id##"/>
+        <AlertTooltip value="Rent ##id## Pokemon"/>
+    </CButton>
+    
+    <CButton id="Tier 1" parent="Tier">
+        <AlertIcon value="pokeball.tga"/>
+        <Icon value="pokeball.tga"/>
+    </CButton>
+    <CButton id="Tier 2" parent="Tier">
+        <AlertIcon value="greatball.tga"/>
+        <Icon value="greatball.tga"/>
+    </CButton>
+    <CButton id="Tier 3" parent="Tier">
+        <AlertIcon value="ultraball.tga"/>
+        <Icon value="ultraball.tga"/>
+    </CButton>
+    <CButton id="Tier 4" parent="Tier">
+        <AlertIcon value="masterball.tga"/>
+        <Icon value="masterball.tga"/>
+    </CButton>
+        
 </Catalog>
