@@ -1,4 +1,4 @@
-//Andromeda generated code @ Wed Aug 13 03:30:49 EDT 2014
+//Andromeda generated code @ Sun Aug 17 18:24:53 EDT 2014
 
 struct Class{
 	int Class____id;
@@ -41,6 +41,7 @@ struct PokemonSpecies{
 	int PokemonSpecies__def;
 	int PokemonSpecies__satk;
 	int PokemonSpecies__sdef;
+	int PokemonSpecies__spd;
 	int PokemonSpecies__type1;
 	int PokemonSpecies__type2;
 	int PokemonSpecies__move;
@@ -229,9 +230,9 @@ string Move__toString(int this);
 int s_PokemonSpecies__getSpecies();
 int s_PokemonSpecies__fromString(string name);
 //Constructor for class PokemonSpecies
-int new__PokemonSpecies(int A__class,string name,int hp,int atk,int def,int satk,int sdef,int type1,int type2,int move);
+int new__PokemonSpecies(int A__class,string name,int hp,int atk,int def,int satk,int sdef,int spd,int type1,int type2,int move);
 //Constructor for class PokemonSpecies
-int new__PokemonSpecies__1(int A__class,string name,int hp,int atk,int def,int satk,int sdef,int type,int move);
+int new__PokemonSpecies__1(int A__class,string name,int hp,int atk,int def,int satk,int sdef,int spd,int type,int move);
 int AbstractList__getIterator(int this);
 int AbstractList__getListIteratorAt(int this,int index);
 //Constructor for class AbstractListIterator
@@ -475,6 +476,8 @@ int s_Move__SHADOW_BALL = new__Move(MC___Move,"Shadow Ball", 80, 13, 1);
 int s_Move__HYDRO_PUMP = new__Move(MC___Move,"Hydro Pump", 120, 2, 1);
 int s_Move__WATER_GUN = new__Move(MC___Move,"Water Gun", 40, 2, 1);
 int s_Move__RAZOR_LEAF = new__Move(MC___Move,"Razor Leaf", 55, 4, 0);
+int s_Move__BUBBLEBEAM = new__Move(MC___Move,"Bubblebeam", 65, 2, 1);
+int s_Move__SPARK = new__Move(MC___Move,"Spark", 65, 3, 1);
 int s_PokemonSpecies__species = 0;
 int[16412] s_Heap__array;
 int[15] s_Heap__head;
@@ -1645,12 +1648,15 @@ string Move__toString(int this){
 int s_PokemonSpecies__getSpecies(){
 	if(s_PokemonSpecies__species == 0){
 		s_PokemonSpecies__species = new__ArrayList__1(MC___ArrayList,100);
-		ArrayList__addLast(s_PokemonSpecies__species,new__PokemonSpecies(MC___PokemonSpecies,"Charizard", 78, 84, 78, 109, 85, 1, 9, s_Move__FLAMETHROWER));
-		ArrayList__addLast(s_PokemonSpecies__species,new__PokemonSpecies__1(MC___PokemonSpecies,"Pikachu", 35, 55, 30, 50, 40, 3, s_Move__GENERIC));
-		ArrayList__addLast(s_PokemonSpecies__species,new__PokemonSpecies__1(MC___PokemonSpecies,"Chikorita", 45, 49, 65, 49, 65, 4, s_Move__RAZOR_LEAF));
-		ArrayList__addLast(s_PokemonSpecies__species,new__PokemonSpecies__1(MC___PokemonSpecies,"Squirtle", 44, 48, 65, 50, 64, 2, s_Move__WATER_GUN));
-		ArrayList__addLast(s_PokemonSpecies__species,new__PokemonSpecies(MC___PokemonSpecies,"Gengar", 60, 65, 60, 130, 75, 13, 7, s_Move__SHADOW_BALL));
-		ArrayList__addLast(s_PokemonSpecies__species,new__PokemonSpecies__1(MC___PokemonSpecies,"Blastoise", 79, 83, 100, 85, 105, 2, s_Move__HYDRO_PUMP));
+		ArrayList__addLast(s_PokemonSpecies__species,new__PokemonSpecies__1(MC___PokemonSpecies,"Squirtle", 44, 48, 65, 50, 64, 43, 2, s_Move__WATER_GUN));
+		ArrayList__addLast(s_PokemonSpecies__species,new__PokemonSpecies__1(MC___PokemonSpecies,"Pikachu", 35, 55, 40, 50, 50, 90, 3, s_Move__GENERIC));
+		ArrayList__addLast(s_PokemonSpecies__species,new__PokemonSpecies__1(MC___PokemonSpecies,"Chikorita", 45, 49, 65, 49, 65, 45, 4, s_Move__RAZOR_LEAF));
+		ArrayList__addLast(s_PokemonSpecies__species,new__PokemonSpecies__1(MC___PokemonSpecies,"Vaporeon", 130, 65, 60, 110, 95, 65, 2, s_Move__BUBBLEBEAM));
+		ArrayList__addLast(s_PokemonSpecies__species,new__PokemonSpecies__1(MC___PokemonSpecies,"Jolteon", 65, 65, 60, 110, 95, 130, 3, s_Move__SPARK));
+		ArrayList__addLast(s_PokemonSpecies__species,new__PokemonSpecies__1(MC___PokemonSpecies,"Flareon", 65, 130, 60, 95, 110, 65, 1, s_Move__FLAMETHROWER));
+		ArrayList__addLast(s_PokemonSpecies__species,new__PokemonSpecies(MC___PokemonSpecies,"Charizard", 78, 84, 78, 109, 85, 100, 1, 9, s_Move__FLAMETHROWER));
+		ArrayList__addLast(s_PokemonSpecies__species,new__PokemonSpecies__1(MC___PokemonSpecies,"Blastoise", 79, 83, 100, 85, 105, 78, 2, s_Move__HYDRO_PUMP));
+		ArrayList__addLast(s_PokemonSpecies__species,new__PokemonSpecies(MC___PokemonSpecies,"Gengar", 60, 65, 60, 130, 75, 110, 13, 7, s_Move__SHADOW_BALL));
 	}
 	return s_PokemonSpecies__species;
 }
@@ -1672,7 +1678,7 @@ int s_PokemonSpecies__fromString(string name){
 }
 
 //Constructor for class PokemonSpecies
-int new__PokemonSpecies(int A__class,string name,int hp,int atk,int def,int satk,int sdef,int type1,int type2,int move){
+int new__PokemonSpecies(int A__class,string name,int hp,int atk,int def,int satk,int sdef,int spd,int type1,int type2,int move){
 	int this=alloc___PokemonSpecies(A__class);
 	PokemonSpecies___memory[this].PokemonSpecies__name = name;
 	PokemonSpecies___memory[this].PokemonSpecies__hp = hp;
@@ -1680,6 +1686,7 @@ int new__PokemonSpecies(int A__class,string name,int hp,int atk,int def,int satk
 	PokemonSpecies___memory[this].PokemonSpecies__def = def;
 	PokemonSpecies___memory[this].PokemonSpecies__satk = satk;
 	PokemonSpecies___memory[this].PokemonSpecies__sdef = sdef;
+	PokemonSpecies___memory[this].PokemonSpecies__spd = spd;
 	PokemonSpecies___memory[this].PokemonSpecies__type1 = type1;
 	PokemonSpecies___memory[this].PokemonSpecies__type2 = type2;
 	PokemonSpecies___memory[this].PokemonSpecies__move = move;
@@ -1687,8 +1694,8 @@ int new__PokemonSpecies(int A__class,string name,int hp,int atk,int def,int satk
 }
 
 //Constructor for class PokemonSpecies
-int new__PokemonSpecies__1(int A__class,string name,int hp,int atk,int def,int satk,int sdef,int type,int move){
-	int this=new__PokemonSpecies(A__class,name, hp, atk, def, satk, sdef, type, -1, move);
+int new__PokemonSpecies__1(int A__class,string name,int hp,int atk,int def,int satk,int sdef,int spd,int type,int move){
+	int this=new__PokemonSpecies(A__class,name, hp, atk, def, satk, sdef, spd, type, -1, move);
 	return this;
 }
 

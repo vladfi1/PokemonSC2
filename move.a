@@ -25,6 +25,9 @@ class Move {
     public static Move HYDRO_PUMP = new Move("Hydro Pump", 120, Type.WATER, Kind.SPECIAL);
     public static Move WATER_GUN = new Move("Water Gun", 40, Type.WATER, Kind.SPECIAL);
     public static Move RAZOR_LEAF = new Move("Razor Leaf", 55, Type.GRASS, Kind.PHYSICAL);
+    public static Move BUBBLEBEAM = new Move("Bubblebeam", 65, Type.WATER, Kind.SPECIAL);
+    public static Move SPARK = new Move("Spark", 65, Type.ELECTRIC, Kind.SPECIAL);
+    
     
     // Name of this move.
     public string name;

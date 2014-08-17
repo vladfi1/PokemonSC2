@@ -9,11 +9,14 @@
         <AlertTooltip value="Rent ##id##"/>
     </CButton>
     <CButton id="Pikachu" parent="Rent"/>
+    <CButton id="Chikorita" parent="Rent"/>
+    <CButton id="Squirtle" parent="Rent"/>
+    <CButton id="Jolteon" parent="Rent"/>
+    <CButton id="Vaporeon" parent="Rent"/>
+    <CButton id="Flareon" parent="Rent"/>
     <CButton id="Charizard" parent="Rent"/>
     <CButton id="Gengar" parent="Rent"/>
     <CButton id="Blastoise" parent="Rent"/>
-    <CButton id="Chikorita" parent="Rent"/>
-    <CButton id="Squirtle" parent="Rent"/>
     
     <CButton default="1" id="Tier">
         <Name value="##id##"/>

@@ -15,6 +15,9 @@
             <LayoutButtons Face="Cancel" Type="CancelSubmenu" Row="2" Column="4"/>
         </CardLayouts>
         <CardLayouts CardId="T2">
+            <LayoutButtons Face="Vaporeon" Type="AbilCmd" AbilCmd="Vaporeon,Execute" Row="0" Column="0"/>
+            <LayoutButtons Face="Flareon" Type="AbilCmd" AbilCmd="Flareon,Execute" Row="0" Column="1"/>
+            <LayoutButtons Face="Jolteon" Type="AbilCmd" AbilCmd="Jolteon,Execute" Row="0" Column="2"/>
             <LayoutButtons Face="Cancel" Type="CancelSubmenu" Row="2" Column="4"/>
         </CardLayouts>
         <CardLayouts CardId="T3">
@@ -32,6 +35,9 @@
         <AbilArray Link="Blastoise"/>
         <AbilArray Link="Chikorita"/>
         <AbilArray Link="Squirtle"/>
+        <AbilArray Link="Jolteon"/>
+        <AbilArray Link="Vaporeon"/>
+        <AbilArray Link="Flareon"/>
     </CUnit>
     <CUnit default="1" id="MovingUnit">
         <Speed value="2"/>

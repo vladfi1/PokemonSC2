@@ -7,12 +7,17 @@ public class PokemonSpecies {
     public static ArrayList<PokemonSpecies> getSpecies() {
         if (species == null) {
             species = new ArrayList<PokemonSpecies>(100);
-            species.addLast(new PokemonSpecies("Charizard", 78, 84, 78, 109, 85 , Type.FIRE, Type.FLYING, Move.FLAMETHROWER));
-            species.addLast(new PokemonSpecies("Pikachu", 35, 55, 30, 50, 40, Type.ELECTRIC, Move.GENERIC));
-            species.addLast(new PokemonSpecies("Chikorita", 45, 49, 65, 49, 65, Type.GRASS, Move.RAZOR_LEAF));
-            species.addLast(new PokemonSpecies("Squirtle", 44, 48, 65, 50, 64, Type.WATER, Move.WATER_GUN));
-            species.addLast(new PokemonSpecies("Gengar", 60, 65, 60, 130, 75, Type.GHOST, Type.POISON, Move.SHADOW_BALL));
-            species.addLast(new PokemonSpecies("Blastoise", 79, 83, 100, 85, 105, Type.WATER, Move.HYDRO_PUMP));
+            species.addLast(new PokemonSpecies("Squirtle", 44, 48, 65, 50, 64, 43, Type.WATER, Move.WATER_GUN));
+            species.addLast(new PokemonSpecies("Pikachu", 35, 55, 40, 50, 50, 90, Type.ELECTRIC, Move.GENERIC));
+            species.addLast(new PokemonSpecies("Chikorita", 45, 49, 65, 49, 65, 45, Type.GRASS, Move.RAZOR_LEAF));
+            
+            species.addLast(new PokemonSpecies("Vaporeon", 130, 65, 60, 110, 95, 65, Type.WATER, Move.BUBBLEBEAM));
+            species.addLast(new PokemonSpecies("Jolteon", 65, 65, 60, 110, 95, 130, Type.ELECTRIC, Move.SPARK));
+            species.addLast(new PokemonSpecies("Flareon", 65, 130, 60, 95, 110, 65, Type.FIRE, Move.FLAMETHROWER));
+            
+            species.addLast(new PokemonSpecies("Charizard", 78, 84, 78, 109, 85, 100, Type.FIRE, Type.FLYING, Move.FLAMETHROWER));
+            species.addLast(new PokemonSpecies("Blastoise", 79, 83, 100, 85, 105, 78, Type.WATER, Move.HYDRO_PUMP));
+            species.addLast(new PokemonSpecies("Gengar", 60, 65, 60, 130, 75, 110, Type.GHOST, Type.POISON, Move.SHADOW_BALL));
             
             //species.addLast(new PokemonSpecies("Tower", 10, 10, 10, 10, 10, Type.FIRE, Type.STEEL, Move.FLAMETHROWER));
         }
@@ -32,26 +37,27 @@ public class PokemonSpecies {
     // The name of this pokemon species.
     public string name;
     // The base stats for this species.
-    public int hp, atk, def, satk, sdef;
+    public int hp, atk, def, satk, sdef, spd;
     // A pokemon has 1 or 2 types.
     public Type type1, type2;
     
     // For now species have a unique move.
     public Move move;
 
-    public PokemonSpecies(string name, int hp, int atk, int def, int satk, int sdef, Type type1, Type type2, Move move) {
+    public PokemonSpecies(string name, int hp, int atk, int def, int satk, int sdef, int spd, Type type1, Type type2, Move move) {
         this.name = name;
         this.hp = hp;
         this.atk = atk;
         this.def = def;
         this.satk = satk;
         this.sdef = sdef;
+        this.spd = spd;
         this.type1 = type1;
         this.type2 = type2;
         this.move = move;
     }
     
-    public PokemonSpecies(string name, int hp, int atk, int def, int satk, int sdef, Type type, Move move) {
-        this(name, hp, atk, def, satk, sdef, type, Type.NONE, move);
+    public PokemonSpecies(string name, int hp, int atk, int def, int satk, int sdef, int spd, Type type, Move move) {
+        this(name, hp, atk, def, satk, sdef, spd, type, Type.NONE, move);
     }
 }
