@@ -39,11 +39,19 @@
         <AbilArray Link="Vaporeon"/>
         <AbilArray Link="Flareon"/>
     </CUnit>
-    <CUnit default="1" id="MovingUnit">
-        <Speed value="2"/>
-        <Acceleration value="1000"/>
+    <CUnit default="1" id="Pokemon">
+        <Name value="##id##"/>
+        <Description value="The Pokemon ##id##"/>
         <PlaneArray index="Ground" value="1"/>
         <Collide index="Ground" value="1"/>
+        <Fidget>
+            <ChanceArray index="Anim" value="50"/>
+            <ChanceArray index="Idle" value="50"/>
+        </Fidget>
+    </CUnit>
+    <CUnit default="1" id="MovingPokemon" parent="Pokemon">
+        <Speed value="2"/>
+        <Acceleration value="1000"/>
         <CardLayouts>
             <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>
             <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
@@ -52,128 +60,124 @@
         </CardLayouts>
         <AbilArray Link="move"/>
         <AbilArray Link="stop"/>
-        <Fidget>
-            <ChanceArray index="Anim" value="50"/>
-            <ChanceArray index="Idle" value="50"/>
-        </Fidget>
     </CUnit>
-    <CUnit default="1" id="AttackingUnit" parent="MovingUnit">
+    <CUnit default="1" id="AttackingPokemon" parent="MovingPokemon">
         <CardLayouts index="0">
             <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
         </CardLayouts>
         <AbilArray Link="attack"/>
     </CUnit>
-    <CUnit id="Pikachu" parent="AttackingUnit">
+    <CUnit id="Pikachu" parent="AttackingPokemon">
         <WeaponArray Link="TailWhip"/>
         <InnerRadius value="0.5"/>
     </CUnit>
-    <CUnit id="Eevee" parent="AttackingUnit">
+    <CUnit id="Eevee" parent="AttackingPokemon">
         <WeaponArray Link="ThunderWave"/>
         <InnerRadius value="0.5"/>
     </CUnit>
-    <CUnit id="Blastoise" parent="AttackingUnit">
+    <CUnit id="Blastoise" parent="AttackingPokemon">
         <WeaponArray Link="HydroPump"/>
         <Radius value="1.0"/>
         <InnerRadius value="1.0"/>
     </CUnit>
-    <CUnit id="Charizard" parent="AttackingUnit">
+    <CUnit id="Charizard" parent="AttackingPokemon">
         <WeaponArray Link="Flamethrower"/>
         <Radius value="1.0"/>
         <InnerRadius value="1.0"/>
     </CUnit>
-    <CUnit id="Garchomp" parent="AttackingUnit">
+    <CUnit id="Garchomp" parent="AttackingPokemon">
         <WeaponArray Link="DragonClaw"/>
         <Radius value="1.0"/>
         <InnerRadius value="1.0"/>
     </CUnit>
-    <CUnit id="Suicune" parent="AttackingUnit">
+    <CUnit id="Suicune" parent="AttackingPokemon">
         <WeaponArray Link="WaterGun"/>
         <Speed value="4"/>
         <Radius value="1.25"/>
         <InnerRadius value="1"/>
     </CUnit>
-    <CUnit id="Gengar" parent="AttackingUnit">
+    <CUnit id="Gengar" parent="AttackingPokemon">
         <WeaponArray Link="ShadowBall"/>
         <Radius value="0.75"/>
         <InnerRadius value="0.75"/>
     </CUnit>
-    <CUnit id="Squirtle" parent="AttackingUnit">
+    <CUnit id="Squirtle" parent="AttackingPokemon">
         <WeaponArray Link="WaterGun"/>
         <InnerRadius value="0.5"/>
     </CUnit>
-    <CUnit id="Chikorita" parent="AttackingUnit">
+    <CUnit id="Chikorita" parent="AttackingPokemon">
         <WeaponArray Link="RazorLeaf"/>
         <InnerRadius value="0.5"/>
     </CUnit>
-    <CUnit id="Jolteon" parent="AttackingUnit">
+    <CUnit id="Jolteon" parent="AttackingPokemon">
         <WeaponArray Link="ThunderWave"/>
         <InnerRadius value="0.75"/>
     </CUnit>
-    <CUnit id="Vaporeon" parent="AttackingUnit">
+    <CUnit id="Vaporeon" parent="AttackingPokemon">
         <WeaponArray Link="WaterGun"/>
         <InnerRadius value="0.75"/>
     </CUnit>
-    <CUnit id="Flareon" parent="AttackingUnit">
+    <CUnit id="Flareon" parent="AttackingPokemon">
         <WeaponArray Link="Flamethrower"/>
         <InnerRadius value="0.75"/>
     </CUnit>
-    <CUnit id="Espeon" parent="AttackingUnit">
+    <CUnit id="Espeon" parent="AttackingPokemon">
         <WeaponArray Link="MeleeAttack"/>
         <InnerRadius value="0.5"/>
     </CUnit>
-    <CUnit id="Umbreon" parent="AttackingUnit">
+    <CUnit id="Umbreon" parent="AttackingPokemon">
         <WeaponArray Link="MeleeAttack"/>
         <InnerRadius value="0.5"/>
     </CUnit>
-    <CUnit id="Ninetales" parent="AttackingUnit">
+    <CUnit id="Ninetales" parent="AttackingPokemon">
         <WeaponArray Link="Flamethrower"/>
         <InnerRadius value="0.75"/>
     </CUnit>
-    <CUnit id="Arcanine" parent="AttackingUnit">
+    <CUnit id="Arcanine" parent="AttackingPokemon">
         <WeaponArray Link="Flamethrower"/>
         <InnerRadius value="0.75"/>
     </CUnit>
-    <CUnit id="Gyarados" parent="AttackingUnit">
+    <CUnit id="Gyarados" parent="AttackingPokemon">
         <WeaponArray Link="Flamethrower"/>
         <InnerRadius value="1.5"/>
     </CUnit>
-    <CUnit id="Meowth" parent="AttackingUnit">
+    <CUnit id="Meowth" parent="AttackingPokemon">
         <WeaponArray Link="MeleeAttack"/>
         <InnerRadius value="0.5"/>
     </CUnit>
-    <CUnit id="Hitmonchan" parent="AttackingUnit">
+    <CUnit id="Hitmonchan" parent="AttackingPokemon">
         <WeaponArray Link="HitmonchanMeleeAttack"/>
         <InnerRadius value="0.75"/>
     </CUnit>
-    <CUnit id="Hitmonlee" parent="AttackingUnit">
+    <CUnit id="Hitmonlee" parent="AttackingPokemon">
         <WeaponArray Link="MeleeAttack"/>
         <InnerRadius value="0.75"/>
     </CUnit>
-    <CUnit id="Machamp" parent="AttackingUnit">
+    <CUnit id="Machamp" parent="AttackingPokemon">
         <WeaponArray Link="MachampMeleeAttack"/>
         <InnerRadius value="1"/>
     </CUnit>
-    <CUnit id="Tyranitar" parent="AttackingUnit">
+    <CUnit id="Tyranitar" parent="AttackingPokemon">
         <WeaponArray Link="TyranitarMeleeAttack"/>
         <InnerRadius value="1"/>
     </CUnit>
-    <CUnit id="Magikarp" parent="AttackingUnit">
+    <CUnit id="Magikarp" parent="AttackingPokemon">
         <WeaponArray Link="MagikarpSplashAttack"/>
         <InnerRadius value="0.5"/>
     </CUnit>
-    <CUnit id="Abra" parent="AttackingUnit">
+    <CUnit id="Abra" parent="AttackingPokemon">
         <WeaponArray Link="AnotherMeleeAttack"/>
         <InnerRadius value="0.5"/>
     </CUnit>
-    <CUnit id="Haunter" parent="AttackingUnit">
+    <CUnit id="Haunter" parent="AttackingPokemon">
         <WeaponArray Link="ShadowBall"/>
         <InnerRadius value="0.75"/>
     </CUnit>
-    <CUnit id="Dragonite" parent="AttackingUnit">
+    <CUnit id="Dragonite" parent="AttackingPokemon">
         <WeaponArray Link="Flamethrower"/>
         <InnerRadius value="1.0"/>
     </CUnit>
-    <CUnit id="Mew" parent="AttackingUnit">
+    <CUnit id="Mew" parent="AttackingPokemon">
         <WeaponArray Link="MewMeleeAttack"/>
         <InnerRadius value="0.5"/>
     </CUnit>
