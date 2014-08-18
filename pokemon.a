@@ -26,21 +26,25 @@ public class Pokemon [1024] {
         this.level = level;
         this.owner = owner;
         
-        this.hp = getHp();
-
         this._unit = unit.create(species.name, 0, (int)owner.player, p, 0);
-        this._unit.setPropertyInt(c_unitPropLifeMax, this.hp);
         this._unit.setCustomValue(0, (int)this);
         
-        this._unit.setInfoText("Level " + level, "", "");
+        updateLevel();
         
         unitref ref = _unit.getUnitRef();
         trigger.create(unitDamaged.name).addEventUnitDamaged(ref, c_unitDamageTypeAny, c_unitDamageEither, null);
         trigger.create(unitFainted.name).addEventUnitDied(ref);
+        trigger.create(rareCandy.name).addEventUnitAbility(ref, AbilityCommand("Rare Candy", 0), c_unitAbilStageComplete, false);
     }
     
     public ~Pokemon() {
         owner.pokemon.remove(this);
+    }
+    
+    public void updateLevel() {
+        hp = getHp();
+        _unit.setPropertyInt(c_unitPropLifeMax, hp);
+        _unit.setInfoText("Level " + level, "", "");
     }
     
     public int getStat(int base) {
@@ -51,7 +55,7 @@ public class Pokemon [1024] {
     }
     
     public int getHp() {
-        return 5 * getStat(species.hp);
+        return 5 * (getStat(species.hp) + 5);
     }
     public int getAtk() {
         return getStat(species.atk);
@@ -172,5 +176,13 @@ private bool unitDamaged(bool conditions, bool actions) {
 private bool unitFainted(bool conditions, bool actions) {
     Pokemon fainted = Pokemon.fromUnit(EventUnit());
     delete fainted;
+    return true;
+}
+
+private trigger rareCandyTrigger = trigger.create(rareCandy.name);
+private bool rareCandy(bool conditions, bool actions) {
+    Pokemon p = Pokemon.fromUnit(EventUnit());
+    p.level += 1;
+    p.updateLevel();
     return true;
 }

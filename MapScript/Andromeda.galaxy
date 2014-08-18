@@ -1,4 +1,4 @@
-//Andromeda generated code @ Sun Aug 17 18:24:53 EDT 2014
+//Andromeda generated code @ Mon Aug 18 01:16:30 EDT 2014
 
 struct Class{
 	int Class____id;
@@ -310,6 +310,7 @@ region s_region__entireMap();
 int new__Pokemon(int A__class,int species,int level,int owner,point p);
 //Destructor for class Pokemon
 void delete__Pokemon(int this);
+void Pokemon__updateLevel(int this);
 int Pokemon__getStat(int this,int base);
 int Pokemon__getHp(int this);
 int Pokemon__getAtk(int this);
@@ -329,6 +330,7 @@ int PokemonHasher__hashCode(int this,int p);
 bool PokemonHasher__equal(int this,int p1,int p2);
 bool unitDamaged(bool conditions,bool actions);
 bool unitFainted(bool conditions,bool actions);
+bool rareCandy(bool conditions,bool actions);
 string abilcmd__getAbility(abilcmd this);
 void makeRentalCenter(int player);
 bool rent(bool conditions,bool actions);
@@ -484,6 +486,7 @@ int[15] s_Heap__head;
 int[15] s_Heap__count;
 int s_Pokemon__comparator = alloc___Comparator(MC___PokemonComparator);
 int s_Pokemon__hasher = alloc___Hasher(MC___PokemonHasher);
+static trigger rareCandyTrigger = s_trigger__create("rareCandy");
 static int lb = -1;
 int[2] s_Team__teams;
 int s_Team__left;
@@ -2192,14 +2195,13 @@ int new__Pokemon(int A__class,int species,int level,int owner,point p){
 	Pokemon___memory[this].Pokemon__species = species;
 	Pokemon___memory[this].Pokemon__level = level;
 	Pokemon___memory[this].Pokemon__owner = owner;
-	Pokemon___memory[this].Pokemon__hp = Pokemon__getHp(this);
 	Pokemon___memory[this].Pokemon___unit = s_unit__create(PokemonSpecies___memory[species].PokemonSpecies__name, 0, Trainer___memory[owner].Trainer__player, p, 0.0);
-	unit__setPropertyInt(Pokemon___memory[this].Pokemon___unit,2, Pokemon___memory[this].Pokemon__hp);
 	unit__setCustomValue(Pokemon___memory[this].Pokemon___unit,0, IntToFixed(this));
-	unit__setInfoText(Pokemon___memory[this].Pokemon___unit,StringToText("Level " + IntToString(level)), StringToText(""), StringToText(""));
+	Pokemon__updateLevel(this);
 	ref = unit__getUnitRef(Pokemon___memory[this].Pokemon___unit);
 	trigger__addEventUnitDamaged(s_trigger__create("unitDamaged"),ref, -1, 0, null);
 	trigger__addEventUnitDied(s_trigger__create("unitFainted"),ref);
+	trigger__addEventUnitAbility(s_trigger__create("rareCandy"),ref, AbilityCommand("Rare Candy", 0), -6, false);
 	return this;
 }
 
@@ -2210,6 +2212,12 @@ void delete__Pokemon(int this){
 	
 }
 
+void Pokemon__updateLevel(int this){
+	Pokemon___memory[this].Pokemon__hp = Pokemon__getHp(this);
+	unit__setPropertyInt(Pokemon___memory[this].Pokemon___unit,2, Pokemon___memory[this].Pokemon__hp);
+	unit__setInfoText(Pokemon___memory[this].Pokemon___unit,StringToText("Level " + IntToString(Pokemon___memory[this].Pokemon__level)), StringToText(""), StringToText(""));
+}
+
 int Pokemon__getStat(int this,int base){
 	int iv = 31;
 	int ev = 0;
@@ -2217,7 +2225,7 @@ int Pokemon__getStat(int this,int base){
 }
 
 int Pokemon__getHp(int this){
-	return 5 * Pokemon__getStat(this,PokemonSpecies___memory[Pokemon___memory[this].Pokemon__species].PokemonSpecies__hp);
+	return 5 * (Pokemon__getStat(this,PokemonSpecies___memory[Pokemon___memory[this].Pokemon__species].PokemonSpecies__hp) + 5);
 }
 
 int Pokemon__getAtk(int this){
@@ -2323,6 +2331,13 @@ bool unitDamaged(bool conditions,bool actions){
 bool unitFainted(bool conditions,bool actions){
 	int fainted = s_Pokemon__fromUnit(EventUnit());
 	delete__Pokemon(fainted);
+	return true;
+}
+
+bool rareCandy(bool conditions,bool actions){
+	int p = s_Pokemon__fromUnit(EventUnit());
+	Pokemon___memory[p].Pokemon__level += 1;
+	Pokemon__updateLevel(p);
 	return true;
 }
 
