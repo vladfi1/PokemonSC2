@@ -48,11 +48,15 @@
             <ChanceArray index="Anim" value="50"/>
             <ChanceArray index="Idle" value="50"/>
         </Fidget>
+        <CardLayouts index="0">
+            <LayoutButtons Face="Rare Candy" Type="AbilCmd" AbilCmd="Rare Candy,Execute" Row="2" Column="0"/>
+        </CardLayouts>
+        <AbilArray Link="Rare Candy"/>
     </CUnit>
     <CUnit default="1" id="MovingPokemon" parent="Pokemon">
         <Speed value="2"/>
         <Acceleration value="1000"/>
-        <CardLayouts>
+        <CardLayouts index="0">
             <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>
             <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
             <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>

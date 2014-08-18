@@ -2,7 +2,7 @@
 <Catalog>
     <CActorUnit id="RentalCenter" parent="GenericUnitStandard" unitName="RentalCenter"/>
     <CActorUnit default="1" id="Pokemon" parent="GenericUnitStandard">
-        <UnitIcon value="##id## Icon.tga"/>
+        <UnitIcon value="##id##Icon.tga"/>
         <PortraitModel value="##id##"/>
         <WalkAnimMoveSpeed value="6"/>
         <On Terms="ActorCreation" Send="Create HitTestSphere"/>
